@@ -1,0 +1,194 @@
+[
+ {
+  "ad": "2024-19-08",
+  "category": "Airframe",
+  "subject": "Nose landing gear leg",
+  "status": "Terminated",
+  "detail": "02-Mar-2026: NLG strut replaced (P/N D41-3223-10-00-2); AD says replacement terminates repetitive inspections",
+  "source": "Airframe Annual - 2026.pdf"
+ },
+ {
+  "ad": "2026-06-03",
+  "category": "Airframe",
+  "subject": "Fuel tank connection hose (supersedes 2020-14-06)",
+  "status": "Needs determination",
+  "detail": "Eff 30-Apr-2026. Applies if a replacement hose P/N D4D-2817-10-70 or BENOLPRESS was installed since 13-Jul-2017. No compliance or N/A entry found.",
+  "source": "Federal Register 2026-05883"
+ },
+ {
+  "ad": "2022-13-06",
+  "category": "Airframe",
+  "subject": "Baggage nets",
+  "status": "N/A",
+  "detail": "N/A by net type (CVA, 16-Dec-2022)",
+  "source": "Legacy PDF p.61"
+ },
+ {
+  "ad": "2022-03-15",
+  "category": "Airframe",
+  "subject": "Fuel indication (G3X/GI275)",
+  "status": "N/A",
+  "detail": "No G3X or GI275 installed (CVA, 16-Dec-2022)",
+  "source": "Legacy PDF p.61"
+ },
+ {
+  "ad": "2014-13-08",
+  "category": "Airframe",
+  "subject": "Aft main spar reinforcement",
+  "status": "Complied",
+  "detail": "17-Feb-2023 @ 2737.4 per Diamond MSB 40-074 (CVA); deadline was 27-Feb-2024",
+  "source": "Legacy PDF p.62"
+ },
+ {
+  "ad": "2011-21-10",
+  "category": "Airframe",
+  "subject": "Vapor cycle A/C compressor & mount",
+  "status": "N/A",
+  "detail": "STC not installed (2015, 2018 AD reports)",
+  "source": "Legacy PDF p.164, p.169"
+ },
+ {
+  "ad": "2010-25-01",
+  "category": "Airframe",
+  "subject": "Rear passenger door retaining bracket",
+  "status": "Complied",
+  "detail": "21-May-2011 @ 416.1",
+  "source": "Legacy PDF p.164"
+ },
+ {
+  "ad": "2009-10-04",
+  "category": "Airframe",
+  "subject": "Nose landing gear leg",
+  "status": "Superseded",
+  "detail": "Was terminated per MSB 40-046 (2012); superseded by 2024-19-08",
+  "source": "Legacy PDF p.164"
+ },
+ {
+  "ad": "2009-07-14",
+  "category": "Airframe",
+  "subject": "Wing skin adhesive joints",
+  "status": "Complied",
+  "detail": "20-May-2009 @ 186.3",
+  "source": "Legacy PDF p.164"
+ },
+ {
+  "ad": "2007-11-21",
+  "category": "Airframe",
+  "subject": "Fuel selector universal joint",
+  "status": "N/A",
+  "detail": "By serial number",
+  "source": "Legacy PDF p.164"
+ },
+ {
+  "ad": "2006-23-04",
+  "category": "Airframe",
+  "subject": "Fuel system contamination",
+  "status": "N/A",
+  "detail": "By serial number",
+  "source": "Legacy PDF p.164"
+ },
+ {
+  "ad": "2026-22-06",
+  "category": "Airframe",
+  "subject": "Passenger door latching & safety hook (supersedes NPRM FAA-2026-4633)",
+  "status": "Open",
+  "detail": "Eff 07-Dec-2026. Insert AFM TR-MAM-40-1203 (owner may do; log per 43.9(a)/91.417(a)(2)(v)) and do the initial door inspection, handle-force check and placards per WI-MSB 40-103 Rev 2 — within 100 hr TIS or 100 days after the effective date (17-Mar-2027, calculated), whichever first. Gas spring: 100-hr re-checks until replaced within 12 months, or replace before further flight, depending on force readings. Credit for earlier MSB 40-103 Rev 0/1 work. FAA calls it interim. Requirements from the NPRM text; final rule not read in full.",
+  "source": "Federal Register 2026-22310 (final); 2026-09574 (NPRM)"
+ },
+ {
+  "ad": "2015-19-07",
+  "category": "Engine",
+  "subject": "Fuel injector lines & clamps",
+  "status": "Recurring",
+  "detail": "Every 100 hr (≤110). Last 02-Mar-2026 @ 3140.3; on 03-Nov-2026 work order",
+  "source": "Engine Annual - 2026.pdf"
+ },
+ {
+  "ad": "2026-04-11",
+  "category": "Engine",
+  "subject": "Connecting rod bushings (supersedes 2024-21-02)",
+  "status": "Needs determination",
+  "detail": "Eff 08-Apr-2026. Parts shipped 30-Jan-2009 to 09-Sep-2021. Engine new 2008, so likely N/A unless rods/bushings were replaced; no determination found. If applicable: oil filter/screen check at each oil change.",
+  "source": "Federal Register 2026-04281"
+ },
+ {
+  "ad": "2026-17-10",
+  "category": "Engine",
+  "subject": "Piston pins (LW-13445)",
+  "status": "N/A",
+  "detail": "Applies to O-235, O-540, IO-540 only",
+  "source": "Federal Register 2026-17584"
+ },
+ {
+  "ad": "2017-16-11",
+  "category": "Engine",
+  "subject": "Connecting rod small-end bushings",
+  "status": "N/A",
+  "detail": "By engine date (2018 AD report)",
+  "source": "Legacy PDF p.170"
+ },
+ {
+  "ad": "2012-19-01",
+  "category": "Engine",
+  "subject": "Crankshaft replacement",
+  "status": "N/A",
+  "detail": "Per MSB 569A; engine new 2008, crank original",
+  "source": "Legacy PDF p.166"
+ },
+ {
+  "ad": "2009-02-03",
+  "category": "Engine",
+  "subject": "RSA servo plug gasket",
+  "status": "Terminated",
+  "detail": "19-May-2008, gasket P/N 2577258",
+  "source": "Legacy PDF p.166"
+ },
+ {
+  "ad": "2004-10-14",
+  "category": "Engine",
+  "subject": "Crankshaft gear retaining bolt",
+  "status": "Conditional",
+  "detail": "Due only after a prop strike / sudden stoppage",
+  "source": "Legacy PDF p.166"
+ },
+ {
+  "ad": "2015-02-07",
+  "category": "Engine",
+  "subject": "Prop governor shaft set screws",
+  "status": "Conditional",
+  "detail": "At each governor set-screw installation",
+  "source": "Legacy PDF p.167"
+ },
+ {
+  "ad": "2022-18-02",
+  "category": "Propeller",
+  "subject": "MT propeller blades",
+  "status": "N/A",
+  "detail": "By serial number (CVA, 16-Dec-2022)",
+  "source": "Legacy PDF p.61"
+ },
+ {
+  "ad": "2007-26-13",
+  "category": "Propeller",
+  "subject": "Leading edge erosion sheaths",
+  "status": "N/A",
+  "detail": "By manufacture date — evaluated for the old prop S/N 080010 (2018 report); not re-evaluated for S/N 201494",
+  "source": "Legacy PDF p.170"
+ },
+ {
+  "ad": "2017-11-11",
+  "category": "Appliance",
+  "subject": "NavWorx ADS600-B",
+  "status": "N/A",
+  "detail": "No NavWorx installed",
+  "source": "Legacy PDF p.170"
+ },
+ {
+  "ad": "2017-04-06",
+  "category": "Appliance",
+  "subject": "United Instruments 5934-series altimeter diaphragm",
+  "status": "Needs determination",
+  "detail": "Affects certain 5934-series altimeters (United SB 13: made Jan-2015 to Feb-2016). N211WP standby altimeter is a United 5934PD-3 S/N 463764 — likely original 2008 unit, so probably N/A; no entry found.",
+  "source": "Diamond SI40-158 / SI40-154 (portal list)"
+ }
+]

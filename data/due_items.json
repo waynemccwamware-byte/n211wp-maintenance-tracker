@@ -1,0 +1,232 @@
+[
+ {
+  "id": "annual",
+  "item": "Annual inspection (airframe, engine, prop)",
+  "category": "Inspection",
+  "last_done": "2026-03-02",
+  "next_due_date": "2027-03-31",
+  "next_due_tach": null,
+  "basis": "14 CFR 91.409(a): within preceding 12 calendar months (looked up, eCFR/Cornell)",
+  "note": "Scheduled 22-Mar-2027 at Coastal Valley (per Wayne), 9 days inside the 31-Mar-2027 deadline."
+ },
+ {
+  "id": "elt_insp",
+  "item": "ELT inspection",
+  "category": "Inspection",
+  "last_done": "2026-03-02",
+  "next_due_date": "2027-03-31",
+  "next_due_tach": null,
+  "basis": "14 CFR 91.207(d): within 12 calendar months of last inspection (looked up)",
+  "note": "Do with the annual scheduled 22-Mar-2027 at Coastal Valley."
+ },
+ {
+  "id": "elt_batt",
+  "item": "ELT battery expiration",
+  "category": "Inspection",
+  "last_done": "2020-12-01",
+  "next_due_date": "2027-08-31",
+  "next_due_tach": null,
+  "basis": "14 CFR 91.207(c) (looked up); AMM 05-10-00 §3.B: replace at date marked on ELT, after 1 hr cumulative use, or after use",
+  "note": "Expiry date from the shop entry; confirm against the label on the ELT."
+ },
+ {
+  "id": "pitot_static",
+  "item": "Altimeter / static system test",
+  "category": "Inspection",
+  "last_done": "2026-01-28",
+  "next_due_date": "2028-01-31",
+  "next_due_tach": null,
+  "basis": "14 CFR 91.411(a): within preceding 24 calendar months (looked up)",
+  "note": "Tested to 20,000 ft."
+ },
+ {
+  "id": "xpdr",
+  "item": "Transponder / ADS-B test",
+  "category": "Inspection",
+  "last_done": "2026-01-28",
+  "next_due_date": "2028-01-31",
+  "next_due_tach": null,
+  "basis": "14 CFR 91.413: 24 calendar months (cited in the shop's signoff; interval not separately looked up)",
+  "note": "GTX345R."
+ },
+ {
+  "id": "ad_2015_19_07",
+  "item": "AD 2015-19-07 fuel injector lines",
+  "category": "AD (repetitive)",
+  "last_done": "2026-11-06",
+  "next_due_date": null,
+  "next_due_tach": 3341.7,
+  "basis": "AD: repeat every 100 hr TIS, not to exceed 110 hr (Federal Register text); log also says 'or annual'",
+  "note": "Entry reads \"Next Due: 3341.07 Tach (100 hrs) or annual\"; 3241.07 was meant as 3241.7 (Wayne: the G1000 shows one decimal), so next due 3341.7. AD allows up to 110 hr (~3351.7)."
+ },
+ {
+  "id": "ad_2026_22_06",
+  "item": "AD 2026-22-06 passenger door (AFM TR + initial door inspection)",
+  "category": "AD",
+  "last_done": null,
+  "next_due_date": "2027-03-17",
+  "next_due_tach": null,
+  "basis": "AD 2026-22-06 (eff 07-Dec-2026): within 100 hr TIS or 100 days, whichever first; 100-day date calculated. Hour limit = tach on 07-Dec-2026 + 100 (not yet known).",
+  "note": "Scheduled at Absolute Aero (Hayward) 18-Nov-2026 per Savvy ticket. Hour limit = tach on 07-Dec-2026 + 100."
+ },
+ {
+  "id": "ad_2024_19_08",
+  "item": "AD 2024-19-08 nose landing gear",
+  "category": "AD",
+  "last_done": "2026-03-02",
+  "next_due_date": null,
+  "next_due_tach": null,
+  "basis": "AD: replacement with serviceable part is terminating action for repetitive inspections (FAA/Federal Register text)",
+  "note": "Terminated by strut replacement. Confirm the log entry records it as terminating action."
+ },
+ {
+  "id": "oil",
+  "item": "Oil & filter change + Blackstone sample",
+  "category": "Service",
+  "last_done": "2026-11-06",
+  "next_due_date": null,
+  "next_due_tach": 3291.7,
+  "basis": "Wayne targets 50 hr between oil changes",
+  "note": "Serviced with 6 qt Aeroshell W100 + Camguard; Blackstone sample mailed (report pending)."
+ },
+ {
+  "id": "standby_batt",
+  "item": "Standby battery (D60-2560-91-00)",
+  "category": "Component",
+  "last_done": "2026-03-02",
+  "next_due_date": "2028-03-31",
+  "next_due_tach": null,
+  "basis": "AMM Rev 10, 04-00-00 §1.B (Airworthiness Limitation): replace every 2 yr; next due 03/2028 per log",
+  "note": ""
+ },
+ {
+  "id": "egt3",
+  "item": "EGT3 probe replaced (A002BG-WIP)",
+  "category": "Service",
+  "last_done": "2026-11-06",
+  "next_due_date": null,
+  "next_due_tach": null,
+  "basis": "Squawk 27-Sep-2026 / Savvy ticket 311823",
+  "note": "Watch EGT3 on the next few flights to confirm the fix."
+ },
+ {
+  "id": "g100ul",
+  "item": "Swift 100R STC placards & paperwork",
+  "category": "Tabled",
+  "last_done": null,
+  "next_due_date": null,
+  "next_due_tach": null,
+  "basis": "Wayne decided 09-Nov-2026 not to install (paperwork-only) the Swift 100R STC: it carries an undesirable statement restricting mixing 100R with other fuels.",
+  "note": "Tabled by Wayne, 09-Nov-2026."
+ },
+ {
+  "id": "prop_tbo",
+  "item": "MT prop MTV-12-B/183-59B S/N 201494 (installed new ~2020)",
+  "category": "Info",
+  "last_done": null,
+  "next_due_date": null,
+  "next_due_tach": null,
+  "basis": "Overhaul on condition (Wayne)",
+  "note": "Install entry not found; installed ≈ tach 2396 (inferred). ≈845 hr on the prop (calculated)."
+ },
+ {
+  "id": "engine_tbo",
+  "item": "Engine time since new (IO-360-M1A, original)",
+  "category": "Info",
+  "last_done": null,
+  "next_due_date": null,
+  "next_due_tach": null,
+  "basis": "TSN equals tach in every engine entry checked (e.g. 1800.0 TSN on 06-Jul-2018, 2152.5 on 07-Aug-2019); no overhaul entry found",
+  "note": "TSN ≈ current tach. Overhaul on condition (Wayne)."
+ },
+ {
+  "id": "exhaust_ica",
+  "item": "Exhaust system (replaced 02-Mar-2026, P/N PFS-33003, new risers #1–4)",
+  "category": "Info",
+  "last_done": "2026-03-02",
+  "next_due_date": null,
+  "next_due_tach": null,
+  "basis": "Power Flow website: clean and lube the four slip joints every 500 hr or annually — done at the annual",
+  "note": "Recent exhaust work: hanger strap 26-Apr-2023, hanger adjusted 30-Oct-2024, tailpipe 03-Feb-2025, full system + risers 02-Mar-2026."
+ },
+ {
+  "id": "air_filter",
+  "item": "Induction air filter FR-08504",
+  "category": "Info",
+  "last_done": "2021-12-15",
+  "next_due_date": null,
+  "next_due_tach": null,
+  "basis": "AMM Rev 10, 05-28-00 item 18 & 73-00-00: examine at every inspection, replace when dirty or damaged; no fixed hour interval",
+  "note": "Last recorded replacement 15-Dec-2021. On condition."
+ },
+ {
+  "id": "rh_mag",
+  "item": "RH magneto (Slick 4371, S/N 24095442) — 500-hr inspection",
+  "category": "Component",
+  "last_done": "2025-02-03",
+  "next_due_date": null,
+  "next_due_tach": 3517.3,
+  "basis": "AMM refers to engine/vendor manuals; 500-hr inspection is Champion L-1363 practice (previous RH mag had one Dec-2021)",
+  "note": "Installed 03-Feb-2025."
+ },
+ {
+  "id": "lh_ign",
+  "item": "LH ignition: Electroair EIS (EA-1000 controller)",
+  "category": "Info",
+  "last_done": "2019-08-07",
+  "next_due_date": null,
+  "next_due_tach": null,
+  "basis": "Sierra Aero entry 07-Aug-2019: removed left magneto, reinstalled owner-supplied Electroair EIS",
+  "note": "Still installed and working well (Wayne, 28-Oct-2026). Later logbook entries mention only the RH magneto."
+ },
+ {
+  "id": "main_batt",
+  "item": "Main battery Concorde RG24-15M (S/N 70047307) — capacity test",
+  "category": "Component",
+  "last_done": "2025-02-03",
+  "next_due_date": null,
+  "next_due_tach": 4017.3,
+  "basis": "AMM Rev 10, 05-10-00 §3.A: capacity test every 1000 hr (NVFR/IFR) per Concorde CMM",
+  "note": "Battery installed 03-Feb-2025. Wayne reports a load test at the 12-May-2026 alternator replacement; that entry doesn't mention it."
+ },
+ {
+  "id": "extinguisher",
+  "item": "Portable fire extinguisher (A620)",
+  "category": "Unknown",
+  "last_done": null,
+  "next_due_date": null,
+  "next_due_tach": null,
+  "basis": "Only record: 12-month inspection at 09-Jul-2014 annual (Silverhawk)",
+  "note": "Check the tag on the extinguisher."
+ },
+ {
+  "id": "tires_brakes",
+  "item": "Tires and brakes (on condition)",
+  "category": "Info",
+  "last_done": "2026-03-02",
+  "next_due_date": null,
+  "next_due_tach": null,
+  "basis": "On condition",
+  "note": "Main tires & tubes 09-Jan-2024; brake linings 02-Mar-2026; discs 15-Dec-2021."
+ },
+ {
+  "id": "elt_remote",
+  "item": "ELT remote switch battery (ME 406, P/N 453-0023)",
+  "category": "Component",
+  "last_done": "2020-12-01",
+  "next_due_date": "2025-12-01",
+  "next_due_tach": null,
+  "basis": "AMM Rev 10, 05-10-00 §3.A: replace 6 V lithium battery in remote switch every 5 yr",
+  "note": "5-yr interval calculated from the Dec-2020 replacement. No later replacement found."
+ },
+ {
+  "id": "msi",
+  "item": "Major Structural Inspection (MSI)",
+  "category": "Component",
+  "last_done": "2020-12-01",
+  "next_due_date": "2032-12-01",
+  "next_due_tach": 4395.7,
+  "basis": "Sierra Aero entry 01-Dec-2020: next MSI due 12/2032 or TTAF 4395.7, whichever comes first (AMM 04-00-00 Airworthiness Limitation)",
+  "note": "Using the shop entry's next-due as written (Wayne, 29-Oct-2026). MÄM 40-398, installed 17-Feb-2023, may allow a longer hour interval; ask Rick at the Mar-2027 annual."
+ }
+]

@@ -1,0 +1,1458 @@
+[
+ {
+  "date": "2026-10-09",
+  "route": "KSBA-KSBA",
+  "squawk": "Gas strut canopy latch",
+  "status": "Open",
+  "basis": "Related to the canopy/door gas-spring work under AD 2026-22-06 (Absolute Aero, 18-Nov-2026) and RSB 40-083 — see Action items."
+ },
+ {
+  "date": "2026-09-27",
+  "route": "KSBA-KSBA",
+  "squawk": "Egt 3 low?? And when going ROP peaks; coplot headset no right ear",
+  "status": "Open",
+  "basis": "EGT 3 part likely addressed: Coastal Valley 06-Nov-2026 entry on ticket 311823 replaced the #3 EGT probe (not yet filed in Savvy logbooks). Copilot headset still open."
+ },
+ {
+  "date": "2026-09-16",
+  "route": "KSBA-KSBA",
+  "squawk": "Airvent left",
+  "status": "Open",
+  "basis": "No later shop entry found that covers it."
+ },
+ {
+  "date": "2026-08-20",
+  "route": "KSBA-KSBA",
+  "squawk": "Ammon: seal on lens light left The lens is the left wing and I noted the sealant has degraded. And the seal that needs to be reglued is obvious",
+  "status": "Open",
+  "basis": "No later shop entry found that covers it."
+ },
+ {
+  "date": "2026-07-12",
+  "route": "KSBA-KSBA",
+  "squawk": "Alert button doesn't stop beep",
+  "status": "Open",
+  "basis": "No later shop entry found that covers it."
+ },
+ {
+  "date": "2026-05-13",
+  "route": "KSBA-KSBA",
+  "squawk": "Alternator failure; replaced Alternatot and voltage reg",
+  "status": "Likely addressed",
+  "basis": "Alternator and voltage regulator replaced 12-May-2026 (Coastal Valley entry from a Savvy ticket)."
+ },
+ {
+  "date": "2026-05-07",
+  "route": "KSBA-KSBA",
+  "squawk": "Pulled breaker ALT CONT",
+  "status": "Likely addressed",
+  "basis": "Alternator and voltage regulator replaced 12-May-2026 (Coastal Valley entry from a Savvy ticket)."
+ },
+ {
+  "date": "2026-04-26",
+  "route": "KSBA-KSBA",
+  "squawk": "On taxi out at SPdlC Alternator out; reaet ALT CONT breaker",
+  "status": "Likely addressed",
+  "basis": "Alternator and voltage regulator replaced 12-May-2026 (Coastal Valley entry from a Savvy ticket)."
+ },
+ {
+  "date": "2026-04-17",
+  "route": "KSBA-KSBA",
+  "squawk": "No Traffic or Mode C until full power cycl",
+  "status": "Open",
+  "basis": "No later shop entry found that covers it."
+ },
+ {
+  "date": "2026-01-22",
+  "route": "KSBA-KSBA",
+  "squawk": "AFCS, CB reset worked",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2025-12-21",
+  "route": "KSBA-KSBA",
+  "squawk": "RPM steady 2450; Borescope suite at Annual",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2025-12-11",
+  "route": "KSBA-KSBA",
+  "squawk": "Left wing flap strap (link removed)",
+  "status": "Likely addressed",
+  "basis": "Flap bonding strap replaced at the 02-Mar-2026 annual."
+ },
+ {
+  "date": "2025-12-05",
+  "route": "KSBA-KSBA",
+  "squawk": "Wing walks - qoute for paint/sand",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2025-11-10",
+  "route": "KSBA-KSBA",
+  "squawk": "RSB40-094 Rev 1 (cost)",
+  "status": "Likely addressed",
+  "basis": "RSB 40-094 complied at the 02-Mar-2026 annual."
+ },
+ {
+  "date": "2025-10-30",
+  "route": "KSBA-KSBA",
+  "squawk": "Rear footwell carpet verical piece; Scratchy COM1; consider RSB40-094 Rev. 1 to reduce wapor lock?",
+  "status": "Before last annual",
+  "basis": "RSB 40-094 part complied at the 02-Mar-2026 annual; carpet and COM1 not matched to an entry."
+ },
+ {
+  "date": "2025-10-22",
+  "route": "KSBA-KSBA",
+  "squawk": "Scratchy Com1",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2025-10-13",
+  "route": "KSBA-KSBA",
+  "squawk": "Rt wheel pant loose",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2025-07-31",
+  "route": "KSBA-KSBA",
+  "squawk": "Prop plus 700; rear headset",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2025-04-13",
+  "route": "KSBA-KSBA",
+  "squawk": "Cyl 4 often oil pooled or plug problem,",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2025-04-04",
+  "route": "KSBA-KSBA",
+  "squawk": "Oil pool 4",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2025-03-21",
+  "route": "KSBA-KSBA",
+  "squawk": "Oil pool \"4 leg 1",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2025-03-07",
+  "route": "KSBA-KSBA",
+  "squawk": "Cyl 4 oil pool",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2025-02-28",
+  "route": "KSBA-KSBA",
+  "squawk": "PFD sd card?",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2025-02-17",
+  "route": "KSBA-KSBA",
+  "squawk": "Cyl #3 has CHTs approx 25 deg cooler than other cylinders (baffles, etc?)",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2025-02-08",
+  "route": "KSBA-KSBA",
+  "squawk": "Safety wire on rear door hinge pull",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2024-12-13",
+  "route": "KSBA-KSBA",
+  "squawk": "Borescope protocol for Annual; mag exchange",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2024-11-30",
+  "route": "KSBA-KSBA",
+  "squawk": "TO Rpm ~2600; Battery health cranking; starter health",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2024-11-27",
+  "route": "KSBA-KSBA",
+  "squawk": "Lost 2.5 V in 3 cranks; Max rpm 2600",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2024-11-05",
+  "route": "KSBA-KSBA",
+  "squawk": "No EGT cycles",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2024-10-15",
+  "route": "KSBA-KSBA",
+  "squawk": "Cyl 1 + 3 very rough on takeoff KSBP",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2024-09-27",
+  "route": "KSBA-KSBA",
+  "squawk": "Range knob on MFD; PTCH = \"A lot of the elevator trim issues on DA40s are due to binding pitch trim damper rods (under the horizontal stabilizer). Clean yours and measure the tension as per the Maintenance Manual. It may require adjustment.\"",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2024-09-20",
+  "route": "KSBA-KSBA",
+  "squawk": "Both Wing Walks",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2024-09-16",
+  "route": "KSBA-KSBA",
+  "squawk": "Exhaust hanger",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2024-08-29",
+  "route": "KSBA-KSBA",
+  "squawk": "PTCH; clean Manual Trim??; plus: A lot of the elevator trim issues on DA40s are due to binding pitch trim damper rods (under the horizontal stabilizer). Clean yours and measure the tension as per the Maintenance Manual. It may require adjustment.",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2024-08-17",
+  "route": "KSBA-KSBA",
+  "squawk": "Exhaust strap",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2024-07-29",
+  "route": "KSBA-KSBA",
+  "squawk": "Exhaust bracket; order fac reman engine",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2024-06-16",
+  "route": "KSBA-KSBA",
+  "squawk": "nose pant fastener",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2024-05-13",
+  "route": "KSBA-KSBA",
+  "squawk": "PTCH; super sñow Map loading on MFD",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2024-05-06",
+  "route": "KSBA-KSBA",
+  "squawk": "PTCH during return taxi, no LRU errors",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2024-04-23",
+  "route": "KSBA-KSBA",
+  "squawk": "PTCH x 2",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2024-03-28",
+  "route": "KSBA-KSBA",
+  "squawk": "PTCH",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2024-03-22",
+  "route": "KSBA-KSBA",
+  "squawk": "PTCH northward only; cycled trim wheel several times",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2024-03-17",
+  "route": "KSBA-KSBA",
+  "squawk": "PTCH; TAWS occasional",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2023-11-03",
+  "route": "KSBA-KSBA",
+  "squawk": "Oil on nose strut; wing root seals",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2023-10-28",
+  "route": "KSBA-KSBA",
+  "squawk": "Some cyl3 poolong",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2023-10-22",
+  "route": "KSBA-KSBA",
+  "squawk": "PTCH error on PFD (maybe clean the trim actuator friction block, see #300 here (link removed) -and- (link removed)",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2023-10-16",
+  "route": "KSBA-KSBA",
+  "squawk": "PTCH 3x; wing root strips",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2023-10-01",
+  "route": "KSBA-KSBA",
+  "squawk": "Cyl3 for 15 minutes",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2023-09-29",
+  "route": "KSBA-KSBA",
+  "squawk": "AFCS departing KFCH",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2023-09-25",
+  "route": "KSBA-KSBA",
+  "squawk": "Wing root strips -both sides",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2023-09-24",
+  "route": "KSBA-KSBA",
+  "squawk": "PTCH 2x",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2023-09-21",
+  "route": "KSBA-KSBA",
+  "squawk": "PTCH error in cruise and also taxi",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2023-08-29",
+  "route": "KSMX-KSBA",
+  "squawk": "Reminder: tires/tubes need to be \"as currently installed\", i.e. tubes Michelin Airstop, tires upgraded ply",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2023-08-22",
+  "route": "KSBA-KSBA",
+  "squawk": "Left wing strip",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2023-08-12",
+  "route": "KSBA-KSBA",
+  "squawk": "Manual Trip sticky??",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2023-08-03",
+  "route": "KSBA-KSBA",
+  "squawk": "PTCH then AFDC; reset CB then ok",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2023-07-20",
+  "route": "KSBA-KSBA",
+  "squawk": "No EGT issues",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2023-07-18",
+  "route": "KSBA-KSBA",
+  "squawk": "On return: runup backfire; high egts all cyls",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2023-07-08",
+  "route": "KSBA-KSBA",
+  "squawk": "Cyl 1+ 3 pool",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2023-06-16",
+  "route": "KSBA-KSBA",
+  "squawk": "Cyl3 pooling long time",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2023-06-06",
+  "route": "KSBA-KSBA",
+  "squawk": "Flush cyls ?Sea Foam?",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2023-05-21",
+  "route": "KSBA-KSBA",
+  "squawk": "Pilot side canopy seal; canopy latch; CHT spread",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2023-05-08",
+  "route": "KSBA-KSBA",
+  "squawk": "Cyl 3 hot; Install orig fuel injectors?",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2023-04-12",
+  "route": "KSBA-KSBA",
+  "squawk": "Red X Heading 3 times",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2023-04-09",
+  "route": "KSBA-KSBA",
+  "squawk": "Adjust exhaust; 1 min Red X",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2023-03-09",
+  "route": "KSBA-KSBA",
+  "squawk": "Adjust Power Flow up",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2023-02-20",
+  "route": "KSMX-KSBA",
+  "squawk": "Red X HDG; oil pool cyl 3",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2023-02-04",
+  "route": "KSBA-KSBA",
+  "squawk": "Red X heading on return",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2023-01-24",
+  "route": "MMLT-KSBA",
+  "squawk": "PTCH; AHRS1",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2023-01-09",
+  "route": "KSBA-MMLT",
+  "squawk": "HDG red X GDL90",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2022-11-04",
+  "route": "KSBA-KSBA",
+  "squawk": "Stratus no wifi",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2022-10-16",
+  "route": "KSBA-KSBA",
+  "squawk": "Rudder rear rub?",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2022-10-04",
+  "route": "KSBA-KSBA",
+  "squawk": "Bond brake line clips",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2022-09-26",
+  "route": "KEQY-KSBA",
+  "squawk": "Mixture cable slip? Mixture variation +/- .3",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2022-09-21",
+  "route": "KSBA-KEQY",
+  "squawk": "Cyls 387, 360; 341: 326",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2022-08-24",
+  "route": "KSBA-KSBA",
+  "squawk": "Rt wing inspection plate rusted; post-flight topoff 20.6g, i.e. no leak",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2022-08-01",
+  "route": "KSBA-KSBA",
+  "squawk": "Have Baffling checked; #1, 2 hotter 30deg CHT",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2022-07-22",
+  "route": "KSBA-KSBA",
+  "squawk": "Replaced MFD SD card",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2022-07-13",
+  "route": "KSBA-KSBA",
+  "squawk": "Cyl1 oil pooling; lasted 5 minutes post takeoff",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2022-06-14",
+  "route": "KSBA-KSBA",
+  "squawk": "EGT3 oil pool",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2022-06-13",
+  "route": "KSBA-KSBA",
+  "squawk": "Oil pooling cyl 3; burns off w power",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2022-05-01",
+  "route": "KSBA-KSBA",
+  "squawk": "Starter",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2022-04-12",
+  "route": "KSBA-KSBA",
+  "squawk": "Left airvent",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2022-03-30",
+  "route": "KSBA-KSBA",
+  "squawk": "RPM 2610",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2022-03-19",
+  "route": "KSBA-KSBA",
+  "squawk": "Wing root strip right",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2022-03-04",
+  "route": "KTUS-KSBA",
+  "squawk": "Airspeed G1000 several knots lower than backup airspeed indicator",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2022-03-01",
+  "route": "KSBA-KTUS",
+  "squawk": "recommended that the exhaust valve “wobble test” be performed every 400 hours in accordance with Lycoming Mandatory Service Bulletin 388C",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2022-02-20",
+  "route": "KSBA-KSBA",
+  "squawk": "Oil control ring solvent flush procedure",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2022-02-13",
+  "route": "KSBA-KSBA",
+  "squawk": "HDG red X",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2022-02-03",
+  "route": "KSBA-KSBA",
+  "squawk": "Left fuel cap leaks",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2022-01-20",
+  "route": "KSBA-KSBA",
+  "squawk": "GDL 90 intermittent",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2022-01-17",
+  "route": "KSBA-KSBA",
+  "squawk": "RED X HDG",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2021-11-17",
+  "route": "KSBA-KSBA",
+  "squawk": "Raise PF Exhaust",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2021-10-06",
+  "route": "KSBA-KSBA",
+  "squawk": "Com1 Scratchy?",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2021-09-19",
+  "route": "KSBA-KSBA",
+  "squawk": "COM1 hi noise",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2021-08-27",
+  "route": "KSBA-KSBA",
+  "squawk": "Power Flow, tighten strap??",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2021-06-17",
+  "route": "KSBA-KSBA",
+  "squawk": "Ignition switch?",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2021-03-22",
+  "route": "KSBA-KSBA",
+  "squawk": "ROLL ap cancel?",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2021-02-22",
+  "route": "KSBA-KSBA",
+  "squawk": "PTCH",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2021-02-19",
+  "route": "KSBA-KSBA",
+  "squawk": "AFCS, PTCH flag",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2021-01-03",
+  "route": "KSBA-KSBA",
+  "squawk": "Fuel totalizer off?; had to reset AFCS breaker",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2020-07-29",
+  "route": "KSBA-KSBA",
+  "squawk": "Cyl 3 Left runup",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2020-07-13",
+  "route": "KSBA-KSBA",
+  "squawk": "Check prop governor 100 rpm swing climb to level",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2020-06-18",
+  "route": "KSBA-KSBA",
+  "squawk": "Screw off Spinner; SC belt; Tail level? Check canopy latch and seal",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2020-05-04",
+  "route": "KSBA-KSBA",
+  "squawk": "Com1 50%",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2020-04-27",
+  "route": "KSBA-KSBA",
+  "squawk": "Canopy seal; Com-1 on leg 3",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2020-04-25",
+  "route": "KSBA-KSBA",
+  "squawk": "Water-left tank; Com1 shows Rx but no sound... sometimes works",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2020-04-21",
+  "route": "KSBA-KSBA",
+  "squawk": "Com1 not receiving; the HDG X issue; Alerts blank; unable to break sauelch",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2020-04-14",
+  "route": "KSBA-KSBA",
+  "squawk": "Annual: check door latches",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2020-02-28",
+  "route": "KSBA-KSBA",
+  "squawk": "Oil front cowling; heat bubble cowling near supercharger",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2020-01-29",
+  "route": "KFPR-KSBA",
+  "squawk": "3.5hpg; check plugs, bracket, starter",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2020-01-25",
+  "route": "TDCF-KFPR",
+  "squawk": "Starter failed, damaged ring gear",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2020-01-15",
+  "route": "KSBA-TDCF",
+  "squawk": "Covers of Strobe right: Position white left",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2019-12-27",
+  "route": "KSBA-KSBA",
+  "squawk": "HDG red X 10 seconds",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2019-12-09",
+  "route": "KSBA-KSBA",
+  "squawk": "11-Dec: HDG and HSI red x, but only alert was Traffic Fail. Reset AHRS circuit breaker; all good",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2019-10-14",
+  "route": "KKNB-KSBA",
+  "squawk": "ALT did come on line until just after runup",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2019-10-13",
+  "route": "KKNB-KKNB",
+  "squawk": "Alt switch - watch/clean it",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2019-10-02",
+  "route": "KSBA-KSBA",
+  "squawk": "Rescale at Waypoint; SynVis; Wx map; hide dist traffic; rose;",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2019-09-30",
+  "route": "KSBA-KSBA",
+  "squawk": "Slow MFD, incl red xs on recursionary",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2019-09-29",
+  "route": "KSBA-KSBA",
+  "squawk": "Slow MFD",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2019-08-11",
+  "route": "KSBA-KSBA",
+  "squawk": "Add superchargerTraffic and Mode C worked items to Oil Service;",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2019-08-10",
+  "route": "KSBA-KSBA",
+  "squawk": "Traffic and Mode C worked",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2019-08-08",
+  "route": "KTRK-KSBA",
+  "squawk": "ATC no Mode C av master no help, full master off/on fixed; No traffic on G1000 (but Connext working to iPad),",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2019-07-21",
+  "route": "KAPA-KSBA",
+  "squawk": "Mag start to Start then back to Both; SC oil chek and Inspection 100 hours; adjust PowerFlow",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2019-06-21",
+  "route": "KSBA-KAPA",
+  "squawk": "Baffles; Cyl1 burb then enrichen; Fuel Flow variation +/- 0.2; cyl1 20 deg hotter",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2019-06-10",
+  "route": "KSBA-KSBA",
+  "squawk": "Ignition issue... partial power landing KSBA;COM 1 they hear me i dont hear them; left fuel cap stiffs",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2019-05-29",
+  "route": "KSBA-KSBA",
+  "squawk": "ELT On switch stuck; Traffic Fails, buetooth still xmittimg ( annual check tcas gtx345 antenna connections)",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2019-05-20",
+  "route": "KKNB-KSBA",
+  "squawk": "Cyl 1&2 taxi and runup Hi EGT; rough on EIS runup; cleared on takeoff",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2019-03-29",
+  "route": "KSBA-KSBA",
+  "squawk": "One EGT rise at 8500'",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2019-03-15",
+  "route": "KSBA-KSBA",
+  "squawk": "Runup cyl3 eus high egt; after landimgs ok",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2019-03-13",
+  "route": "KSBA-KSBA",
+  "squawk": "Real mag cyl 3 EGT on taxi high",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2019-02-26",
+  "route": "KSBA-KSBA",
+  "squawk": "Nose wheel corking?",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2019-01-18",
+  "route": "KSBA-KSBA",
+  "squawk": "Left tank 2 tbsp H2O; also 1 tbsp at Yuma",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2019-01-13",
+  "route": "KSBA-KSBA",
+  "squawk": "Water Left Tank 1shot (full tank; locked)",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2019-01-04",
+  "route": "KSBA-KSBA",
+  "squawk": "Nose gear cocking?",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2018-12-29",
+  "route": "KSBA-KSBA",
+  "squawk": "Left tank 4 tsp H2O",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2018-12-27",
+  "route": "KPRB-KSBA",
+  "squawk": "Left tank H2O 2 tbsp",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2018-12-18",
+  "route": "KSBA-KSBA",
+  "squawk": "Rt fuel cap oring; Rough cyl 2 and 4",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2018-12-11",
+  "route": "KSBA-KSBA",
+  "squawk": "Starter, solinoid, or battery",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2018-12-08",
+  "route": "KSBA-KSBA",
+  "squawk": "Still rough on Real Mag?",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2018-12-07",
+  "route": "KSBA-KSBA",
+  "squawk": "EIS or Plugs issues",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2018-11-27",
+  "route": "KSBA-KSBA",
+  "squawk": "Bad inflight mag checks",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2018-11-24",
+  "route": "KSBA-KSBA",
+  "squawk": "Rocketing EGTs, led by no 1; CHT1 cold ~310",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2018-11-02",
+  "route": "KDSM-KSBA",
+  "squawk": "Right fuel cap sealing?",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2018-10-26",
+  "route": "KSBA-KDSM",
+  "squawk": "Cyl 1 fouling?, also ELTs all up 150+ deg when Lean at 7000'",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2018-09-17",
+  "route": "KSBA-KSBA",
+  "squawk": "After hot start,Fuel pres lo warning",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2018-08-22",
+  "route": "KSBA-KSBA",
+  "squawk": "AFCS error 2x, cb reset fixed",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2018-08-14",
+  "route": "KSBA-KSBA",
+  "squawk": "Tack down rhs canopy seal",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2018-05-11",
+  "route": "KSBA-KSBA",
+  "squawk": "Wing root seal tack down",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2018-04-30",
+  "route": "KSBA-KSBA",
+  "squawk": "Rt mn flat (deflation? Camber?); MFD FMS key",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2018-04-28",
+  "route": "KSBA-KSBA",
+  "squawk": "Wing root adhesive, also bottom",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2018-04-15",
+  "route": "KSBA-KSBA",
+  "squawk": "Reminder: plug gaps for annual",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2018-04-13",
+  "route": "KSBA-KSBA",
+  "squawk": "Health of Aux Fuel Pump?",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2018-04-10",
+  "route": "KSBA-KSBA",
+  "squawk": "Dust on wheel pants",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2018-04-05",
+  "route": "KSBA-KSBA",
+  "squawk": "Annual: aux fuel pump; starter",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2018-04-03",
+  "route": "KSBA-KSBA",
+  "squawk": "Stratus cable",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2018-03-16",
+  "route": "SKRG-KSBA",
+  "squawk": "Check PowerFlow rattle",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2018-03-08",
+  "route": "KSBA-SKRG",
+  "squawk": "Music cable plug",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2018-01-31",
+  "route": "KSBA-KSBA",
+  "squawk": "GPS crosstalk problem, reload prev resolved",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2017-12-11",
+  "route": "KSBA-KSBA",
+  "squawk": "Air Filter(s)",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2017-12-03",
+  "route": "MMES-KSBA",
+  "squawk": "On taxi, very 2secs of yellow Oil Pressure",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2017-11-12",
+  "route": "KSBA-KSBA",
+  "squawk": "Flat rt main tire; fuel flow surge 8000' to 11000' 13 to 15gph",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2017-10-16",
+  "route": "KSBA-KSBA",
+  "squawk": "EIS #3, #4 cyls",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2017-10-07",
+  "route": "KSBA-KSBA",
+  "squawk": "No TFR on PFD",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2017-09-03",
+  "route": "KTWF-KSBA",
+  "squawk": "Burning oil?",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2017-08-31",
+  "route": "KSAF-KDSM",
+  "squawk": "Refill O2",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2017-08-19",
+  "route": "KSBA-KSBA",
+  "squawk": "Canopy seal 3x",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2017-08-09",
+  "route": "KSBA-KSBA",
+  "squawk": "Replaced rt main tube",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2017-07-31",
+  "route": "KSBA-KSBA",
+  "squawk": "~200 drop on mag (fouled? timing?)",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2017-07-28",
+  "route": "KSBA-KSBA",
+  "squawk": "+4kts w higher nose tension",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2017-07-22",
+  "route": "KSBA-KSBA",
+  "squawk": "Mag drop 160?",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2017-05-21",
+  "route": "KSBA-KSBA",
+  "squawk": "Wing root rubber gasket; ILS worked fine",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2017-05-20",
+  "route": "KSBA-KSBA",
+  "squawk": "LOC1 wobble?; PowerFlow rattles a lityle more?? Canopy seals",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2017-04-28",
+  "route": "KSBA-KBDN",
+  "squawk": "Rh Dome light loose; AP swerves on ils w 9kt tail",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2017-04-24",
+  "route": "KSBA-KSBA",
+  "squawk": "Flap up light",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2017-04-20",
+  "route": "KSBA-KSBA",
+  "squawk": "Canopy rattle on taxi?",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2017-04-12",
+  "route": "KSBA-KSBA",
+  "squawk": "next oil service try Red RTV to seal baffle to cowling",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2017-03-10",
+  "route": "KSBA-KSBA",
+  "squawk": "Pilot peddles; Cyl 1 baffle?",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2017-03-04",
+  "route": "KSBA-KSBA",
+  "squawk": "Prop nicks(3); Bose; extra oil blow by",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2017-02-27",
+  "route": "KSBA-KSBA",
+  "squawk": "Left tank water 3tsp",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2017-02-01",
+  "route": "KSBA-KSBA",
+  "squawk": "Water in left sump; Bose or Pilot com",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2017-01-27",
+  "route": "KSBA-KSBA",
+  "squawk": "?Need Rudder trim -- nose right",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2017-01-21",
+  "route": "KSBA-KSBA",
+  "squawk": "Copilot ATC too soft",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2017-01-15",
+  "route": "KSBA-KSBA",
+  "squawk": "Rubber strips at wing root",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2016-12-27",
+  "route": "KSBA-KSBA",
+  "squawk": "Battery sluggish on very cold start",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2016-12-12",
+  "route": "KSBA-KSBA",
+  "squawk": "Rudder trim tab?",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2016-11-30",
+  "route": "KSBA-KSBA",
+  "squawk": "Oil pres 60 psi; added 2 qts and mid green; burning oil",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2016-11-17",
+  "route": "KSBA-KSBA",
+  "squawk": "Check Oil Dip Stick SB",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2016-11-04",
+  "route": "KSBA-KSBA",
+  "squawk": "Set nosewheel cork to 18 lbs???",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2016-10-29",
+  "route": "KSBA-KSBA",
+  "squawk": "Rt Main tube flat; replaced with new but aged tube",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2016-10-21",
+  "route": "KSBA-KSBA",
+  "squawk": "Nosepant bolt; left wing root \"tape\"",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2016-09-17",
+  "route": "6S2-KTRK",
+  "squawk": "Backup Altimeter high by 30'",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2016-09-15",
+  "route": "KBLI-KMYL",
+  "squawk": "Backup Attitude Indicator off high",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2016-08-30",
+  "route": "KTRK-KSBP",
+  "squawk": "Rt wheel pant a little loose",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2016-07-07",
+  "route": "KPOC-KTRK",
+  "squawk": "Standby Attitude Indicator vertical is iffy",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2016-07-06",
+  "route": "KTRK-KSBP",
+  "squawk": "1/2 Tsp water left sump",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2016-06-29",
+  "route": "KTRK-KTRK",
+  "squawk": "Oil door latch rotates",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2016-06-21",
+  "route": "KTRK-KTRK",
+  "squawk": "Sump 1/2 tsp water left",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2016-06-08",
+  "route": "KTRK-KHAF",
+  "squawk": "Right rear seat lock",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2016-05-23",
+  "route": "KTRK-KTRK",
+  "squawk": "Rattle on final taxi?",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2016-05-03",
+  "route": "KTRK-KTRK",
+  "squawk": "Blue tint back of NG pant",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2016-04-11",
+  "route": "MMPS-MMEP",
+  "squawk": "R strobe lens loose",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2016-03-26",
+  "route": "KTRK-KTRK",
+  "squawk": "Flap Lights",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2016-03-16",
+  "route": "KTRK-KTRK",
+  "squawk": "some roughness with low MP on descent",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2016-03-02",
+  "route": "KTRK-KTRK",
+  "squawk": "Hard to start; used Floaded",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2016-02-17",
+  "route": "KSBA-KSBA",
+  "squawk": "Started, but slow to ramp up",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2016-02-12",
+  "route": "KSBA-KSBA",
+  "squawk": "Left Main sump drips",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ },
+ {
+  "date": "2016-01-08",
+  "route": "KTRK-KTRK",
+  "squawk": "PFD hdg alt not active; reset fixed",
+  "status": "Before last annual",
+  "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."
+ }
+]

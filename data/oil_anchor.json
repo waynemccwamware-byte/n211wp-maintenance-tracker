@@ -1,0 +1,10 @@
+[
+ {
+  "event": "Oil change",
+  "date": "2026-11-06",
+  "tach": 3241.7,
+  "limit_tach": 3341.7,
+  "max_tach": 3351.7,
+  "target_hrs": 50
+ }
+]

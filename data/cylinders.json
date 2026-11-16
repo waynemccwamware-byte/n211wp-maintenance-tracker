@@ -1,0 +1,30 @@
+[
+ {
+  "cyl": "#1",
+  "installed": "2024-10-30",
+  "tach_at_install": 2974.8,
+  "shop": "Coastal Valley",
+  "source": "Savvy: Cyl #1 and #3 replacement and Oil change.pdf"
+ },
+ {
+  "cyl": "#2",
+  "installed": "2018-07-06",
+  "tach_at_install": 1800.0,
+  "shop": "Sierra Aero (Truckee)",
+  "source": "Legacy records PDF p.104, WO_1191"
+ },
+ {
+  "cyl": "#3",
+  "installed": "2024-10-30",
+  "tach_at_install": 2974.8,
+  "shop": "Coastal Valley",
+  "source": "Savvy: Cyl #1 and #3 replacement and Oil change.pdf"
+ },
+ {
+  "cyl": "#4",
+  "installed": "2025-05-12",
+  "tach_at_install": 3049.2,
+  "shop": "Coastal Valley",
+  "source": "Savvy: Cyl#4 replacement and oil change.pdf"
+ }
+]

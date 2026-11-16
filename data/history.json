@@ -1,0 +1,306 @@
+[
+ {
+  "date": "2026-11-06",
+  "tach": 3241.7,
+  "logbook": "Engine",
+  "work": "C/W AD 2015-19-07 fuel injector lines (visual), next due 3341.7 tach (entry reads 3341.07 / 3241.07; one-decimal G1000 value per Wayne) or annual; oil & filter change (6 qt Aeroshell W100 + Camguard); Blackstone sample; #3 EGT probe replaced (A002BG-WIP)",
+  "shop": "Coastal Valley",
+  "file": "McClelland_N211WP_OC_EGT_110626.pdf (Savvy ticket 311823; not in Savvy logbooks yet)"
+ },
+ {
+  "date": "2026-06-17",
+  "tach": 3204.0,
+  "logbook": "Engine",
+  "work": "Oil & filter change (6 qt W100 + Camguard); Blackstone sample",
+  "shop": "Coastal Valley",
+  "file": "Oil Change-Jun-2026.pdf"
+ },
+ {
+  "date": "2026-05-12",
+  "tach": 3179.8,
+  "logbook": "Airframe",
+  "work": "Voltage regulator replaced (new VR2000-28-2); alternator replaced (new Hartzell ALU-8521LS); charging system op-checked",
+  "shop": "Coastal Valley",
+  "file": "scan3335.pdf (Savvy ticket \"alternator question\"; not in Savvy logbooks)"
+ },
+ {
+  "date": "2026-03-02",
+  "tach": 3140.3,
+  "logbook": "Airframe",
+  "work": "Annual. ELT insp; AD 2024-19-08 NLG strut replaced; SB RSB40-094; new exhaust system & risers; nose gear rebound bumper; brake linings; flap bonding strap; standby battery",
+  "shop": "Coastal Valley",
+  "file": "Airframe Annual - 2026.pdf"
+ },
+ {
+  "date": "2026-03-02",
+  "tach": 3140.3,
+  "logbook": "Engine",
+  "work": "Annual. AD 2015-19-07; compressions 74/67/73/65; oil change & sample; borescope; plugs rotated; drain-back clamps; RH mag timed",
+  "shop": "Coastal Valley",
+  "file": "Engine Annual - 2026.pdf"
+ },
+ {
+  "date": "2026-03-02",
+  "tach": 3140.3,
+  "logbook": "Propeller",
+  "work": "Annual inspection",
+  "shop": "Coastal Valley",
+  "file": "Prop Annual - 2026.pdf"
+ },
+ {
+  "date": "2026-01-28",
+  "tach": 3139.9,
+  "logbook": "Airframe",
+  "work": "Altimeter/static & transponder tests (91.411/91.413); correction cards",
+  "shop": "Avionics & Mx West",
+  "file": "IFR Cert.pdf"
+ },
+ {
+  "date": "2025-10-22",
+  "tach": 3115.6,
+  "logbook": "Engine",
+  "work": "Oil & filter change (6 qt W100 + Camguard)",
+  "shop": "Coastal Valley",
+  "file": "211WP_OC_LogEntry_102225.pdf (Savvy ticket #249708; not in Savvy logbooks)"
+ },
+ {
+  "date": "2025-06-03",
+  "tach": 3058.6,
+  "logbook": "Engine",
+  "work": "Oil & filter change",
+  "shop": "Coastal Valley",
+  "file": "Oil Change-Jun-2025.pdf"
+ },
+ {
+  "date": "2025-05-12",
+  "tach": 3049.2,
+  "logbook": "Engine",
+  "work": "#4 cylinder replaced (kit 05K21104); bottom #4 plug; oil change & sample",
+  "shop": "Coastal Valley",
+  "file": "Cyl#4 replacement and oil change.pdf"
+ },
+ {
+  "date": "2025-04-14",
+  "tach": 3037.4,
+  "logbook": "Engine",
+  "work": "Bottom #4 plug cleaned/gapped/reinstalled",
+  "shop": "Coastal Valley",
+  "file": "Cyl#4-lower-spark-plug.pdf"
+ },
+ {
+  "date": "2025-02-03",
+  "tach": 3017.3,
+  "logbook": "Airframe",
+  "work": "Annual. ELT insp; AD 2024-19-08 inspection; LH brake caliper resealed; tailpipe replaced; borescope; governor to 2650; main battery (Concorde RG24-15M)",
+  "shop": "Coastal Valley",
+  "file": "Airframe Annual - 2025.pdf"
+ },
+ {
+  "date": "2025-02-03",
+  "tach": 3017.3,
+  "logbook": "Engine",
+  "work": "Annual. AD 2015-19-07; compressions 77/76/78/78; oil change & sample; RH mag replaced (Slick 4371); plugs",
+  "shop": "Coastal Valley",
+  "file": "Engine Annual - 2025.pdf"
+ },
+ {
+  "date": "2025-02-03",
+  "tach": 3017.3,
+  "logbook": "Propeller",
+  "work": "Annual inspection",
+  "shop": "Coastal Valley",
+  "file": "Prop Annual - 2025.pdf"
+ },
+ {
+  "date": "2025-01-01",
+  "tach": 2999.7,
+  "logbook": "Airframe",
+  "work": "Static system leak checks; 91.411/91.413 signoff",
+  "shop": "Avionics & Mx West",
+  "file": "Altimeter, Static System and ATC .pdf"
+ },
+ {
+  "date": "2024-11-11",
+  "tach": 2984.4,
+  "logbook": "Engine",
+  "work": "Oil & filter change; sealed #1 baffling",
+  "shop": "Coastal Valley",
+  "file": "Oil change and Cyl#1 baffling.pdf"
+ },
+ {
+  "date": "2024-10-30",
+  "tach": 2974.8,
+  "logbook": "Engine",
+  "work": "#1 and #3 cylinders replaced (kit 05K21104); plugs; mag timing checked; oil change & sample",
+  "shop": "Coastal Valley",
+  "file": "Cyl #1 and #3 replacement and Oil change.pdf"
+ },
+ {
+  "date": "2024-10-30",
+  "tach": 2974.8,
+  "logbook": "Airframe",
+  "work": "Tail pipe hanger adjusted",
+  "shop": "Coastal Valley",
+  "file": "Tail pipe hanger.pdf"
+ },
+ {
+  "date": "2024-04-24",
+  "tach": 2935.2,
+  "logbook": "Engine",
+  "work": "Oil & filter change; sample (entry dated 04/24/2024; ticket shows the visit was 24-Jul-2024)",
+  "shop": "Coastal Valley",
+  "file": "Oil Change-Apr-2024.pdf"
+ },
+ {
+  "date": "2024-03-27",
+  "tach": 2906.2,
+  "logbook": "Engine",
+  "work": "Oil & filter change; sample; borescope (Savvy checklist)",
+  "shop": "Coastal Valley",
+  "file": "Oil change and boro inspection.pdf"
+ },
+ {
+  "date": "2024-01-09",
+  "tach": 2836.3,
+  "logbook": "Airframe",
+  "work": "Annual. ELT insp; main tires & tubes; brake linings; alternator & battery blast ducts; canopy latch",
+  "shop": "Coastal Valley",
+  "file": "Airframe Annual - 2024.pdf"
+ },
+ {
+  "date": "2024-01-09",
+  "tach": 2836.3,
+  "logbook": "Engine",
+  "work": "Annual. AD 2015-19-07; compressions 75/74/69/75; oil change; #4 induction & #1 exhaust gaskets",
+  "shop": "Coastal Valley",
+  "file": "Engine Annual - 2024.pdf"
+ },
+ {
+  "date": "2024-01-09",
+  "tach": 2836.3,
+  "logbook": "Propeller",
+  "work": "Annual inspection",
+  "shop": "Coastal Valley",
+  "file": "Prop Annual - 2024.pdf"
+ },
+ {
+  "date": "2023-08-29",
+  "tach": 2798.4,
+  "logbook": "Engine",
+  "work": "Borescope (no abnormality); oil change & sample",
+  "shop": "Coastal Valley",
+  "file": "Borescope and Oil Analysis.pdf"
+ },
+ {
+  "date": "2023-08-29",
+  "tach": 2798.4,
+  "logbook": "Airframe",
+  "work": "Canopy & LH wing seals; governor cable; nose pant hardware",
+  "shop": "Coastal Valley",
+  "file": "Seal at canopy and LH wing strip.pdf"
+ },
+ {
+  "date": "2023-05-01",
+  "tach": 2757.1,
+  "logbook": "Airframe",
+  "work": "GRS77 AHRS replaced (overhauled unit)",
+  "shop": "Avionics & Mx West",
+  "file": "Garmin GRS77.pdf"
+ },
+ {
+  "date": "2023-04-26",
+  "tach": 2754.9,
+  "logbook": "Engine",
+  "work": "Oil & filter change; sample",
+  "shop": "Coastal Valley",
+  "file": "Oil and Filter.pdf"
+ },
+ {
+  "date": "2023-04-26",
+  "tach": 2754.9,
+  "logbook": "Airframe",
+  "work": "Tailpipe hanger strap; lower cowl trimmed",
+  "shop": "Coastal Valley",
+  "file": "Tailpipe.pdf"
+ },
+ {
+  "date": "2023-02-09",
+  "tach": null,
+  "logbook": "Airframe/Engine",
+  "work": "GAMI G100UL STCs SA01967WI and SE01966WI (Form 337s signed 17-Feb-2023)",
+  "shop": "Coastal Valley",
+  "file": "337_STC_*.pdf (Savvy ticket #142855)"
+ },
+ {
+  "date": "2022-12-20",
+  "tach": 2716.6,
+  "logbook": "Airframe",
+  "work": "Altimeter/static & transponder tests; correction cards",
+  "shop": "Avionics & Mx West",
+  "file": "Pitot Static.pdf"
+ },
+ {
+  "date": "2022-06-03",
+  "tach": 2607.0,
+  "logbook": "Airframe",
+  "work": "Starter replaced: Hartzell 149-24LS S/N H-W032931 (was SkyTec S/N F4L-241104)",
+  "shop": "Avionics & Mx West",
+  "file": "N211WP RTS.pdf (Legacy Combo p.59; ticket #118771)"
+ },
+ {
+  "date": "2021-03-01",
+  "tach": 2398.8,
+  "logbook": "Airframe",
+  "work": "Pitch trim servo replaced (overhauled 011-00878-00 S/N 66408385); G1000 software loaded",
+  "shop": "Avionics & Mx West",
+  "file": "logbook_entries.pdf (Savvy ticket #82388; not in Savvy logbooks)"
+ },
+ {
+  "date": "2021-01-22",
+  "tach": 2405.1,
+  "logbook": "Engine/Prop",
+  "work": "FAT supercharger STC removed; starter ring gear 72566 replaced; alternate air assy replaced; air filter FR-08504; prop dynamic balance",
+  "shop": "Aero City Maintenance",
+  "file": "logs.pdf (Savvy ticket #78191)"
+ },
+ {
+  "date": "2020-12-01",
+  "tach": 2395.7,
+  "logbook": "Airframe/Engine/Prop",
+  "work": "Annual (WO_2433). MSI, no discrepancies. New MT prop S/N 201494; governor overhauled; ELT and ELT-switch batteries; ring gear; RH mag repaired at AEC; compressions 75/78/79/70; AD 2015-19-07; 91.411/413",
+  "shop": "Sierra Aero",
+  "file": "N211WP log book entries.pdf (Savvy ticket #59797; not in Savvy logbooks)"
+ },
+ {
+  "date": "2019-06-18",
+  "tach": 2132.7,
+  "logbook": "Engine",
+  "work": "EIS ignition lead, bottom #2, replaced; all plugs cleaned and tested",
+  "shop": "Above All Aviation",
+  "file": "N211WP Logbook Entry 06-18-2019.pdf (Savvy ticket #29136; not in Savvy logbooks)"
+ },
+ {
+  "date": "2018-12-07",
+  "tach": 1953.4,
+  "logbook": "Engine",
+  "work": "Right mag 100-hr inspection (8130 Aero Accessories); new Kelly leads on right mag; new Electroair harness on left; oil filter replaced",
+  "shop": "Above All Aviation",
+  "file": "N211WP 12-7-18 log entry.pdf (Savvy ticket #29130; not in Savvy logbooks)"
+ },
+ {
+  "date": "2017-09-26",
+  "tach": null,
+  "logbook": "Airframe",
+  "work": "Form 337: Garmin GTX 345R ADS-B Out installation",
+  "shop": "Advantage Avionics",
+  "file": "GTX345R-Form-337.pdf (Savvy ticket #29081; not in Savvy logbooks)"
+ },
+ {
+  "date": "2017-02-21",
+  "tach": 1304.7,
+  "logbook": "Airframe",
+  "work": "Voltage regulator & alternator brushes replaced",
+  "shop": "Unknown",
+  "file": "Voltage regulator.pdf"
+ }
+]

@@ -1,0 +1,82 @@
+[
+ {
+  "sample_date": "2019-04-17",
+  "unit_hrs": 2064,
+  "oil_hrs": 50,
+  "makeup": "9 qt",
+  "lab_says": "Earlier highlight gone; wear metals good. Make-up oil rising (9 qt/50 hr vs 7 qt/59 hr) — watch for an oil-control-ring issue.",
+  "source": "Legacy p.112"
+ },
+ {
+  "sample_date": "2019-07-25",
+  "unit_hrs": 2153,
+  "oil_hrs": 48,
+  "makeup": "9 qt",
+  "lab_says": "Metals a bit higher but not excessive for the run; no fuel/water; good report.",
+  "source": "Legacy p.116"
+ },
+ {
+  "sample_date": "2019-10-16",
+  "unit_hrs": 2211,
+  "oil_hrs": 59,
+  "makeup": "11.8 qt*",
+  "lab_says": "Wear held steady or improved on a longer run; oil and filtration fine.",
+  "source": "Legacy p.118"
+ },
+ {
+  "sample_date": "2021-03-15",
+  "unit_hrs": 2429,
+  "oil_hrs": 33,
+  "makeup": "6 qt",
+  "lab_says": "Lower metals on a short run; nothing troubling; viscosity in range.",
+  "source": "Legacy p.128"
+ },
+ {
+  "sample_date": "2023-08-28",
+  "unit_hrs": 2798,
+  "oil_hrs": 44,
+  "makeup": "9 qt",
+  "lab_says": "Viscosity a bit thick for W100; wear metals steady; no contamination.",
+  "source": "Legacy p.138 / Savvy"
+ },
+ {
+  "sample_date": "2024-03-27",
+  "unit_hrs": 2906,
+  "oil_hrs": 70,
+  "makeup": "14 qt†",
+  "lab_says": "Copper jumped — wear-in, or brass/bronze wear (bushing/bearing). Viscosity thick.",
+  "source": "Savvy: Oil Report-Apr-2024.pdf · make-up: ForeFlight Oil Added, oil change 09-Jan-2024 to sample"
+ },
+ {
+  "sample_date": "2024-07-24",
+  "unit_hrs": 2935,
+  "oil_hrs": 29,
+  "makeup": "3 qt†",
+  "lab_says": "Copper back to typical; other metals in line; no contamination.",
+  "source": "Savvy: Oil Report-Aug-2024.pdf · make-up: ForeFlight Oil Added, oil change 24-Apr-2024 to sample"
+ },
+ {
+  "sample_date": "2025-01-20",
+  "unit_hrs": 3017,
+  "oil_hrs": 33,
+  "makeup": "3 qt†",
+  "lab_says": "Break-in residue from new #1/#3 cylinders; silicon from assembly sealers; recheck next service.",
+  "source": "Savvy: Oil Report-Feb-2025.pdf · make-up: ForeFlight Oil Added, oil change 11-Nov-2024 to sample"
+ },
+ {
+  "sample_date": "2026-02-10",
+  "unit_hrs": 3131,
+  "oil_hrs": 25,
+  "makeup": "1 qt†",
+  "lab_says": "Metals and silicon lower, but less progress than hoped; iron up per hour. Watch temps, filter; consider borescope/compression; recheck ~25 hr.",
+  "source": "Savvy: Oil Report-Feb-2026.pdf · make-up: ForeFlight Oil Added, oil change 22-Oct-2025 to sample"
+ },
+ {
+  "sample_date": "2026-06-17",
+  "unit_hrs": 3195,
+  "oil_hrs": 64,
+  "makeup": "6 qt",
+  "lab_says": "Still more metal than typical IO-360-M1A, but a big improvement; only aluminum rose. ~1 qt/10 hr. Monitor temps and filter.",
+  "source": "Savvy: Oil Report-Jul-2026.pdf · ForeFlight Oil Added agrees (6 qt)"
+ }
+]

@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>N211WP Maintenance Tracker</title>
+<style>
+:root { --fg:#1f1e1d; --muted:#6b6a66; --line:#e2e0d9; --panel:#f7f6f2; --bg:#fff; --bad:#b42318; --warn:#a15c07; --ok:#2e7d32;
+  --serif: Georgia, "Times New Roman", serif; --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+@media (prefers-color-scheme: dark) { :root { --fg:#ecebe6; --muted:#a3a19b; --line:#3a3936; --panel:#232220; --bg:#181716; --bad:#f07167; --warn:#e3a33b; --ok:#6cc070; }
+  .chart svg { filter: invert(0.88) hue-rotate(180deg); } }
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--fg); font-family:var(--sans); font-size:15px; line-height:1.45; }
+main { max-width: 1280px; margin: 0 auto; padding: 24px 20px 48px; display:flex; flex-direction:column; gap:20px; }
+h1 { font-family:var(--serif); font-weight:400; font-size:2.1rem; margin:0; }
+h2 { font-size:1.1rem; font-weight:600; margin:0; }
+.ver, .note { font-size:.8rem; color:var(--muted); }
+.ver { margin:4px 0 0; }
+.lede { max-width:62rem; margin:8px 0 0; }
+.card { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:16px; min-width:0; }
+.tiles { display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); gap:12px; }
+.tile .lbl { font-size:.8rem; color:var(--muted); }
+.tile .big { font-family:var(--serif); font-size:2rem; font-variant-numeric:tabular-nums; margin:4px 0; }
+.tile .note { margin:0; }
+.sec-head { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline; gap:6px 12px; margin-bottom:4px; }
+.note { margin:0 0 8px; }
+.scroll { overflow:auto; max-height:36rem; border-top:1px solid var(--line); }
+table { width:100%; border-collapse:collapse; font-size:.8rem; font-variant-numeric:tabular-nums; }
+th { text-align:left; font-weight:600; color:var(--muted); position:sticky; top:0; background:var(--panel); padding:6px 8px; border-bottom:1px solid var(--line); }
+td { padding:6px 8px; border-bottom:1px solid var(--line); vertical-align:top; }
+.nw { white-space:nowrap; }
+@media (max-width: 720px) { .hn { display:none; } }
+.pill { display:inline-block; padding:0 8px; border-radius:999px; border:1px solid currentColor; white-space:nowrap; font-size:.75rem; }
+.s-bad { color:var(--bad); } .s-warn { color:var(--warn); } .s-ok { color:var(--ok); } .s-muted { color:var(--muted); }
+.switch { display:inline-flex; border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+.switch button { font:inherit; font-size:.8rem; padding:6px 12px; border:0; background:var(--bg); color:var(--muted); cursor:pointer; }
+.switch button + button { border-left:1px solid var(--line); }
+.switch button[aria-pressed="true"] { background:var(--panel); color:var(--fg); font-weight:600; }
+.viewbar { display:flex; flex-wrap:wrap; gap:8px 16px; align-items:center; }
+.viewbar .note { margin:0; flex:1 1 24rem; }
+.count { font-size:.8rem; color:var(--muted); margin:0 0 6px; }
+input[type=search] { width:min(100%, 20rem); padding:6px 8px; border:1px solid var(--line); border-radius:8px; background:var(--bg); color:var(--fg); font:inherit; font-size:.85rem; margin-bottom:8px; }
+.chart svg { width:100%; height:auto; display:block; }
+dl { display:grid; grid-template-columns:auto 1fr; gap:4px 16px; margin:0; font-size:.85rem; }
+dt { color:var(--muted); } dd { margin:0; }
+.grid2 { display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap:12px; }
+footer { font-size:.75rem; color:var(--muted); border-top:1px solid var(--line); padding-top:12px; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <h1>N211WP maintenance</h1>
+  <p class="ver">Read-only snapshot of tracker version 2.5 · snapshot published 16-Nov-2026 from data last refreshed 10-Nov-2026 · days-left and due statuses are computed for today, <b id="today"></b></p>
+  <p class="lede">2008 Diamond DA40, Lycoming IO-360-M1A, MT MTV-12-B prop. Built from the logbook entries and open tickets in Wayne&#x27;s SavvyMx account. Item needing action: new AD 2026-22-06 (passenger door), due by 17-Mar-2027 — before the annual; booked at Absolute Aero 18-Nov-2026. Flight time comes from Wayne&#x27;s ForeFlight logbook.</p>
+</header>
+
+<section class="card viewbar" aria-label="View">
+  <div class="switch" role="group" aria-label="View">
+    <button type="button" id="v-all" aria-pressed="true">Show everything</button>
+    <button type="button" id="v-mid" aria-pressed="false">Mid-term only</button>
+  </div>
+  <p class="note">Mid-term = through the next annual, due <b id="hzDate"></b>. Tach-based items count if due by about <b id="hzTach"></b> tach: the estimated tach plus the average of <b id="hzRate"></b> tach hr/month to that date. Look-backs (squawks, history, on-condition checks) start at the last annual, <b id="hzLast"></b>.</p>
+</section>
+
+<section class="tiles" aria-label="Headline figures">
+  <div class="card tile"><div class="lbl">Estimated tach (as of data date)</div><div class="big" id="t-est"></div><p class="note">Latest real tach reading (shop entry or ForeFlight Tach End) + ForeFlight flight time since, scaled by tach/Hobbs ratio.</p></div>
+  <div class="card tile"><div class="lbl">Tach hours to AD 2015-19-07 (100 hr)</div><div class="big" id="t-ad"></div><p class="note">Due at <b id="t-adlim"></b> tach. The AD allows up to 110 hr: <b id="t-admax"></b> hr to that limit.</p></div>
+  <div class="card tile"><div class="lbl">Annual due by</div><div class="big" id="t-ann"></div><p class="note"><b id="t-anndays"></b> days left. ELT inspection on the same date.</p></div>
+  <div class="card tile"><div class="lbl">Next oil change at (tach)</div><div class="big" id="t-oil"></div><p class="note">50 hr after the 06-Nov-2026 oil change at Coastal Valley. Next shop visit: Absolute Aero, 18-Nov-2026, for AD 2026-22-06.</p></div>
+  <div class="card tile"><div class="lbl">Tach hrs since oil change (target 50)</div><div class="big" id="t-since"></div><p class="note"><b id="t-left"></b> hr to the 50-hr target. Calculated from the estimated tach.</p></div>
+</section>
+
+<section class="card">
+  <div class="sec-head"><h2>Action items and record gaps</h2></div>
+  <p class="note">Issues found reviewing the records that need a decision or a fix — Claude's review; check against the source PDFs in Savvy. Mid-term hides Low and Watch items.</p>
+  <p class="count" id="c-flags"></p>
+  <div class="scroll"><table><thead><tr><th class="nw">Priority</th><th>Issue</th><th class="hn">Detail</th><th>Action</th></tr></thead><tbody id="b-flags"></tbody></table></div>
+</section>
+
+<section class="card">
+  <div class="sec-head"><h2>Squawks from the ForeFlight logbook</h2></div>
+  <p class="note">The Squawks field on N211WP ForeFlight logbook entries (photo links removed). Status is Claude's match against later shop entries; "Resolved/NA" marks were set by Wayne. <b id="sqOpen"></b> open since the 02-Mar-2026 annual. Mid-term shows squawks since the last annual plus any older one still open, and hides any marked Resolved/NA or Closed.</p>
+  <p class="count" id="c-sq"></p>
+  <input type="search" id="sqsearch" placeholder="Search squawks…" aria-label="Search squawks">
+  <div class="scroll"><table><thead><tr><th class="nw">Date</th><th>Squawk (as logged)</th><th class="nw">Status</th><th class="hn">Basis</th><th class="hn nw">Flight</th></tr></thead><tbody id="b-sq"></tbody></table></div>
+</section>
+
+<section class="card">
+  <div class="sec-head"><h2>Recurring items and what's next</h2></div>
+  <p class="note">Status is computed against today's date and the estimated tach. "Basis" says where each interval comes from. Mid-term shows anything Overdue?, Due now, Due soon, Open or Unknown, plus anything due by the next annual (date or projected tach).</p>
+  <p class="count" id="c-due"></p>
+  <div class="scroll"><table><thead><tr><th class="nw">Status</th><th>Item</th><th class="nw">Last done</th><th class="nw">Next due</th><th class="nw">Days left</th><th class="nw">Due at tach</th><th class="hn">Basis</th><th class="hn">Note</th></tr></thead><tbody id="b-due"></tbody></table></div>
+</section>
+
+<section class="card">
+  <div class="sec-head"><h2>Airworthiness directives</h2></div>
+  <p class="note">ADs found in the records (Sierra Aero AD reports of Jun-2015 and Jul-2018, later logbook entries) plus a targeted search of Federal Register ADs since 2018. Not a complete AD search — see the action items. Mid-term shows Open, Needs determination and Recurring ADs.</p>
+  <p class="count" id="c-ads"></p>
+  <div class="scroll"><table><thead><tr><th class="nw">Status</th><th class="nw">AD</th><th>Applies to</th><th>Subject</th><th class="hn">Detail</th><th class="hn">Record</th></tr></thead><tbody id="b-ads"></tbody></table></div>
+</section>
+
+<section class="card">
+  <div class="sec-head"><h2>TBO-related items (monitored on condition)</h2></div>
+  <p class="note">No TBO is tracked for these: each is overhauled or replaced on condition. Tach hours are calculated against the estimated tach. "Watch for" lists typical condition indicators (Claude's suggestions, not from the records). Mid-term shows items with no check logged at or since the last annual.</p>
+  <p class="count" id="c-oc"></p>
+  <div class="scroll"><table><thead><tr><th>Item</th><th class="nw">In service since</th><th class="nw">Tach at install</th><th class="nw">Tach hrs on it (est.)</th><th class="nw">Last checked</th><th class="hn">Watch for</th><th class="hn">Record</th><th class="hn">Note</th></tr></thead><tbody id="b-oc"></tbody></table></div>
+</section>
+
+<section class="card">
+  <div class="sec-head"><h2>Cylinders</h2></div>
+  <p class="note">Install dates from the logbook entries. Hours since install are calculated against the estimated tach.</p>
+  <div class="scroll"><table><thead><tr><th>Cyl</th><th class="nw">Installed</th><th>Shop</th><th class="nw">Tach at install</th><th class="nw">Tach hrs since (est.)</th><th class="nw">Latest compression</th><th class="hn">Record</th></tr></thead><tbody id="b-cyl"></tbody></table></div>
+</section>
+
+<section class="card">
+  <div class="sec-head"><h2>Compression history</h2></div>
+  <p class="note">Each annual's differential compression, out of 80 psi. Dotted lines mark cylinder replacements; the previous cylinder is dashed and faded, the current one solid. The 2018 zero on #2 (the reading that led to its replacement) is left off the chart. The Mar-2026 readings were likely a cold check (inferred from Savvy run times and the oil sample date). The chart always shows the full history; mid-term limits the table to the last three checks.</p>
+  <div class="chart"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="720pt" height="216pt" viewBox="0 0 720 216" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-16T11:31:48.257739</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 216 
+L 720 216 
+L 720 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 35.522227 162.1304 
+L 709.2 162.1304 
+L 709.2 10.8 
+L 35.522227 10.8 
+z
+" style="fill: #ffffff"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1"/>
+     <g id="text_1">
+      <!-- 2014 -->
+      <g style="fill: #555555" transform="translate(30.907206 172.41165) scale(0.07 -0.07)">
+       <defs>
+        <path id="Inter-Regular-541" d="M 481 0 
+L 3447 0 
+L 3447 522 
+L 1300 522 
+L 1300 559 
+L 2319 1644 
+C 3141 2519 3369 2916 3369 3419 
+C 3369 4147 2778 4719 1947 4719 
+C 1119 4719 494 4159 494 3334 
+L 1063 3334 
+C 1063 3859 1400 4203 1931 4203 
+C 2428 4203 2806 3900 2806 3413 
+C 2806 2984 2544 2666 2028 2106 
+L 481 428 
+L 481 0 
+z
+" transform="scale(0.015625)"/>
+        <path id="Inter-Regular-53f" d="M 2019 -63 
+C 3059 -63 3656 809 3656 2325 
+C 3656 3834 3050 4719 2019 4719 
+C 988 4719 381 3834 381 2325 
+C 381 806 981 -63 2019 -63 
+z
+M 2019 456 
+C 1338 456 953 1144 953 2325 
+C 953 3509 1338 4203 2019 4203 
+C 2700 4203 3084 3513 3084 2325 
+C 3084 1144 2700 456 2019 456 
+z
+" transform="scale(0.015625)"/>
+        <path id="Inter-Regular-540" d="M 2041 4656 
+L 1313 4656 
+L 300 3909 
+L 300 3272 
+L 1425 4106 
+L 1456 4106 
+L 1456 0 
+L 2041 0 
+L 2041 4656 
+z
+" transform="scale(0.015625)"/>
+        <path id="Inter-Regular-544" d="M 375 947 
+L 2566 947 
+L 2566 0 
+L 3134 0 
+L 3134 947 
+L 3766 947 
+L 3766 1469 
+L 3134 1469 
+L 3134 4656 
+L 2413 4656 
+L 375 1431 
+L 375 947 
+z
+M 2569 1469 
+L 1009 1469 
+L 1009 1506 
+L 2531 3913 
+L 2569 3913 
+L 2569 1469 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#Inter-Regular-541"/>
+       <use xlink:href="#Inter-Regular-53f" transform="translate(60.984375 0)"/>
+       <use xlink:href="#Inter-Regular-540" transform="translate(124.078125 0)"/>
+       <use xlink:href="#Inter-Regular-544" transform="translate(164.75 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_2"/>
+     <g id="text_2">
+      <!-- 2015 -->
+      <g style="fill: #555555" transform="translate(83.587942 172.41165) scale(0.07 -0.07)">
+       <defs>
+        <path id="Inter-Regular-545" d="M 1956 -63 
+C 2853 -63 3509 594 3509 1488 
+C 3509 2388 2881 3047 2028 3047 
+C 1706 3047 1397 2934 1206 2775 
+L 1181 2775 
+L 1341 4134 
+L 3291 4134 
+L 3291 4656 
+L 841 4656 
+L 566 2350 
+L 1122 2281 
+C 1306 2422 1631 2525 1919 2525 
+C 2503 2525 2928 2078 2928 1478 
+C 2928 888 2519 459 1956 459 
+C 1488 459 1106 759 1069 1175 
+L 494 1175 
+C 525 463 1138 -63 1956 -63 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#Inter-Regular-541"/>
+       <use xlink:href="#Inter-Regular-53f" transform="translate(60.984375 0)"/>
+       <use xlink:href="#Inter-Regular-540" transform="translate(124.078125 0)"/>
+       <use xlink:href="#Inter-Regular-545" transform="translate(164.75 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_3"/>
+     <g id="text_3">
+      <!-- 2016 -->
+      <g style="fill: #555555" transform="translate(136.093131 172.41165) scale(0.07 -0.07)">
+       <defs>
+        <path id="Inter-Regular-547" d="M 2019 -63 
+C 2969 -63 3588 634 3588 1503 
+C 3588 2403 2925 3044 2128 3044 
+C 1644 3044 1231 2813 981 2425 
+L 944 2425 
+C 944 3544 1375 4194 2091 4194 
+C 2575 4194 2866 3888 2969 3484 
+L 3550 3484 
+C 3438 4216 2872 4719 2091 4719 
+C 1034 4719 381 3788 381 2150 
+C 381 434 1241 -63 2019 -63 
+z
+M 2019 459 
+C 1447 459 1028 947 1028 1497 
+C 1028 2041 1469 2528 2034 2528 
+C 2597 2528 3013 2072 3013 1503 
+C 3013 922 2578 459 2019 459 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#Inter-Regular-541"/>
+       <use xlink:href="#Inter-Regular-53f" transform="translate(60.984375 0)"/>
+       <use xlink:href="#Inter-Regular-540" transform="translate(124.078125 0)"/>
+       <use xlink:href="#Inter-Regular-547" transform="translate(164.75 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_4"/>
+     <g id="text_4">
+      <!-- 2017 -->
+      <g style="fill: #555555" transform="translate(188.974709 172.41165) scale(0.07 -0.07)">
+       <defs>
+        <path id="Inter-Regular-548" d="M 625 0 
+L 1250 0 
+L 3316 4103 
+L 3316 4656 
+L 306 4656 
+L 306 4134 
+L 2694 4134 
+L 2694 4097 
+L 625 0 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#Inter-Regular-541"/>
+       <use xlink:href="#Inter-Regular-53f" transform="translate(60.984375 0)"/>
+       <use xlink:href="#Inter-Regular-540" transform="translate(124.078125 0)"/>
+       <use xlink:href="#Inter-Regular-548" transform="translate(164.75 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_5"/>
+     <g id="text_5">
+      <!-- 2018 -->
+      <g style="fill: #555555" transform="translate(241.338257 172.41165) scale(0.07 -0.07)">
+       <defs>
+        <path id="Inter-Regular-549" d="M 1978 -63 
+C 2916 -63 3578 478 3578 1238 
+C 3578 1825 3175 2325 2669 2419 
+L 2669 2444 
+C 3109 2559 3403 2988 3403 3481 
+C 3403 4191 2794 4719 1978 4719 
+C 1150 4719 550 4191 550 3481 
+C 550 2988 838 2559 1291 2444 
+L 1291 2419 
+C 769 2325 381 1825 381 1238 
+C 381 478 1031 -63 1978 -63 
+z
+M 1978 453 
+C 1350 453 966 775 966 1269 
+C 966 1784 1391 2153 1978 2153 
+C 2553 2153 2984 1784 2984 1269 
+C 2984 775 2594 453 1978 453 
+z
+M 1978 2650 
+C 1475 2650 1125 2966 1125 3438 
+C 1125 3903 1463 4206 1978 4206 
+C 2484 4206 2828 3903 2828 3438 
+C 2828 2966 2469 2650 1978 2650 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#Inter-Regular-541"/>
+       <use xlink:href="#Inter-Regular-53f" transform="translate(60.984375 0)"/>
+       <use xlink:href="#Inter-Regular-540" transform="translate(124.078125 0)"/>
+       <use xlink:href="#Inter-Regular-549" transform="translate(164.75 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_6">
+     <g id="line2d_6"/>
+     <g id="text_6">
+      <!-- 2019 -->
+      <g style="fill: #555555" transform="translate(293.880634 172.41165) scale(0.07 -0.07)">
+       <defs>
+        <path id="Inter-Regular-54a" d="M 1884 -63 
+C 2938 -63 3588 866 3588 2513 
+C 3588 4225 2728 4706 1963 4719 
+C 1006 4734 381 4025 381 3156 
+C 381 2259 1044 1616 1847 1616 
+C 2334 1616 2744 1856 2994 2238 
+L 3031 2238 
+C 3031 1109 2594 463 1884 463 
+C 1394 463 1103 772 1006 1184 
+L 419 1184 
+C 528 441 1094 -63 1884 -63 
+z
+M 1934 2134 
+C 1372 2134 963 2588 963 3159 
+C 963 3734 1391 4197 1953 4197 
+C 2525 4197 2947 3706 2947 3172 
+C 2947 2625 2500 2134 1934 2134 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#Inter-Regular-541"/>
+       <use xlink:href="#Inter-Regular-53f" transform="translate(60.984375 0)"/>
+       <use xlink:href="#Inter-Regular-540" transform="translate(124.078125 0)"/>
+       <use xlink:href="#Inter-Regular-54a" transform="translate(164.75 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_7">
+     <g id="line2d_7"/>
+     <g id="text_7">
+      <!-- 2020 -->
+      <g style="fill: #555555" transform="translate(345.679807 172.41165) scale(0.07 -0.07)">
+       <use xlink:href="#Inter-Regular-541"/>
+       <use xlink:href="#Inter-Regular-53f" transform="translate(60.984375 0)"/>
+       <use xlink:href="#Inter-Regular-541" transform="translate(124.078125 0)"/>
+       <use xlink:href="#Inter-Regular-53f" transform="translate(185.0625 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_8">
+     <g id="line2d_8"/>
+     <g id="text_8">
+      <!-- 2021 -->
+      <g style="fill: #555555" transform="translate(399.156385 172.41165) scale(0.07 -0.07)">
+       <use xlink:href="#Inter-Regular-541"/>
+       <use xlink:href="#Inter-Regular-53f" transform="translate(60.984375 0)"/>
+       <use xlink:href="#Inter-Regular-541" transform="translate(124.078125 0)"/>
+       <use xlink:href="#Inter-Regular-540" transform="translate(185.0625 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_9">
+     <g id="line2d_9"/>
+     <g id="text_9">
+      <!-- 2022 -->
+      <g style="fill: #555555" transform="translate(450.993293 172.41165) scale(0.07 -0.07)">
+       <use xlink:href="#Inter-Regular-541"/>
+       <use xlink:href="#Inter-Regular-53f" transform="translate(60.984375 0)"/>
+       <use xlink:href="#Inter-Regular-541" transform="translate(124.078125 0)"/>
+       <use xlink:href="#Inter-Regular-541" transform="translate(185.0625 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_10">
+     <g id="line2d_10"/>
+     <g id="text_10">
+      <!-- 2023 -->
+      <g style="fill: #555555" transform="translate(503.513794 172.41165) scale(0.07 -0.07)">
+       <defs>
+        <path id="Inter-Regular-543" d="M 1984 -63 
+C 2897 -63 3572 503 3572 1266 
+C 3572 1853 3225 2284 2631 2381 
+L 2631 2419 
+C 3106 2559 3403 2944 3403 3469 
+C 3403 4131 2872 4719 2003 4719 
+C 1184 4719 516 4216 491 3484 
+L 1063 3484 
+C 1081 3938 1516 4203 1991 4203 
+C 2497 4203 2822 3900 2822 3438 
+C 2822 2956 2447 2644 1903 2644 
+L 1525 2644 
+L 1525 2128 
+L 1903 2128 
+C 2594 2128 2984 1775 2984 1272 
+C 2984 788 2559 459 1975 459 
+C 1444 459 1025 731 991 1175 
+L 391 1175 
+C 422 438 1072 -63 1984 -63 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#Inter-Regular-541"/>
+       <use xlink:href="#Inter-Regular-53f" transform="translate(60.984375 0)"/>
+       <use xlink:href="#Inter-Regular-541" transform="translate(124.078125 0)"/>
+       <use xlink:href="#Inter-Regular-543" transform="translate(185.0625 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_11">
+     <g id="line2d_11"/>
+     <g id="text_11">
+      <!-- 2024 -->
+      <g style="fill: #555555" transform="translate(556.017343 172.41165) scale(0.07 -0.07)">
+       <use xlink:href="#Inter-Regular-541"/>
+       <use xlink:href="#Inter-Regular-53f" transform="translate(60.984375 0)"/>
+       <use xlink:href="#Inter-Regular-541" transform="translate(124.078125 0)"/>
+       <use xlink:href="#Inter-Regular-544" transform="translate(183.5 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_12">
+     <g id="line2d_12"/>
+     <g id="text_12">
+      <!-- 2025 -->
+      <g style="fill: #555555" transform="translate(608.787358 172.41165) scale(0.07 -0.07)">
+       <use xlink:href="#Inter-Regular-541"/>
+       <use xlink:href="#Inter-Regular-53f" transform="translate(60.984375 0)"/>
+       <use xlink:href="#Inter-Regular-541" transform="translate(124.078125 0)"/>
+       <use xlink:href="#Inter-Regular-545" transform="translate(185.0625 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_13">
+     <g id="line2d_13"/>
+     <g id="text_13">
+      <!-- 2026 -->
+      <g style="fill: #555555" transform="translate(661.292547 172.41165) scale(0.07 -0.07)">
+       <use xlink:href="#Inter-Regular-541"/>
+       <use xlink:href="#Inter-Regular-53f" transform="translate(60.984375 0)"/>
+       <use xlink:href="#Inter-Regular-541" transform="translate(124.078125 0)"/>
+       <use xlink:href="#Inter-Regular-547" transform="translate(185.0625 0)"/>
+      </g>
+     </g>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_14">
+      <path d="M 35.522227 162.1304 
+L 709.2 162.1304 
+" clip-path="url(#p24cb9d9000)" style="fill: none; stroke: #e5e5e5; stroke-width: 0.6; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_15"/>
+     <g id="text_14">
+      <!-- 60 -->
+      <g style="fill: #555555" transform="translate(23.26457 165.521025) scale(0.07 -0.07)">
+       <use xlink:href="#Inter-Regular-547"/>
+       <use xlink:href="#Inter-Regular-53f" transform="translate(62.015625 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_16">
+      <path d="M 35.522227 129.232487 
+L 709.2 129.232487 
+" clip-path="url(#p24cb9d9000)" style="fill: none; stroke: #e5e5e5; stroke-width: 0.6; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_17"/>
+     <g id="text_15">
+      <!-- 65 -->
+      <g style="fill: #555555" transform="translate(23.425352 132.623112) scale(0.07 -0.07)">
+       <use xlink:href="#Inter-Regular-547"/>
+       <use xlink:href="#Inter-Regular-545" transform="translate(62.015625 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_3">
+     <g id="line2d_18">
+      <path d="M 35.522227 96.334574 
+L 709.2 96.334574 
+" clip-path="url(#p24cb9d9000)" style="fill: none; stroke: #e5e5e5; stroke-width: 0.6; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_19"/>
+     <g id="text_16">
+      <!-- 70 -->
+      <g style="fill: #555555" transform="translate(23.753477 99.725199) scale(0.07 -0.07)">
+       <use xlink:href="#Inter-Regular-548"/>
+       <use xlink:href="#Inter-Regular-53f" transform="translate(55.03125 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_20">
+      <path d="M 35.522227 63.436661 
+L 709.2 63.436661 
+" clip-path="url(#p24cb9d9000)" style="fill: none; stroke: #e5e5e5; stroke-width: 0.6; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_21"/>
+     <g id="text_17">
+      <!-- 75 -->
+      <g style="fill: #555555" transform="translate(23.872695 66.827286) scale(0.07 -0.07)">
+       <use xlink:href="#Inter-Regular-548"/>
+       <use xlink:href="#Inter-Regular-545" transform="translate(55.625 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_5">
+     <g id="line2d_22">
+      <path d="M 35.522227 30.538748 
+L 709.2 30.538748 
+" clip-path="url(#p24cb9d9000)" style="fill: none; stroke: #e5e5e5; stroke-width: 0.6; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_23"/>
+     <g id="text_18">
+      <!-- 80 -->
+      <g style="fill: #555555" transform="translate(23.275508 33.929373) scale(0.07 -0.07)">
+       <use xlink:href="#Inter-Regular-549"/>
+       <use xlink:href="#Inter-Regular-53f" transform="translate(61.859375 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="text_19">
+     <!-- psi / 80 -->
+     <g style="fill: #555555" transform="translate(17.576094 98.906606) rotate(-90) scale(0.07 -0.07)">
+      <defs>
+       <path id="Inter-Regular-34d" d="M 494 -1306 
+L 1056 -1306 
+L 1056 541 
+L 1100 541 
+C 1216 347 1450 -75 2116 -75 
+C 2988 -75 3594 625 3594 1738 
+C 3594 2844 2984 3538 2113 3538 
+C 1431 3538 1216 3119 1100 2934 
+L 1038 2934 
+L 1038 3494 
+L 494 3494 
+L 494 -1306 
+z
+M 2031 428 
+C 1397 428 1050 966 1050 1744 
+C 1050 2516 1388 3034 2031 3034 
+C 2694 3034 3022 2469 3022 1744 
+C 3022 1009 2684 428 2031 428 
+z
+" transform="scale(0.015625)"/>
+       <path id="Inter-Regular-369" d="M 1681 -75 
+C 2500 -75 3059 372 3059 984 
+C 3059 1463 2763 1778 2128 1928 
+L 1600 2053 
+C 1191 2150 1013 2294 1013 2553 
+C 1013 2844 1325 3059 1741 3059 
+C 2191 3059 2388 2816 2484 2566 
+L 2994 2697 
+C 2834 3188 2456 3538 1738 3538 
+C 994 3538 444 3119 444 2519 
+C 444 2028 747 1716 1381 1566 
+L 1963 1428 
+C 2306 1347 2475 1188 2475 947 
+C 2475 659 2163 419 1675 419 
+C 1256 419 972 591 872 975 
+L 338 847 
+C 463 244 963 -75 1681 -75 
+z
+" transform="scale(0.015625)"/>
+       <path id="Inter-Regular-2b2" d="M 494 0 
+L 1056 0 
+L 1056 3494 
+L 494 3494 
+L 494 0 
+z
+M 778 4066 
+C 994 4066 1172 4231 1172 4438 
+C 1172 4644 994 4809 778 4809 
+C 566 4809 388 4644 388 4438 
+C 388 4231 566 4066 778 4066 
+z
+" transform="scale(0.015625)"/>
+       <path id="Inter-Regular-6eb" transform="scale(0.015625)"/>
+       <path id="Inter-Regular-5b1" d="M 2163 4875 
+L 1644 4875 
+L 144 -700 
+L 663 -700 
+L 2163 4875 
+z
+" transform="scale(0.015625)"/>
+      </defs>
+      <use xlink:href="#Inter-Regular-34d"/>
+      <use xlink:href="#Inter-Regular-369" transform="translate(61.234375 0)"/>
+      <use xlink:href="#Inter-Regular-2b2" transform="translate(114.015625 0)"/>
+      <use xlink:href="#Inter-Regular-6eb" transform="translate(138.234375 0)"/>
+      <use xlink:href="#Inter-Regular-5b1" transform="translate(166.359375 0)"/>
+      <use xlink:href="#Inter-Regular-6eb" transform="translate(202.390625 0)"/>
+      <use xlink:href="#Inter-Regular-549" transform="translate(230.515625 0)"/>
+      <use xlink:href="#Inter-Regular-53f" transform="translate(292.375 0)"/>
+     </g>
+    </g>
+   </g>
+   <g id="line2d_24">
+    <path d="M 66.143944 70.016243 
+L 114.804688 50.277496 
+L 168.648234 56.857078 
+L 221.484012 43.697913 
+L 276.047391 37.11833 
+L 333.202171 63.436661 
+L 402.59412 63.436661 
+L 457.157499 43.697913 
+L 509.849311 43.697913 
+L 565.852357 63.436661 
+" clip-path="url(#p24cb9d9000)" style="fill: none; stroke-dasharray: 5.2,3.9; stroke-dashoffset: 0; stroke: #2c6fbb; stroke-opacity: 0.45; stroke-width: 1.3"/>
+    <defs>
+     <path id="m95d770072f" d="M 0 1.5 
+C 0.397805 1.5 0.77937 1.341951 1.06066 1.06066 
+C 1.341951 0.77937 1.5 0.397805 1.5 0 
+C 1.5 -0.397805 1.341951 -0.77937 1.06066 -1.06066 
+C 0.77937 -1.341951 0.397805 -1.5 0 -1.5 
+C -0.397805 -1.5 -0.77937 -1.341951 -1.06066 -1.06066 
+C -1.341951 -0.77937 -1.5 -0.397805 -1.5 0 
+C -1.5 0.397805 -1.341951 0.77937 -1.06066 1.06066 
+C -0.77937 1.341951 -0.397805 1.5 0 1.5 
+z
+" style="stroke: #2c6fbb; stroke-opacity: 0.45"/>
+    </defs>
+    <g clip-path="url(#p24cb9d9000)">
+     <use xlink:href="#m95d770072f" x="66.143944" y="70.016243" style="fill: #2c6fbb; fill-opacity: 0.45; stroke: #2c6fbb; stroke-opacity: 0.45"/>
+     <use xlink:href="#m95d770072f" x="114.804688" y="50.277496" style="fill: #2c6fbb; fill-opacity: 0.45; stroke: #2c6fbb; stroke-opacity: 0.45"/>
+     <use xlink:href="#m95d770072f" x="168.648234" y="56.857078" style="fill: #2c6fbb; fill-opacity: 0.45; stroke: #2c6fbb; stroke-opacity: 0.45"/>
+     <use xlink:href="#m95d770072f" x="221.484012" y="43.697913" style="fill: #2c6fbb; fill-opacity: 0.45; stroke: #2c6fbb; stroke-opacity: 0.45"/>
+     <use xlink:href="#m95d770072f" x="276.047391" y="37.11833" style="fill: #2c6fbb; fill-opacity: 0.45; stroke: #2c6fbb; stroke-opacity: 0.45"/>
+     <use xlink:href="#m95d770072f" x="333.202171" y="63.436661" style="fill: #2c6fbb; fill-opacity: 0.45; stroke: #2c6fbb; stroke-opacity: 0.45"/>
+     <use xlink:href="#m95d770072f" x="402.59412" y="63.436661" style="fill: #2c6fbb; fill-opacity: 0.45; stroke: #2c6fbb; stroke-opacity: 0.45"/>
+     <use xlink:href="#m95d770072f" x="457.157499" y="43.697913" style="fill: #2c6fbb; fill-opacity: 0.45; stroke: #2c6fbb; stroke-opacity: 0.45"/>
+     <use xlink:href="#m95d770072f" x="509.849311" y="43.697913" style="fill: #2c6fbb; fill-opacity: 0.45; stroke: #2c6fbb; stroke-opacity: 0.45"/>
+     <use xlink:href="#m95d770072f" x="565.852357" y="63.436661" style="fill: #2c6fbb; fill-opacity: 0.45; stroke: #2c6fbb; stroke-opacity: 0.45"/>
+    </g>
+   </g>
+   <g id="line2d_25">
+    <path d="M 622.143337 50.277496 
+L 678.578283 70.016243 
+" clip-path="url(#p24cb9d9000)" style="fill: none; stroke: #2c6fbb; stroke-width: 2; stroke-linecap: square"/>
+    <defs>
+     <path id="ma2d818a154" d="M 0 1.75 
+C 0.464105 1.75 0.909265 1.565609 1.237437 1.237437 
+C 1.565609 0.909265 1.75 0.464105 1.75 0 
+C 1.75 -0.464105 1.565609 -0.909265 1.237437 -1.237437 
+C 0.909265 -1.565609 0.464105 -1.75 0 -1.75 
+C -0.464105 -1.75 -0.909265 -1.565609 -1.237437 -1.237437 
+C -1.565609 -0.909265 -1.75 -0.464105 -1.75 0 
+C -1.75 0.464105 -1.565609 0.909265 -1.237437 1.237437 
+C -0.909265 1.565609 -0.464105 1.75 0 1.75 
+z
+" style="stroke: #2c6fbb"/>
+    </defs>
+    <g clip-path="url(#p24cb9d9000)">
+     <use xlink:href="#ma2d818a154" x="622.143337" y="50.277496" style="fill: #2c6fbb; stroke: #2c6fbb"/>
+     <use xlink:href="#ma2d818a154" x="678.578283" y="70.016243" style="fill: #2c6fbb; stroke: #2c6fbb"/>
+    </g>
+   </g>
+   <g id="line2d_26">
+    <path d="M 66.143944 70.016243 
+L 114.804688 50.277496 
+L 168.648234 50.277496 
+L 221.484012 43.697913 
+" clip-path="url(#p24cb9d9000)" style="fill: none; stroke-dasharray: 5.2,3.9; stroke-dashoffset: 0; stroke: #d9822b; stroke-opacity: 0.45; stroke-width: 1.3"/>
+    <defs>
+     <path id="mdd0003cde7" d="M 0 1.5 
+C 0.397805 1.5 0.77937 1.341951 1.06066 1.06066 
+C 1.341951 0.77937 1.5 0.397805 1.5 0 
+C 1.5 -0.397805 1.341951 -0.77937 1.06066 -1.06066 
+C 0.77937 -1.341951 0.397805 -1.5 0 -1.5 
+C -0.397805 -1.5 -0.77937 -1.341951 -1.06066 -1.06066 
+C -1.341951 -0.77937 -1.5 -0.397805 -1.5 0 
+C -1.5 0.397805 -1.341951 0.77937 -1.06066 1.06066 
+C -0.77937 1.341951 -0.397805 1.5 0 1.5 
+z
+" style="stroke: #d9822b; stroke-opacity: 0.45"/>
+    </defs>
+    <g clip-path="url(#p24cb9d9000)">
+     <use xlink:href="#mdd0003cde7" x="66.143944" y="70.016243" style="fill: #d9822b; fill-opacity: 0.45; stroke: #d9822b; stroke-opacity: 0.45"/>
+     <use xlink:href="#mdd0003cde7" x="114.804688" y="50.277496" style="fill: #d9822b; fill-opacity: 0.45; stroke: #d9822b; stroke-opacity: 0.45"/>
+     <use xlink:href="#mdd0003cde7" x="168.648234" y="50.277496" style="fill: #d9822b; fill-opacity: 0.45; stroke: #d9822b; stroke-opacity: 0.45"/>
+     <use xlink:href="#mdd0003cde7" x="221.484012" y="43.697913" style="fill: #d9822b; fill-opacity: 0.45; stroke: #d9822b; stroke-opacity: 0.45"/>
+    </g>
+   </g>
+   <g id="line2d_27">
+    <path d="M 333.202171 37.11833 
+L 402.59412 43.697913 
+L 457.157499 37.11833 
+L 509.849311 63.436661 
+L 565.852357 70.016243 
+L 622.143337 56.857078 
+L 678.578283 116.073322 
+" clip-path="url(#p24cb9d9000)" style="fill: none; stroke: #d9822b; stroke-width: 2; stroke-linecap: square"/>
+    <defs>
+     <path id="m41bb1e775d" d="M 0 1.75 
+C 0.464105 1.75 0.909265 1.565609 1.237437 1.237437 
+C 1.565609 0.909265 1.75 0.464105 1.75 0 
+C 1.75 -0.464105 1.565609 -0.909265 1.237437 -1.237437 
+C 0.909265 -1.565609 0.464105 -1.75 0 -1.75 
+C -0.464105 -1.75 -0.909265 -1.565609 -1.237437 -1.237437 
+C -1.565609 -0.909265 -1.75 -0.464105 -1.75 0 
+C -1.75 0.464105 -1.565609 0.909265 -1.237437 1.237437 
+C -0.909265 1.565609 -0.464105 1.75 0 1.75 
+z
+" style="stroke: #d9822b"/>
+    </defs>
+    <g clip-path="url(#p24cb9d9000)">
+     <use xlink:href="#m41bb1e775d" x="333.202171" y="37.11833" style="fill: #d9822b; stroke: #d9822b"/>
+     <use xlink:href="#m41bb1e775d" x="402.59412" y="43.697913" style="fill: #d9822b; stroke: #d9822b"/>
+     <use xlink:href="#m41bb1e775d" x="457.157499" y="37.11833" style="fill: #d9822b; stroke: #d9822b"/>
+     <use xlink:href="#m41bb1e775d" x="509.849311" y="63.436661" style="fill: #d9822b; stroke: #d9822b"/>
+     <use xlink:href="#m41bb1e775d" x="565.852357" y="70.016243" style="fill: #d9822b; stroke: #d9822b"/>
+     <use xlink:href="#m41bb1e775d" x="622.143337" y="56.857078" style="fill: #d9822b; stroke: #d9822b"/>
+     <use xlink:href="#m41bb1e775d" x="678.578283" y="116.073322" style="fill: #d9822b; stroke: #d9822b"/>
+    </g>
+   </g>
+   <g id="line2d_28">
+    <path d="M 66.143944 70.016243 
+L 114.804688 50.277496 
+L 168.648234 43.697913 
+L 221.484012 43.697913 
+L 276.047391 50.277496 
+L 333.202171 37.11833 
+L 402.59412 37.11833 
+L 457.157499 37.11833 
+L 509.849311 129.232487 
+L 565.852357 102.914157 
+" clip-path="url(#p24cb9d9000)" style="fill: none; stroke-dasharray: 5.2,3.9; stroke-dashoffset: 0; stroke: #3a9d5d; stroke-opacity: 0.45; stroke-width: 1.3"/>
+    <defs>
+     <path id="md0ed501c02" d="M 0 1.5 
+C 0.397805 1.5 0.77937 1.341951 1.06066 1.06066 
+C 1.341951 0.77937 1.5 0.397805 1.5 0 
+C 1.5 -0.397805 1.341951 -0.77937 1.06066 -1.06066 
+C 0.77937 -1.341951 0.397805 -1.5 0 -1.5 
+C -0.397805 -1.5 -0.77937 -1.341951 -1.06066 -1.06066 
+C -1.341951 -0.77937 -1.5 -0.397805 -1.5 0 
+C -1.5 0.397805 -1.341951 0.77937 -1.06066 1.06066 
+C -0.77937 1.341951 -0.397805 1.5 0 1.5 
+z
+" style="stroke: #3a9d5d; stroke-opacity: 0.45"/>
+    </defs>
+    <g clip-path="url(#p24cb9d9000)">
+     <use xlink:href="#md0ed501c02" x="66.143944" y="70.016243" style="fill: #3a9d5d; fill-opacity: 0.45; stroke: #3a9d5d; stroke-opacity: 0.45"/>
+     <use xlink:href="#md0ed501c02" x="114.804688" y="50.277496" style="fill: #3a9d5d; fill-opacity: 0.45; stroke: #3a9d5d; stroke-opacity: 0.45"/>
+     <use xlink:href="#md0ed501c02" x="168.648234" y="43.697913" style="fill: #3a9d5d; fill-opacity: 0.45; stroke: #3a9d5d; stroke-opacity: 0.45"/>
+     <use xlink:href="#md0ed501c02" x="221.484012" y="43.697913" style="fill: #3a9d5d; fill-opacity: 0.45; stroke: #3a9d5d; stroke-opacity: 0.45"/>
+     <use xlink:href="#md0ed501c02" x="276.047391" y="50.277496" style="fill: #3a9d5d; fill-opacity: 0.45; stroke: #3a9d5d; stroke-opacity: 0.45"/>
+     <use xlink:href="#md0ed501c02" x="333.202171" y="37.11833" style="fill: #3a9d5d; fill-opacity: 0.45; stroke: #3a9d5d; stroke-opacity: 0.45"/>
+     <use xlink:href="#md0ed501c02" x="402.59412" y="37.11833" style="fill: #3a9d5d; fill-opacity: 0.45; stroke: #3a9d5d; stroke-opacity: 0.45"/>
+     <use xlink:href="#md0ed501c02" x="457.157499" y="37.11833" style="fill: #3a9d5d; fill-opacity: 0.45; stroke: #3a9d5d; stroke-opacity: 0.45"/>
+     <use xlink:href="#md0ed501c02" x="509.849311" y="129.232487" style="fill: #3a9d5d; fill-opacity: 0.45; stroke: #3a9d5d; stroke-opacity: 0.45"/>
+     <use xlink:href="#md0ed501c02" x="565.852357" y="102.914157" style="fill: #3a9d5d; fill-opacity: 0.45; stroke: #3a9d5d; stroke-opacity: 0.45"/>
+    </g>
+   </g>
+   <g id="line2d_29">
+    <path d="M 622.143337 43.697913 
+L 678.578283 76.595826 
+" clip-path="url(#p24cb9d9000)" style="fill: none; stroke: #3a9d5d; stroke-width: 2; stroke-linecap: square"/>
+    <defs>
+     <path id="m884909efbc" d="M 0 1.75 
+C 0.464105 1.75 0.909265 1.565609 1.237437 1.237437 
+C 1.565609 0.909265 1.75 0.464105 1.75 0 
+C 1.75 -0.464105 1.565609 -0.909265 1.237437 -1.237437 
+C 0.909265 -1.565609 0.464105 -1.75 0 -1.75 
+C -0.464105 -1.75 -0.909265 -1.565609 -1.237437 -1.237437 
+C -1.565609 -0.909265 -1.75 -0.464105 -1.75 0 
+C -1.75 0.464105 -1.565609 0.909265 -1.237437 1.237437 
+C -0.909265 1.565609 -0.464105 1.75 0 1.75 
+z
+" style="stroke: #3a9d5d"/>
+    </defs>
+    <g clip-path="url(#p24cb9d9000)">
+     <use xlink:href="#m884909efbc" x="622.143337" y="43.697913" style="fill: #3a9d5d; stroke: #3a9d5d"/>
+     <use xlink:href="#m884909efbc" x="678.578283" y="76.595826" style="fill: #3a9d5d; stroke: #3a9d5d"/>
+    </g>
+   </g>
+   <g id="line2d_30">
+    <path d="M 66.143944 56.857078 
+L 114.804688 43.697913 
+L 168.648234 56.857078 
+L 221.484012 43.697913 
+L 276.047391 56.857078 
+L 333.202171 37.11833 
+L 402.59412 96.334574 
+L 457.157499 37.11833 
+L 509.849311 50.277496 
+L 565.852357 63.436661 
+L 622.143337 43.697913 
+" clip-path="url(#p24cb9d9000)" style="fill: none; stroke-dasharray: 5.2,3.9; stroke-dashoffset: 0; stroke: #9b4dca; stroke-opacity: 0.45; stroke-width: 1.3"/>
+    <defs>
+     <path id="m0a97bd5fd5" d="M 0 1.5 
+C 0.397805 1.5 0.77937 1.341951 1.06066 1.06066 
+C 1.341951 0.77937 1.5 0.397805 1.5 0 
+C 1.5 -0.397805 1.341951 -0.77937 1.06066 -1.06066 
+C 0.77937 -1.341951 0.397805 -1.5 0 -1.5 
+C -0.397805 -1.5 -0.77937 -1.341951 -1.06066 -1.06066 
+C -1.341951 -0.77937 -1.5 -0.397805 -1.5 0 
+C -1.5 0.397805 -1.341951 0.77937 -1.06066 1.06066 
+C -0.77937 1.341951 -0.397805 1.5 0 1.5 
+z
+" style="stroke: #9b4dca; stroke-opacity: 0.45"/>
+    </defs>
+    <g clip-path="url(#p24cb9d9000)">
+     <use xlink:href="#m0a97bd5fd5" x="66.143944" y="56.857078" style="fill: #9b4dca; fill-opacity: 0.45; stroke: #9b4dca; stroke-opacity: 0.45"/>
+     <use xlink:href="#m0a97bd5fd5" x="114.804688" y="43.697913" style="fill: #9b4dca; fill-opacity: 0.45; stroke: #9b4dca; stroke-opacity: 0.45"/>
+     <use xlink:href="#m0a97bd5fd5" x="168.648234" y="56.857078" style="fill: #9b4dca; fill-opacity: 0.45; stroke: #9b4dca; stroke-opacity: 0.45"/>
+     <use xlink:href="#m0a97bd5fd5" x="221.484012" y="43.697913" style="fill: #9b4dca; fill-opacity: 0.45; stroke: #9b4dca; stroke-opacity: 0.45"/>
+     <use xlink:href="#m0a97bd5fd5" x="276.047391" y="56.857078" style="fill: #9b4dca; fill-opacity: 0.45; stroke: #9b4dca; stroke-opacity: 0.45"/>
+     <use xlink:href="#m0a97bd5fd5" x="333.202171" y="37.11833" style="fill: #9b4dca; fill-opacity: 0.45; stroke: #9b4dca; stroke-opacity: 0.45"/>
+     <use xlink:href="#m0a97bd5fd5" x="402.59412" y="96.334574" style="fill: #9b4dca; fill-opacity: 0.45; stroke: #9b4dca; stroke-opacity: 0.45"/>
+     <use xlink:href="#m0a97bd5fd5" x="457.157499" y="37.11833" style="fill: #9b4dca; fill-opacity: 0.45; stroke: #9b4dca; stroke-opacity: 0.45"/>
+     <use xlink:href="#m0a97bd5fd5" x="509.849311" y="50.277496" style="fill: #9b4dca; fill-opacity: 0.45; stroke: #9b4dca; stroke-opacity: 0.45"/>
+     <use xlink:href="#m0a97bd5fd5" x="565.852357" y="63.436661" style="fill: #9b4dca; fill-opacity: 0.45; stroke: #9b4dca; stroke-opacity: 0.45"/>
+     <use xlink:href="#m0a97bd5fd5" x="622.143337" y="43.697913" style="fill: #9b4dca; fill-opacity: 0.45; stroke: #9b4dca; stroke-opacity: 0.45"/>
+    </g>
+   </g>
+   <g id="line2d_31">
+    <path d="M 678.578283 129.232487 
+" clip-path="url(#p24cb9d9000)" style="fill: none; stroke: #9b4dca; stroke-width: 2; stroke-linecap: square"/>
+    <defs>
+     <path id="maac0268f0b" d="M 0 1.75 
+C 0.464105 1.75 0.909265 1.565609 1.237437 1.237437 
+C 1.565609 0.909265 1.75 0.464105 1.75 0 
+C 1.75 -0.464105 1.565609 -0.909265 1.237437 -1.237437 
+C 0.909265 -1.565609 0.464105 -1.75 0 -1.75 
+C -0.464105 -1.75 -0.909265 -1.565609 -1.237437 -1.237437 
+C -1.565609 -0.909265 -1.75 -0.464105 -1.75 0 
+C -1.75 0.464105 -1.565609 0.909265 -1.237437 1.237437 
+C -0.909265 1.565609 -0.464105 1.75 0 1.75 
+z
+" style="stroke: #9b4dca"/>
+    </defs>
+    <g clip-path="url(#p24cb9d9000)">
+     <use xlink:href="#maac0268f0b" x="678.578283" y="129.232487" style="fill: #9b4dca; stroke: #9b4dca"/>
+    </g>
+   </g>
+   <g id="line2d_32">
+    <path d="M 276.047391 162.1304 
+L 276.047391 10.8 
+" clip-path="url(#p24cb9d9000)" style="fill: none; stroke-dasharray: 1,1.65; stroke-dashoffset: 0; stroke: #999999"/>
+   </g>
+   <g id="line2d_33">
+    <path d="M 608.322534 162.1304 
+L 608.322534 10.8 
+" clip-path="url(#p24cb9d9000)" style="fill: none; stroke-dasharray: 1,1.65; stroke-dashoffset: 0; stroke: #999999"/>
+   </g>
+   <g id="line2d_34">
+    <path d="M 636.252073 162.1304 
+L 636.252073 10.8 
+" clip-path="url(#p24cb9d9000)" style="fill: none; stroke-dasharray: 1,1.65; stroke-dashoffset: 0; stroke: #999999"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 35.522227 162.1304 
+L 709.2 162.1304 
+" style="fill: none; stroke: #bbbbbb; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_20">
+    <!--  new #2 -->
+    <g style="fill: #666666" transform="translate(276.047391 26.590998) scale(0.07 -0.07)">
+     <defs>
+      <path id="Inter-Regular-307" d="M 1056 2094 
+C 1056 2691 1434 3031 1938 3031 
+C 2425 3031 2725 2709 2725 2172 
+L 2725 0 
+L 3288 0 
+L 3288 2219 
+C 3288 3103 2813 3538 2106 3538 
+C 1638 3538 1263 3341 1038 2847 
+L 1034 3494 
+L 494 3494 
+L 494 0 
+L 1056 0 
+L 1056 2094 
+z
+" transform="scale(0.015625)"/>
+      <path id="Inter-Regular-267" d="M 1963 -75 
+C 2678 -75 3200 284 3363 813 
+L 2819 963 
+C 2688 606 2378 425 1966 425 
+C 1347 425 922 825 894 1556 
+L 3419 1556 
+L 3419 1791 
+C 3419 3081 2638 3538 1897 3538 
+C 944 3538 325 2791 325 1719 
+C 325 644 950 -75 1963 -75 
+z
+M 897 2031 
+C 931 2566 1297 3038 1897 3038 
+C 2472 3038 2794 2625 2847 2031 
+L 897 2031 
+z
+" transform="scale(0.015625)"/>
+      <path id="Inter-Regular-3da" d="M 1278 0 
+L 1838 0 
+L 2291 1581 
+C 2403 1972 2513 2409 2619 2853 
+C 2725 2406 2831 1981 2947 1581 
+L 3400 0 
+L 3959 0 
+L 5019 3494 
+L 4422 3494 
+L 3997 1969 
+C 3891 1588 3775 1147 3659 613 
+C 3550 1153 3438 1597 3338 1969 
+L 2925 3494 
+L 2325 3494 
+L 1906 1969 
+C 1800 1581 1688 1134 1575 603 
+C 1459 1159 1341 1603 1241 1969 
+L 816 3494 
+L 219 3494 
+L 1278 0 
+z
+" transform="scale(0.015625)"/>
+      <path id="Inter-Regular-5af" d="M 2222 0 
+L 2700 0 
+L 2909 1284 
+L 3594 1284 
+L 3672 1753 
+L 2988 1753 
+L 3175 2897 
+L 3869 2897 
+L 3941 3372 
+L 3253 3372 
+L 3463 4656 
+L 2991 4656 
+L 2778 3372 
+L 1616 3372 
+L 1825 4656 
+L 1353 4656 
+L 1144 3372 
+L 459 3372 
+L 381 2897 
+L 1066 2897 
+L 878 1753 
+L 184 1753 
+L 106 1284 
+L 800 1284 
+L 591 0 
+L 1063 0 
+L 1272 1284 
+L 2434 1284 
+L 2222 0 
+z
+M 1350 1753 
+L 1538 2897 
+L 2700 2897 
+L 2513 1753 
+L 1350 1753 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#Inter-Regular-6eb"/>
+     <use xlink:href="#Inter-Regular-307" transform="translate(28.125 0)"/>
+     <use xlink:href="#Inter-Regular-267" transform="translate(87.203125 0)"/>
+     <use xlink:href="#Inter-Regular-3da" transform="translate(143.6875 0)"/>
+     <use xlink:href="#Inter-Regular-6eb" transform="translate(225.53125 0)"/>
+     <use xlink:href="#Inter-Regular-5af" transform="translate(253.65625 0)"/>
+     <use xlink:href="#Inter-Regular-541" transform="translate(316.984375 0)"/>
+    </g>
+   </g>
+   <g id="text_21">
+    <!--  new #1/#3 -->
+    <g style="fill: #666666" transform="translate(608.322534 18.037541) scale(0.07 -0.07)">
+     <use xlink:href="#Inter-Regular-6eb"/>
+     <use xlink:href="#Inter-Regular-307" transform="translate(28.125 0)"/>
+     <use xlink:href="#Inter-Regular-267" transform="translate(87.203125 0)"/>
+     <use xlink:href="#Inter-Regular-3da" transform="translate(143.6875 0)"/>
+     <use xlink:href="#Inter-Regular-6eb" transform="translate(225.53125 0)"/>
+     <use xlink:href="#Inter-Regular-5af" transform="translate(253.65625 0)"/>
+     <use xlink:href="#Inter-Regular-540" transform="translate(316.984375 0)"/>
+     <use xlink:href="#Inter-Regular-5b1" transform="translate(357.65625 0)"/>
+     <use xlink:href="#Inter-Regular-5af" transform="translate(393.6875 0)"/>
+     <use xlink:href="#Inter-Regular-543" transform="translate(457.015625 0)"/>
+    </g>
+   </g>
+   <g id="text_22">
+    <!--  new #4 -->
+    <g style="fill: #666666" transform="translate(636.252073 26.590998) scale(0.07 -0.07)">
+     <use xlink:href="#Inter-Regular-6eb"/>
+     <use xlink:href="#Inter-Regular-307" transform="translate(28.125 0)"/>
+     <use xlink:href="#Inter-Regular-267" transform="translate(87.203125 0)"/>
+     <use xlink:href="#Inter-Regular-3da" transform="translate(143.6875 0)"/>
+     <use xlink:href="#Inter-Regular-6eb" transform="translate(225.53125 0)"/>
+     <use xlink:href="#Inter-Regular-5af" transform="translate(253.65625 0)"/>
+     <use xlink:href="#Inter-Regular-544" transform="translate(316.984375 0)"/>
+    </g>
+   </g>
+   <g id="patch_4">
+    <path d="M 646.600076 139.57406 
+Q 661.638656 134.710668 676.677235 129.847275 
+" style="fill: none; stroke: #888888; stroke-width: 0.7; stroke-linecap: round"/>
+   </g>
+   <g id="text_23">
+    <!-- likely cold check -->
+    <g style="fill: #666666" transform="translate(597.956931 148.971235) scale(0.07 -0.07)">
+     <defs>
+      <path id="Inter-Italic-2c3" d="M 1538 4656 
+L 975 4656 
+L 203 0 
+L 766 0 
+L 1538 4656 
+z
+" transform="scale(0.015625)"/>
+      <path id="Inter-Italic-293" d="M 206 0 
+L 769 0 
+L 1347 3494 
+L 784 3494 
+L 206 0 
+z
+M 1166 4066 
+C 1375 4066 1584 4228 1619 4441 
+C 1653 4653 1491 4809 1288 4809 
+C 1066 4809 869 4638 834 4438 
+C 800 4238 944 4066 1166 4066 
+z
+" transform="scale(0.015625)"/>
+      <path id="Inter-Italic-2ba" d="M 203 0 
+L 766 0 
+L 978 1288 
+L 1403 1634 
+L 2413 0 
+L 3134 0 
+L 1894 1994 
+L 3603 3494 
+L 2906 3494 
+L 1159 1953 
+L 1091 1953 
+L 1538 4656 
+L 975 4656 
+L 203 0 
+z
+" transform="scale(0.015625)"/>
+      <path id="Inter-Italic-248" d="M 1672 -75 
+C 2363 -75 2959 266 3219 816 
+L 2697 963 
+C 2519 628 2150 422 1706 422 
+C 1066 422 834 825 834 1338 
+C 834 1397 838 1459 844 1522 
+C 2572 1541 3313 1853 3313 2616 
+C 3313 3197 2875 3569 2200 3569 
+C 1144 3569 294 2559 294 1334 
+C 294 450 809 -75 1672 -75 
+z
+M 919 1947 
+C 1075 2516 1456 3069 2144 3069 
+C 2506 3069 2750 2894 2750 2628 
+C 2750 2125 2316 1959 919 1947 
+z
+" transform="scale(0.015625)"/>
+      <path id="Inter-Italic-3c9" d="M -59 -1266 
+C -3 -1297 153 -1331 338 -1331 
+C 834 -1331 1216 -1075 1519 -522 
+L 3719 3494 
+L 3078 3494 
+L 1988 1422 
+C 1828 1119 1697 816 1569 525 
+C 1541 816 1509 1119 1450 1422 
+L 1047 3494 
+L 459 3494 
+L 1213 -19 
+L 1066 -309 
+C 816 -803 563 -872 219 -791 
+L 166 -778 
+L -59 -1266 
+z
+" transform="scale(0.015625)"/>
+      <path id="Inter-Italic-6cc" transform="scale(0.015625)"/>
+      <path id="Inter-Italic-22c" d="M 1650 -75 
+C 2328 -75 2922 291 3209 906 
+L 2691 1088 
+C 2528 709 2147 428 1663 428 
+C 1094 428 856 838 856 1359 
+C 856 2134 1316 3034 2166 3034 
+C 2613 3034 2866 2791 2909 2434 
+L 3459 2556 
+C 3369 3163 2872 3538 2178 3538 
+C 1006 3538 294 2459 294 1353 
+C 294 488 806 -75 1650 -75 
+z
+" transform="scale(0.015625)"/>
+      <path id="Inter-Italic-2f9" d="M 1650 -75 
+C 2809 -75 3541 984 3541 2106 
+C 3541 2981 3022 3538 2178 3538 
+C 1009 3538 294 2463 294 1353 
+C 294 488 806 -75 1650 -75 
+z
+M 1663 428 
+C 1097 428 856 834 856 1359 
+C 856 2134 1316 3034 2163 3034 
+C 2734 3034 2975 2625 2975 2094 
+C 2975 1325 2522 428 1663 428 
+z
+" transform="scale(0.015625)"/>
+      <path id="Inter-Italic-237" d="M 1538 -75 
+C 2188 -75 2475 322 2625 541 
+L 2684 541 
+L 2591 0 
+L 3138 0 
+L 3909 4656 
+L 3344 4656 
+L 3056 2919 
+L 3019 2919 
+C 2928 3113 2766 3538 2072 3538 
+C 956 3538 294 2428 294 1328 
+C 294 459 775 -75 1538 -75 
+z
+M 1638 428 
+C 1109 428 863 816 863 1359 
+C 863 2150 1306 3034 2138 3034 
+C 2659 3034 2909 2691 2909 2144 
+C 2909 1350 2475 428 1638 428 
+z
+" transform="scale(0.015625)"/>
+      <path id="Inter-Italic-280" d="M 1113 2094 
+C 1213 2697 1653 3031 2147 3031 
+C 2631 3031 2888 2716 2797 2172 
+L 2434 0 
+L 3000 0 
+L 3369 2219 
+C 3516 3103 3081 3538 2375 3538 
+C 1928 3538 1547 3359 1244 2891 
+L 1538 4656 
+L 975 4656 
+L 203 0 
+L 766 0 
+L 1113 2094 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#Inter-Italic-2c3"/>
+     <use xlink:href="#Inter-Italic-293" transform="translate(24.21875 0)"/>
+     <use xlink:href="#Inter-Italic-2ba" transform="translate(48.484375 0)"/>
+     <use xlink:href="#Inter-Italic-248" transform="translate(101.171875 0)"/>
+     <use xlink:href="#Inter-Italic-2c3" transform="translate(158.734375 0)"/>
+     <use xlink:href="#Inter-Italic-3c9" transform="translate(183.4375 0)"/>
+     <use xlink:href="#Inter-Italic-6cc" transform="translate(239.640625 0)"/>
+     <use xlink:href="#Inter-Italic-22c" transform="translate(267.765625 0)"/>
+     <use xlink:href="#Inter-Italic-2f9" transform="translate(324.9375 0)"/>
+     <use xlink:href="#Inter-Italic-2c3" transform="translate(384.953125 0)"/>
+     <use xlink:href="#Inter-Italic-237" transform="translate(409.171875 0)"/>
+     <use xlink:href="#Inter-Italic-6cc" transform="translate(470.453125 0)"/>
+     <use xlink:href="#Inter-Italic-22c" transform="translate(498.578125 0)"/>
+     <use xlink:href="#Inter-Italic-280" transform="translate(555.75 0)"/>
+     <use xlink:href="#Inter-Italic-248" transform="translate(614.875 0)"/>
+     <use xlink:href="#Inter-Italic-22c" transform="translate(672.4375 0)"/>
+     <use xlink:href="#Inter-Italic-2ba" transform="translate(729.609375 0)"/>
+    </g>
+   </g>
+   <g id="legend_1">
+    <g id="line2d_35">
+     <path d="M 41.822227 194.064435 
+L 48.822227 194.064435 
+L 55.822227 194.064435 
+" style="fill: none; stroke: #2c6fbb; stroke-width: 2; stroke-linecap: square"/>
+    </g>
+    <g id="text_24">
+     <!-- #1 -->
+     <g transform="translate(61.422227 196.514435) scale(0.07 -0.07)">
+      <use xlink:href="#Inter-Regular-5af"/>
+      <use xlink:href="#Inter-Regular-540" transform="translate(63.328125 0)"/>
+     </g>
+    </g>
+    <g id="line2d_36">
+     <path d="M 82.702227 194.064435 
+L 89.702227 194.064435 
+L 96.702227 194.064435 
+" style="fill: none; stroke: #d9822b; stroke-width: 2; stroke-linecap: square"/>
+    </g>
+    <g id="text_25">
+     <!-- #2 -->
+     <g transform="translate(102.302227 196.514435) scale(0.07 -0.07)">
+      <use xlink:href="#Inter-Regular-5af"/>
+      <use xlink:href="#Inter-Regular-541" transform="translate(63.328125 0)"/>
+     </g>
+    </g>
+    <g id="line2d_37">
+     <path d="M 125.004102 194.064435 
+L 132.004102 194.064435 
+L 139.004102 194.064435 
+" style="fill: none; stroke: #3a9d5d; stroke-width: 2; stroke-linecap: square"/>
+    </g>
+    <g id="text_26">
+     <!-- #3 -->
+     <g transform="translate(144.604102 196.514435) scale(0.07 -0.07)">
+      <use xlink:href="#Inter-Regular-5af"/>
+      <use xlink:href="#Inter-Regular-543" transform="translate(63.328125 0)"/>
+     </g>
+    </g>
+    <g id="line2d_38">
+     <path d="M 167.360664 194.064435 
+L 174.360664 194.064435 
+L 181.360664 194.064435 
+" style="fill: none; stroke: #9b4dca; stroke-width: 2; stroke-linecap: square"/>
+    </g>
+    <g id="text_27">
+     <!-- #4 -->
+     <g transform="translate(186.960664 196.514435) scale(0.07 -0.07)">
+      <use xlink:href="#Inter-Regular-5af"/>
+      <use xlink:href="#Inter-Regular-544" transform="translate(63.328125 0)"/>
+     </g>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p24cb9d9000">
+   <rect x="35.522227" y="10.8" width="673.677773" height="151.3304"/>
+  </clipPath>
+ </defs>
+</svg>
+</div>
+  <p class="count" id="c-comp"></p>
+  <div class="scroll"><table><thead><tr><th class="nw">Date</th><th class="nw">Tach</th><th>#1</th><th>#2</th><th>#3</th><th>#4</th><th class="hn">Shop</th><th class="hn">Note</th><th class="hn">Record</th></tr></thead><tbody id="b-comp"></tbody></table></div>
+</section>
+
+<section class="card">
+  <div class="sec-head"><h2>Blackstone oil analysis</h2></div>
+  <p class="note">One row per report found in Savvy or the legacy records. "Lab says" is Claude's paraphrase of Blackstone's comments. * Make-up oil not reported; estimated at 5 hours per quart of hours on oil. † Sum of ForeFlight "Oil Added (qt)" entries from the oil change to the sample — only logged adds are counted. Mid-term shows the last three reports.</p>
+  <p class="count" id="c-bs"></p>
+  <div class="scroll"><table><thead><tr><th class="nw">Sample date</th><th class="nw">Engine hrs</th><th class="nw">Hrs on oil</th><th class="nw">Make-up oil</th><th>Lab says</th><th class="hn">Record</th></tr></thead><tbody id="b-bs"></tbody></table></div>
+</section>
+
+<section class="card">
+  <div class="sec-head"><h2>Maintenance history</h2></div>
+  <p class="note">Every parsed logbook entry in Savvy, newest first. Oil analysis reports and parts tags are left out. Mid-term shows entries since the last annual.</p>
+  <p class="count" id="c-hist"></p>
+  <input type="search" id="hsearch" placeholder="Search work, logbook, shop…" aria-label="Search history">
+  <div class="scroll"><table><thead><tr><th class="nw">Date</th><th class="nw">Tach</th><th>Logbook</th><th>Work performed</th><th class="hn">Shop</th><th class="hn">Savvy file</th></tr></thead><tbody id="b-hist"></tbody></table></div>
+</section>
+
+<section class="grid2">
+  <div class="card">
+    <h2>How the tach estimate is made</h2>
+    <p class="note" style="margin-top:4px">Starts from the newest real tach reading — a shop entry, or the Tach End entered in ForeFlight — and adds ForeFlight flight time logged since. Read the tach before relying on it. Flights logged after the last data refresh (10-Nov-2026) are not included.</p>
+    <dl id="method"></dl>
+  </div>
+  <div class="card">
+    <h2>What isn't covered yet</h2>
+    <p class="note" style="margin-top:4px">Pre-2023 history comes from the OCR'd legacy records PDF and the shop entries attached to Savvy tickets; poor pre-2014 scans may hide items. ADs shown are those named in the records plus a targeted search, not a full AD search for the airframe, engine and prop.</p>
+  </div>
+</section>
+
+<footer>N211WP maintenance tracker — read-only snapshot. Compiled with Claude from SavvyMx records and the owner's ForeFlight logbook; not an official maintenance record. Verify against the aircraft logbooks before relying on any item.</footer>
+</main>
+
+<script>
+const DATA = {"ads": [{"ad": "2024-19-08", "category": "Airframe", "subject": "Nose landing gear leg", "status": "Terminated", "detail": "02-Mar-2026: NLG strut replaced (P/N D41-3223-10-00-2); AD says replacement terminates repetitive inspections", "source": "Airframe Annual - 2026.pdf"}, {"ad": "2026-06-03", "category": "Airframe", "subject": "Fuel tank connection hose (supersedes 2020-14-06)", "status": "Needs determination", "detail": "Eff 30-Apr-2026. Applies if a replacement hose P/N D4D-2817-10-70 or BENOLPRESS was installed since 13-Jul-2017. No compliance or N/A entry found.", "source": "Federal Register 2026-05883"}, {"ad": "2022-13-06", "category": "Airframe", "subject": "Baggage nets", "status": "N/A", "detail": "N/A by net type (CVA, 16-Dec-2022)", "source": "Legacy PDF p.61"}, {"ad": "2022-03-15", "category": "Airframe", "subject": "Fuel indication (G3X/GI275)", "status": "N/A", "detail": "No G3X or GI275 installed (CVA, 16-Dec-2022)", "source": "Legacy PDF p.61"}, {"ad": "2014-13-08", "category": "Airframe", "subject": "Aft main spar reinforcement", "status": "Complied", "detail": "17-Feb-2023 @ 2737.4 per Diamond MSB 40-074 (CVA); deadline was 27-Feb-2024", "source": "Legacy PDF p.62"}, {"ad": "2011-21-10", "category": "Airframe", "subject": "Vapor cycle A/C compressor & mount", "status": "N/A", "detail": "STC not installed (2015, 2018 AD reports)", "source": "Legacy PDF p.164, p.169"}, {"ad": "2010-25-01", "category": "Airframe", "subject": "Rear passenger door retaining bracket", "status": "Complied", "detail": "21-May-2011 @ 416.1", "source": "Legacy PDF p.164"}, {"ad": "2009-10-04", "category": "Airframe", "subject": "Nose landing gear leg", "status": "Superseded", "detail": "Was terminated per MSB 40-046 (2012); superseded by 2024-19-08", "source": "Legacy PDF p.164"}, {"ad": "2009-07-14", "category": "Airframe", "subject": "Wing skin adhesive joints", "status": "Complied", "detail": "20-May-2009 @ 186.3", "source": "Legacy PDF p.164"}, {"ad": "2007-11-21", "category": "Airframe", "subject": "Fuel selector universal joint", "status": "N/A", "detail": "By serial number", "source": "Legacy PDF p.164"}, {"ad": "2006-23-04", "category": "Airframe", "subject": "Fuel system contamination", "status": "N/A", "detail": "By serial number", "source": "Legacy PDF p.164"}, {"ad": "2026-22-06", "category": "Airframe", "subject": "Passenger door latching & safety hook (supersedes NPRM FAA-2026-4633)", "status": "Open", "detail": "Eff 07-Dec-2026. Insert AFM TR-MAM-40-1203 (owner may do; log per 43.9(a)/91.417(a)(2)(v)) and do the initial door inspection, handle-force check and placards per WI-MSB 40-103 Rev 2 — within 100 hr TIS or 100 days after the effective date (17-Mar-2027, calculated), whichever first. Gas spring: 100-hr re-checks until replaced within 12 months, or replace before further flight, depending on force readings. Credit for earlier MSB 40-103 Rev 0/1 work. FAA calls it interim. Requirements from the NPRM text; final rule not read in full.", "source": "Federal Register 2026-22310 (final); 2026-09574 (NPRM)"}, {"ad": "2015-19-07", "category": "Engine", "subject": "Fuel injector lines & clamps", "status": "Recurring", "detail": "Every 100 hr (≤110). Last 02-Mar-2026 @ 3140.3; on 03-Nov-2026 work order", "source": "Engine Annual - 2026.pdf"}, {"ad": "2026-04-11", "category": "Engine", "subject": "Connecting rod bushings (supersedes 2024-21-02)", "status": "Needs determination", "detail": "Eff 08-Apr-2026. Parts shipped 30-Jan-2009 to 09-Sep-2021. Engine new 2008, so likely N/A unless rods/bushings were replaced; no determination found. If applicable: oil filter/screen check at each oil change.", "source": "Federal Register 2026-04281"}, {"ad": "2026-17-10", "category": "Engine", "subject": "Piston pins (LW-13445)", "status": "N/A", "detail": "Applies to O-235, O-540, IO-540 only", "source": "Federal Register 2026-17584"}, {"ad": "2017-16-11", "category": "Engine", "subject": "Connecting rod small-end bushings", "status": "N/A", "detail": "By engine date (2018 AD report)", "source": "Legacy PDF p.170"}, {"ad": "2012-19-01", "category": "Engine", "subject": "Crankshaft replacement", "status": "N/A", "detail": "Per MSB 569A; engine new 2008, crank original", "source": "Legacy PDF p.166"}, {"ad": "2009-02-03", "category": "Engine", "subject": "RSA servo plug gasket", "status": "Terminated", "detail": "19-May-2008, gasket P/N 2577258", "source": "Legacy PDF p.166"}, {"ad": "2004-10-14", "category": "Engine", "subject": "Crankshaft gear retaining bolt", "status": "Conditional", "detail": "Due only after a prop strike / sudden stoppage", "source": "Legacy PDF p.166"}, {"ad": "2015-02-07", "category": "Engine", "subject": "Prop governor shaft set screws", "status": "Conditional", "detail": "At each governor set-screw installation", "source": "Legacy PDF p.167"}, {"ad": "2022-18-02", "category": "Propeller", "subject": "MT propeller blades", "status": "N/A", "detail": "By serial number (CVA, 16-Dec-2022)", "source": "Legacy PDF p.61"}, {"ad": "2007-26-13", "category": "Propeller", "subject": "Leading edge erosion sheaths", "status": "N/A", "detail": "By manufacture date — evaluated for the old prop S/N 080010 (2018 report); not re-evaluated for S/N 201494", "source": "Legacy PDF p.170"}, {"ad": "2017-11-11", "category": "Appliance", "subject": "NavWorx ADS600-B", "status": "N/A", "detail": "No NavWorx installed", "source": "Legacy PDF p.170"}, {"ad": "2017-04-06", "category": "Appliance", "subject": "United Instruments 5934-series altimeter diaphragm", "status": "Needs determination", "detail": "Affects certain 5934-series altimeters (United SB 13: made Jan-2015 to Feb-2016). N211WP standby altimeter is a United 5934PD-3 S/N 463764 — likely original 2008 unit, so probably N/A; no entry found.", "source": "Diamond SI40-158 / SI40-154 (portal list)"}], "blackstone": [{"sample_date": "2019-04-17", "unit_hrs": 2064, "oil_hrs": 50, "makeup": "9 qt", "lab_says": "Earlier highlight gone; wear metals good. Make-up oil rising (9 qt/50 hr vs 7 qt/59 hr) — watch for an oil-control-ring issue.", "source": "Legacy p.112"}, {"sample_date": "2019-07-25", "unit_hrs": 2153, "oil_hrs": 48, "makeup": "9 qt", "lab_says": "Metals a bit higher but not excessive for the run; no fuel/water; good report.", "source": "Legacy p.116"}, {"sample_date": "2019-10-16", "unit_hrs": 2211, "oil_hrs": 59, "makeup": "11.8 qt*", "lab_says": "Wear held steady or improved on a longer run; oil and filtration fine.", "source": "Legacy p.118"}, {"sample_date": "2021-03-15", "unit_hrs": 2429, "oil_hrs": 33, "makeup": "6 qt", "lab_says": "Lower metals on a short run; nothing troubling; viscosity in range.", "source": "Legacy p.128"}, {"sample_date": "2023-08-28", "unit_hrs": 2798, "oil_hrs": 44, "makeup": "9 qt", "lab_says": "Viscosity a bit thick for W100; wear metals steady; no contamination.", "source": "Legacy p.138 / Savvy"}, {"sample_date": "2024-03-27", "unit_hrs": 2906, "oil_hrs": 70, "makeup": "14 qt†", "lab_says": "Copper jumped — wear-in, or brass/bronze wear (bushing/bearing). Viscosity thick.", "source": "Savvy: Oil Report-Apr-2024.pdf · make-up: ForeFlight Oil Added, oil change 09-Jan-2024 to sample"}, {"sample_date": "2024-07-24", "unit_hrs": 2935, "oil_hrs": 29, "makeup": "3 qt†", "lab_says": "Copper back to typical; other metals in line; no contamination.", "source": "Savvy: Oil Report-Aug-2024.pdf · make-up: ForeFlight Oil Added, oil change 24-Apr-2024 to sample"}, {"sample_date": "2025-01-20", "unit_hrs": 3017, "oil_hrs": 33, "makeup": "3 qt†", "lab_says": "Break-in residue from new #1/#3 cylinders; silicon from assembly sealers; recheck next service.", "source": "Savvy: Oil Report-Feb-2025.pdf · make-up: ForeFlight Oil Added, oil change 11-Nov-2024 to sample"}, {"sample_date": "2026-02-10", "unit_hrs": 3131, "oil_hrs": 25, "makeup": "1 qt†", "lab_says": "Metals and silicon lower, but less progress than hoped; iron up per hour. Watch temps, filter; consider borescope/compression; recheck ~25 hr.", "source": "Savvy: Oil Report-Feb-2026.pdf · make-up: ForeFlight Oil Added, oil change 22-Oct-2025 to sample"}, {"sample_date": "2026-06-17", "unit_hrs": 3195, "oil_hrs": 64, "makeup": "6 qt", "lab_says": "Still more metal than typical IO-360-M1A, but a big improvement; only aluminum rose. ~1 qt/10 hr. Monitor temps and filter.", "source": "Savvy: Oil Report-Jul-2026.pdf · ForeFlight Oil Added agrees (6 qt)"}], "comp": [{"date": "2014-07-09", "tach": 763.1, "shop": "Silverhawk (LNK)", "c1": 74, "c2": 74, "c3": 74, "c4": 76, "note": "", "source": "Legacy p.24", "annotation": ""}, {"date": "2015-06-12", "tach": 882.9, "shop": "Sierra Aero", "c1": 77, "c2": 77, "c3": 77, "c4": 78, "note": "", "source": "Legacy p.85", "annotation": ""}, {"date": "2016-06-20", "tach": 1137.7, "shop": "Sierra Aero", "c1": 76, "c2": 77, "c3": 78, "c4": 76, "note": "", "source": "Legacy p.31", "annotation": ""}, {"date": "2017-06-22", "tach": 1418.5, "shop": "Above All", "c1": 78, "c2": 78, "c3": 78, "c4": 78, "note": "", "source": "Legacy p.36", "annotation": ""}, {"date": "2018-07-06", "tach": 1800.0, "shop": "Sierra Aero", "c1": 79, "c2": 0, "c3": 77, "c4": 76, "note": "#2 at 0 → replaced same day. #4 written '76/90' in the entry.", "source": "Legacy p.104", "annotation": ""}, {"date": "2019-08-07", "tach": 2152.5, "shop": "Sierra Aero", "c1": 75, "c2": 79, "c3": 79, "c4": 79, "note": "", "source": "Legacy p.115", "annotation": ""}, {"date": "2020-12-01", "tach": 2395.7, "shop": "Sierra Aero", "c1": 75, "c2": 78, "c3": 79, "c4": 70, "note": "", "source": "Savvy ticket #59797 (WO_2433)", "annotation": ""}, {"date": "2021-12-15", "tach": 2558.2, "shop": "Coastal Valley", "c1": 78, "c2": 79, "c3": 79, "c4": 79, "note": "", "source": "Legacy p.131", "annotation": ""}, {"date": "2022-12-16", "tach": 2714.3, "shop": "Coastal Valley", "c1": 78, "c2": 75, "c3": 65, "c4": 77, "note": "", "source": "Legacy p.61", "annotation": ""}, {"date": "2024-01-09", "tach": 2836.3, "shop": "Coastal Valley", "c1": 75, "c2": 74, "c3": 69, "c4": 75, "note": "", "source": "Savvy: Engine Annual - 2024.pdf", "annotation": ""}, {"date": "2025-02-03", "tach": 3017.3, "shop": "Coastal Valley", "c1": 77, "c2": 76, "c3": 78, "c4": 78, "note": "#1, #3 new since last test", "source": "Savvy: Engine Annual - 2025.pdf", "annotation": ""}, {"date": "2026-03-02", "tach": 3140.3, "shop": "Coastal Valley", "c1": 74, "c2": 67, "c3": 73, "c4": 65, "note": "#4 new since last test. Likely cold check (inferred: warm-up run 09-Feb afternoon, oil sample dated 10-Feb).", "source": "Savvy: Engine Annual - 2026.pdf", "annotation": "likely cold check"}], "cyl": [{"cyl": "#1", "installed": "2024-10-30", "tach_at_install": 2974.8, "shop": "Coastal Valley", "source": "Savvy: Cyl #1 and #3 replacement and Oil change.pdf"}, {"cyl": "#2", "installed": "2018-07-06", "tach_at_install": 1800.0, "shop": "Sierra Aero (Truckee)", "source": "Legacy records PDF p.104, WO_1191"}, {"cyl": "#3", "installed": "2024-10-30", "tach_at_install": 2974.8, "shop": "Coastal Valley", "source": "Savvy: Cyl #1 and #3 replacement and Oil change.pdf"}, {"cyl": "#4", "installed": "2025-05-12", "tach_at_install": 3049.2, "shop": "Coastal Valley", "source": "Savvy: Cyl#4 replacement and oil change.pdf"}], "oil": {"event": "Oil change", "date": "2026-11-06", "tach": 3241.7, "limit_tach": 3341.7, "max_tach": 3351.7, "target_hrs": 50}, "tach_hobbs": [{"date": "2022-12-20", "tach": 2716.6, "hobbs": 3193.4}, {"date": "2026-01-28", "tach": 3139.9, "hobbs": 3699.8}, {"date": "2026-11-09", "tach": 3242.1, "hobbs": 3821.0}], "flights": [{"date": "2026-11-09", "route": "KSMX→KSBA", "minutes": 42, "source": "ForeFlight logbook"}], "sq_overrides": ["2026-04-17", "2026-04-26", "2026-05-07", "2026-05-13", "2026-07-12", "2026-09-16"], "due": [{"id": "annual", "item": "Annual inspection (airframe, engine, prop)", "category": "Inspection", "last_done": "2026-03-02", "next_due_date": "2027-03-31", "next_due_tach": null, "basis": "14 CFR 91.409(a): within preceding 12 calendar months (looked up, eCFR/Cornell)", "note": "Scheduled 22-Mar-2027 at Coastal Valley (per Wayne), 9 days inside the 31-Mar-2027 deadline."}, {"id": "elt_insp", "item": "ELT inspection", "category": "Inspection", "last_done": "2026-03-02", "next_due_date": "2027-03-31", "next_due_tach": null, "basis": "14 CFR 91.207(d): within 12 calendar months of last inspection (looked up)", "note": "Do with the annual scheduled 22-Mar-2027 at Coastal Valley."}, {"id": "elt_batt", "item": "ELT battery expiration", "category": "Inspection", "last_done": "2020-12-01", "next_due_date": "2027-08-31", "next_due_tach": null, "basis": "14 CFR 91.207(c) (looked up); AMM 05-10-00 §3.B: replace at date marked on ELT, after 1 hr cumulative use, or after use", "note": "Expiry date from the shop entry; confirm against the label on the ELT."}, {"id": "pitot_static", "item": "Altimeter / static system test", "category": "Inspection", "last_done": "2026-01-28", "next_due_date": "2028-01-31", "next_due_tach": null, "basis": "14 CFR 91.411(a): within preceding 24 calendar months (looked up)", "note": "Tested to 20,000 ft."}, {"id": "xpdr", "item": "Transponder / ADS-B test", "category": "Inspection", "last_done": "2026-01-28", "next_due_date": "2028-01-31", "next_due_tach": null, "basis": "14 CFR 91.413: 24 calendar months (cited in the shop's signoff; interval not separately looked up)", "note": "GTX345R."}, {"id": "ad_2015_19_07", "item": "AD 2015-19-07 fuel injector lines", "category": "AD (repetitive)", "last_done": "2026-11-06", "next_due_date": null, "next_due_tach": 3341.7, "basis": "AD: repeat every 100 hr TIS, not to exceed 110 hr (Federal Register text); log also says 'or annual'", "note": "Entry reads \"Next Due: 3341.07 Tach (100 hrs) or annual\"; 3241.07 was meant as 3241.7 (Wayne: the G1000 shows one decimal), so next due 3341.7. AD allows up to 110 hr (~3351.7)."}, {"id": "ad_2026_22_06", "item": "AD 2026-22-06 passenger door (AFM TR + initial door inspection)", "category": "AD", "last_done": null, "next_due_date": "2027-03-17", "next_due_tach": null, "basis": "AD 2026-22-06 (eff 07-Dec-2026): within 100 hr TIS or 100 days, whichever first; 100-day date calculated. Hour limit = tach on 07-Dec-2026 + 100 (not yet known).", "note": "Scheduled at Absolute Aero (Hayward) 18-Nov-2026 per Savvy ticket. Hour limit = tach on 07-Dec-2026 + 100."}, {"id": "ad_2024_19_08", "item": "AD 2024-19-08 nose landing gear", "category": "AD", "last_done": "2026-03-02", "next_due_date": null, "next_due_tach": null, "basis": "AD: replacement with serviceable part is terminating action for repetitive inspections (FAA/Federal Register text)", "note": "Terminated by strut replacement. Confirm the log entry records it as terminating action."}, {"id": "oil", "item": "Oil & filter change + Blackstone sample", "category": "Service", "last_done": "2026-11-06", "next_due_date": null, "next_due_tach": 3291.7, "basis": "Wayne targets 50 hr between oil changes", "note": "Serviced with 6 qt Aeroshell W100 + Camguard; Blackstone sample mailed (report pending)."}, {"id": "standby_batt", "item": "Standby battery (D60-2560-91-00)", "category": "Component", "last_done": "2026-03-02", "next_due_date": "2028-03-31", "next_due_tach": null, "basis": "AMM Rev 10, 04-00-00 §1.B (Airworthiness Limitation): replace every 2 yr; next due 03/2028 per log", "note": ""}, {"id": "egt3", "item": "EGT3 probe replaced (A002BG-WIP)", "category": "Service", "last_done": "2026-11-06", "next_due_date": null, "next_due_tach": null, "basis": "Squawk 27-Sep-2026 / Savvy ticket 311823", "note": "Watch EGT3 on the next few flights to confirm the fix."}, {"id": "g100ul", "item": "Swift 100R STC placards & paperwork", "category": "Tabled", "last_done": null, "next_due_date": null, "next_due_tach": null, "basis": "Wayne decided 09-Nov-2026 not to install (paperwork-only) the Swift 100R STC: it carries an undesirable statement restricting mixing 100R with other fuels.", "note": "Tabled by Wayne, 09-Nov-2026."}, {"id": "prop_tbo", "item": "MT prop MTV-12-B/183-59B S/N 201494 (installed new ~2020)", "category": "Info", "last_done": null, "next_due_date": null, "next_due_tach": null, "basis": "Overhaul on condition (Wayne)", "note": "Install entry not found; installed ≈ tach 2396 (inferred). ≈845 hr on the prop (calculated)."}, {"id": "engine_tbo", "item": "Engine time since new (IO-360-M1A, original)", "category": "Info", "last_done": null, "next_due_date": null, "next_due_tach": null, "basis": "TSN equals tach in every engine entry checked (e.g. 1800.0 TSN on 06-Jul-2018, 2152.5 on 07-Aug-2019); no overhaul entry found", "note": "TSN ≈ current tach. Overhaul on condition (Wayne)."}, {"id": "exhaust_ica", "item": "Exhaust system (replaced 02-Mar-2026, P/N PFS-33003, new risers #1–4)", "category": "Info", "last_done": "2026-03-02", "next_due_date": null, "next_due_tach": null, "basis": "Power Flow website: clean and lube the four slip joints every 500 hr or annually — done at the annual", "note": "Recent exhaust work: hanger strap 26-Apr-2023, hanger adjusted 30-Oct-2024, tailpipe 03-Feb-2025, full system + risers 02-Mar-2026."}, {"id": "air_filter", "item": "Induction air filter FR-08504", "category": "Info", "last_done": "2021-12-15", "next_due_date": null, "next_due_tach": null, "basis": "AMM Rev 10, 05-28-00 item 18 & 73-00-00: examine at every inspection, replace when dirty or damaged; no fixed hour interval", "note": "Last recorded replacement 15-Dec-2021. On condition."}, {"id": "rh_mag", "item": "RH magneto (Slick 4371, S/N 24095442) — 500-hr inspection", "category": "Component", "last_done": "2025-02-03", "next_due_date": null, "next_due_tach": 3517.3, "basis": "AMM refers to engine/vendor manuals; 500-hr inspection is Champion L-1363 practice (previous RH mag had one Dec-2021)", "note": "Installed 03-Feb-2025."}, {"id": "lh_ign", "item": "LH ignition: Electroair EIS (EA-1000 controller)", "category": "Info", "last_done": "2019-08-07", "next_due_date": null, "next_due_tach": null, "basis": "Sierra Aero entry 07-Aug-2019: removed left magneto, reinstalled owner-supplied Electroair EIS", "note": "Still installed and working well (Wayne, 28-Oct-2026). Later logbook entries mention only the RH magneto."}, {"id": "main_batt", "item": "Main battery Concorde RG24-15M (S/N 70047307) — capacity test", "category": "Component", "last_done": "2025-02-03", "next_due_date": null, "next_due_tach": 4017.3, "basis": "AMM Rev 10, 05-10-00 §3.A: capacity test every 1000 hr (NVFR/IFR) per Concorde CMM", "note": "Battery installed 03-Feb-2025. Wayne reports a load test at the 12-May-2026 alternator replacement; that entry doesn't mention it."}, {"id": "extinguisher", "item": "Portable fire extinguisher (A620)", "category": "Unknown", "last_done": null, "next_due_date": null, "next_due_tach": null, "basis": "Only record: 12-month inspection at 09-Jul-2014 annual (Silverhawk)", "note": "Check the tag on the extinguisher."}, {"id": "tires_brakes", "item": "Tires and brakes (on condition)", "category": "Info", "last_done": "2026-03-02", "next_due_date": null, "next_due_tach": null, "basis": "On condition", "note": "Main tires & tubes 09-Jan-2024; brake linings 02-Mar-2026; discs 15-Dec-2021."}, {"id": "elt_remote", "item": "ELT remote switch battery (ME 406, P/N 453-0023)", "category": "Component", "last_done": "2020-12-01", "next_due_date": "2025-12-01", "next_due_tach": null, "basis": "AMM Rev 10, 05-10-00 §3.A: replace 6 V lithium battery in remote switch every 5 yr", "note": "5-yr interval calculated from the Dec-2020 replacement. No later replacement found."}, {"id": "msi", "item": "Major Structural Inspection (MSI)", "category": "Component", "last_done": "2020-12-01", "next_due_date": "2032-12-01", "next_due_tach": 4395.7, "basis": "Sierra Aero entry 01-Dec-2020: next MSI due 12/2032 or TTAF 4395.7, whichever comes first (AMM 04-00-00 Airworthiness Limitation)", "note": "Using the shop entry's next-due as written (Wayne, 29-Oct-2026). MÄM 40-398, installed 17-Feb-2023, may allow a longer hour interval; ask Rick at the Mar-2027 annual."}], "flags": [{"id": "f24", "priority": "Medium", "issue": "New AD 2026-22-06 (passenger door) — due by 17-Mar-2027", "detail": "Final rule published 02-Nov-2026, effective 07-Dec-2026, all DA 40s. AFM temporary revision plus initial door/safety-hook inspection, handle-force measurement and placards per MSB 40-103 Rev 2; possible gas-spring replacement. 100 hr TIS or 100 days after effective date, whichever first. The 22-Mar-2027 annual is too late. Estimate (FAA tables + MSB II.3): 3 hr and ~$76 parts if it passes; up to 12 hr and ~$1,436 parts if gas spring, hook, retaining block, guide blocks and sealant are all replaced. WI step 20(g) cites 'RSB 40-093' — a typo for RSB 40-083 / D4-105 / 40NG-053 (companion numbers match; SB 40-093 is baggage nets). RSB 40-083 (Recommended, 2017) replaces the steel pin of the canopy and passenger door handle gas-spring mechanisms: 2 hr per door, applies to S/N 40.561–40.1206 (includes 40.922); no compliance record found.", "action": "Wayne looking at Absolute Aero (Hayward, Diamond Service Center). MSB allows any certified mechanic; a DSC is needed only for warranty credit, but helps if a 'contact Diamond' finding comes up. Ask the shop: which latch version 40.922 has (MÄM 40-139 or older), whether RSB 40-083 was ever done, and a quote to do it concurrently (~4 hr, both doors). Work to MSB Rev 2 before 07-Dec counts. Insert the AFM TR and log it."}, {"id": "f2", "priority": "Medium", "issue": "2026 engine annual 'Next Due' looks wrong", "detail": "Parsed text says 'Next Due: 3140.3 Tach' — same as the inspection tach. 2024/2025 entries show +100 hr. Could be a shop slip or a transcription error.", "action": "Check the PDF; if the entry itself says 3140.3, ask Rick to correct it."}, {"id": "f5", "priority": "Low", "issue": "Legacy records read (partly)", "detail": "Read 28-Oct-2026 (OCR, 211 pages): found #2 cylinder install, compressions back to 2014, Blackstone reports 2019–2023. Pre-2014 pages are poor scans.", "action": "Ask if you want the rest mined (AD record, prop overhaul history)."}, {"id": "f6", "priority": "Watch", "issue": "Compression and oil trends", "detail": "Compressions fell from 77/76/78/78 (Feb-2025) to 74/67/73/65 (Mar-2026) — likely a cold check (inferred from Savvy run times and the oil sample date). Blackstone (Feb & Jul 2026): wear metals above typical for IO-360-M1A, improving.", "action": "Watch the Blackstone report from the 06-Nov sample; get a warm compression check (with master-orifice reading logged) at the Mar-2027 annual."}, {"id": "f9", "priority": "Medium", "issue": "AD 2026-06-03 (fuel tank hose): no determination logged", "detail": "Effective 30-Apr-2026; for affected aircraft compliance was due within 100 hr / 2 months. Applies to a DA 40 only if a replacement hose of the listed type went in after 13-Jul-2017. No entry either way.", "action": "Not addressed in the 06-Nov-2026 entry. Ask Coastal Valley to determine and log compliance or N/A."}, {"id": "f10", "priority": "Medium", "issue": "AD 2026-04-11 (conn rod bushings): no determination logged", "detail": "Effective 08-Apr-2026; affected parts shipped 30-Jan-2009 to 09-Sep-2021. Engine is from 2008, so probably N/A, but nothing is recorded.", "action": "Not addressed in the 06-Nov-2026 entry. Ask Coastal Valley to log N/A (or do the oil-filter/screen check)."}, {"id": "f13", "priority": "Low", "issue": "Last full AD compliance report is from Jul-2018", "detail": "Sierra Aero's AD report (Jul-2018) is the latest comprehensive one; since then only individual ADs are logged. The AD table here is from records plus a targeted search, not a full AD search.", "action": "Ask for a current full AD search (airframe, engine, prop, appliances) at the 2027 annual."}, {"id": "f16", "priority": "Medium", "issue": "Ch 04 1000-hr checks not in the logs", "detail": "Essential bus check and bonding/static-discharge resistance check: Airworthiness Limitations every 1000 hr for NVFR/IFR, normally done as a 1000-hr check (AMM 05-20). TT passed 1000, 2000 and 3000 hr. The 03-Feb-2025 annual (@3017.3) fell inside the 3000-hr window, but it is logged only as an annual.", "action": "Ask Coastal Valley whether the Feb-2025 annual was done as a 1000-hr check; if not, include it at the 2027 annual."}, {"id": "f17", "priority": "Medium", "issue": "ELT remote switch battery likely overdue", "detail": "AMM 05-10: replace the ME 406 remote switch battery every 5 yr. Last replaced 01-Dec-2020 (Sierra Aero WO_2433, found on Savvy ticket #59797) → due Dec-2025.", "action": "Have it replaced and logged (with the main ELT battery check)."}, {"id": "f21", "priority": "Medium", "issue": "Shop log entries on Savvy tickets that aren't in the Savvy logbooks or Legacy Combo", "detail": "Full ticket scan 29-Oct-2026 (May-2015 to date) against the 36 logbook entries and the OCR'd Legacy Combo (07-May-2026). Missing: (1) Advantage Avionics Form 337, 26-Sep-2017 — GTX 345R ADS-B Out (#29081); (2) Above All, 07-Dec-2018 @ 1953.4 — right mag 100-hr, new leads, Electroair harness (#29130); (3) Above All, 18-Jun-2019 @ 2132.7 — EIS lead #2 bottom (#29136); (4) Sierra Aero WO_2433, 01-Dec-2020 @ 2395.7 — annual, MSI, new prop, governor overhaul, ELT batteries (#59797); (5) Avionics & Mx West 21-2891, 01-Mar-2021 — pitch servo (#82388); (6) Coastal Valley, 22-Oct-2025 @ 3115.6 — oil change (#249708); (7) Coastal Valley, 12-May-2026 @ 3179.8 — alternator and voltage regulator (#287380). Also (8) Coastal Valley engine entry 06-Nov-2026 (AD 2015-19-07, oil change, #3 EGT probe) on ticket 311823 — counted as complete in the tracker; Savvy hasn’t filed it yet.", "action": "Full report sent to Savvy; ask them to file all seven."}, {"id": "f22", "priority": "Low", "issue": "Oil change entry dated 24-Apr-2024 is probably 24-Jul-2024", "detail": "The Coastal Valley entry (2935.2 tach) reads 04/24/2024, and Savvy filed it as Apr-2024. Ticket #190575 shows the visit was 24-Jul-2024 (invoice stamped paid 07/24/2024, Blackstone sample 072424). No other entry exists for July. Inferred from the ticket posts.", "action": "Ask Coastal Valley to confirm the date and correct the entry if needed."}, {"id": "f23", "priority": "Low", "issue": "GAMI G100UL STC installed 09-Feb-2023", "detail": "Form 337s for STC SA01967WI (airframe) and SE01966WI (engine), signed by R. Holder IA 17-Feb-2023 (ticket #142855). The Swift 100R STC was tabled by Wayne on 09-Nov-2026 (not installed).", "action": "None needed; listed so both fuel STCs are on record. Confirm the AFM supplement and placards are in the airplane."}], "oncond": [{"id": "engine", "item": "Engine — Lycoming IO-360-M1A (original)", "in_service": "2008", "tach_at_install": 0.0, "last_checked": "2026-03-02", "watch": "Compressions, Blackstone wear metals, oil consumption, borescope findings, CHT/EGT trends", "record": "Legacy PDF p.104, p.115 (TSN = tach in every engine entry); Engine Annual - 2026.pdf (borescope, compressions)", "note": "No overhaul entry found. Hours = time since new. FAT supercharger STC installed Jul-2019, removed 22-Jan-2021 @ 2405.1 (Aero City WO 3902), with new starter ring gear P/N 72566. Cylinders replaced separately (see Cylinders)."}, {"id": "cylinders", "item": "Cylinders", "in_service": "#2 06-Jul-2018 · #1/#3 30-Oct-2024 · #4 12-May-2025", "tach_at_install": null, "last_checked": "2026-03-02", "watch": "Compressions, borescope, CHT/EGT per cylinder", "record": "See the Cylinders section", "note": "Per-cylinder hours are in the Cylinders section."}, {"id": "prop", "item": "Propeller — MT MTV-12-B/183-59B, S/N 201494", "in_service": "2020-12-01", "tach_at_install": 2395.7, "last_checked": "2026-03-02", "watch": "Blade leading-edge erosion and nicks, cracks or delamination, grease leaks, spinner and bulkhead cracks", "record": "Sierra Aero prop entry 01-Dec-2020 @ 2395.7, WO_2433 (Savvy ticket #59797): new MT prop installed, balanced; replaced MTV-12-B S/N 080010. Re-balanced by Aero City 22-Jan-2021.", "note": "Installed new (TSN 0.0)."}, {"id": "governor", "item": "Prop governor — P/N P-860-230, S/N 07G765F", "in_service": "2020-12-01", "tach_at_install": 2395.7, "last_checked": "2025-02-03", "watch": "RPM overspeed or hunting, slow response, oil leaks at the base", "record": "Sierra Aero airframe entry 01-Dec-2020, WO_2433 (ticket #59797): removed, overhauled by American Propeller, reinstalled. Adjusted to 2650 rpm 03-Feb-2025; cable 29-Aug-2023.", "note": "Hours are since that overhaul."}, {"id": "alternator", "item": "Alternator — Hartzell ALU-8521LS, S/N HA041237 (with new VR2000-28-2 voltage regulator, S/N 81259215)", "in_service": "2026-05-12", "tach_at_install": 3179.8, "last_checked": "2026-05-12", "watch": "Bus voltage and ammeter under load, belt condition, brush wear", "record": "Coastal Valley airframe entry 12-May-2026 @ 3179.8 (R. Holder A&P), from Savvy ticket \"alternator question\". Earlier: voltage regulator and brushes 21-Feb-2017 @ 1304.7.", "note": "Installed new; charging system op-checked good. Entry not yet in the Savvy logbooks."}, {"id": "plugs", "item": "Spark plugs", "in_service": null, "tach_at_install": null, "last_checked": "2026-03-02", "watch": "Lead fouling, electrode wear, gap, rpm drop on run-up", "record": "Engine Annual - 2026.pdf (rotated); 14-Apr-2025 bottom #4 cleaned/gapped; plugs serviced 30-Oct-2024 and 03-Feb-2025", "note": "No set-replacement entry found in Savvy."}, {"id": "rh_mag", "item": "RH magneto — Slick 4371, S/N 24095442", "in_service": "2025-02-03", "tach_at_install": 3017.3, "last_checked": "2026-03-02", "watch": "Mag drop on run-up, timing; 500-hr inspection (see Recurring items)", "record": "Engine Annual - 2025.pdf; Engine Annual - 2026.pdf (timed)", "note": "Installed new."}, {"id": "lh_eis", "item": "LH ignition — Electroair EIS (EA-1000)", "in_service": "2019-08-07", "tach_at_install": 2152.5, "last_checked": null, "watch": "Run-up drop, plug and coil condition, timing indications", "record": "Legacy PDF p.114 (Sierra Aero). Electroair harness replaced 07-Dec-2018 (Above All); EIS lead #2 bottom replaced 18-Jun-2019 (Above All) — both entries found only on Savvy tickets.", "note": "Still installed and working well (Wayne)."}, {"id": "starter", "item": "Starter — Hartzell 149-24LS, S/N H-W032931", "in_service": "2022-06-03", "tach_at_install": 2607.0, "last_checked": null, "watch": "Slow or rough cranking, starter adapter leaks", "record": "Avionics & Maintenance West entry 03-Jun-2022, WO 22-3714 (Legacy Combo p.59; also on ticket #118771): replaced failing SkyTec 149-24LS (S/N F4L-241104) with a new-condition serviceable unit. Starter relay replaced 16-May-2022 (Coastal Valley).", "note": "Ring gear replaced Dec-2020 / Jan-2021 (see Engine)."}, {"id": "exhaust", "item": "Exhaust system — Power Flow PFS-33003, new risers #1–4", "in_service": "2026-03-02", "tach_at_install": 3140.3, "last_checked": "2026-03-02", "watch": "Cracks at risers and muffler, slip-joint wear, hanger and tailpipe security", "record": "Airframe Annual - 2026.pdf", "note": "Slip joints cleaned and lubed every 500 hr or annually (Power Flow)."}], "hist": [{"date": "2026-11-06", "tach": 3241.7, "logbook": "Engine", "work": "C/W AD 2015-19-07 fuel injector lines (visual), next due 3341.7 tach (entry reads 3341.07 / 3241.07; one-decimal G1000 value per Wayne) or annual; oil & filter change (6 qt Aeroshell W100 + Camguard); Blackstone sample; #3 EGT probe replaced (A002BG-WIP)", "shop": "Coastal Valley", "file": "McClelland_N211WP_OC_EGT_110626.pdf (Savvy ticket 311823; not in Savvy logbooks yet)"}, {"date": "2026-06-17", "tach": 3204.0, "logbook": "Engine", "work": "Oil & filter change (6 qt W100 + Camguard); Blackstone sample", "shop": "Coastal Valley", "file": "Oil Change-Jun-2026.pdf"}, {"date": "2026-05-12", "tach": 3179.8, "logbook": "Airframe", "work": "Voltage regulator replaced (new VR2000-28-2); alternator replaced (new Hartzell ALU-8521LS); charging system op-checked", "shop": "Coastal Valley", "file": "scan3335.pdf (Savvy ticket \"alternator question\"; not in Savvy logbooks)"}, {"date": "2026-03-02", "tach": 3140.3, "logbook": "Airframe", "work": "Annual. ELT insp; AD 2024-19-08 NLG strut replaced; SB RSB40-094; new exhaust system & risers; nose gear rebound bumper; brake linings; flap bonding strap; standby battery", "shop": "Coastal Valley", "file": "Airframe Annual - 2026.pdf"}, {"date": "2026-03-02", "tach": 3140.3, "logbook": "Engine", "work": "Annual. AD 2015-19-07; compressions 74/67/73/65; oil change & sample; borescope; plugs rotated; drain-back clamps; RH mag timed", "shop": "Coastal Valley", "file": "Engine Annual - 2026.pdf"}, {"date": "2026-03-02", "tach": 3140.3, "logbook": "Propeller", "work": "Annual inspection", "shop": "Coastal Valley", "file": "Prop Annual - 2026.pdf"}, {"date": "2026-01-28", "tach": 3139.9, "logbook": "Airframe", "work": "Altimeter/static & transponder tests (91.411/91.413); correction cards", "shop": "Avionics & Mx West", "file": "IFR Cert.pdf"}, {"date": "2025-10-22", "tach": 3115.6, "logbook": "Engine", "work": "Oil & filter change (6 qt W100 + Camguard)", "shop": "Coastal Valley", "file": "211WP_OC_LogEntry_102225.pdf (Savvy ticket #249708; not in Savvy logbooks)"}, {"date": "2025-06-03", "tach": 3058.6, "logbook": "Engine", "work": "Oil & filter change", "shop": "Coastal Valley", "file": "Oil Change-Jun-2025.pdf"}, {"date": "2025-05-12", "tach": 3049.2, "logbook": "Engine", "work": "#4 cylinder replaced (kit 05K21104); bottom #4 plug; oil change & sample", "shop": "Coastal Valley", "file": "Cyl#4 replacement and oil change.pdf"}, {"date": "2025-04-14", "tach": 3037.4, "logbook": "Engine", "work": "Bottom #4 plug cleaned/gapped/reinstalled", "shop": "Coastal Valley", "file": "Cyl#4-lower-spark-plug.pdf"}, {"date": "2025-02-03", "tach": 3017.3, "logbook": "Airframe", "work": "Annual. ELT insp; AD 2024-19-08 inspection; LH brake caliper resealed; tailpipe replaced; borescope; governor to 2650; main battery (Concorde RG24-15M)", "shop": "Coastal Valley", "file": "Airframe Annual - 2025.pdf"}, {"date": "2025-02-03", "tach": 3017.3, "logbook": "Engine", "work": "Annual. AD 2015-19-07; compressions 77/76/78/78; oil change & sample; RH mag replaced (Slick 4371); plugs", "shop": "Coastal Valley", "file": "Engine Annual - 2025.pdf"}, {"date": "2025-02-03", "tach": 3017.3, "logbook": "Propeller", "work": "Annual inspection", "shop": "Coastal Valley", "file": "Prop Annual - 2025.pdf"}, {"date": "2025-01-01", "tach": 2999.7, "logbook": "Airframe", "work": "Static system leak checks; 91.411/91.413 signoff", "shop": "Avionics & Mx West", "file": "Altimeter, Static System and ATC .pdf"}, {"date": "2024-11-11", "tach": 2984.4, "logbook": "Engine", "work": "Oil & filter change; sealed #1 baffling", "shop": "Coastal Valley", "file": "Oil change and Cyl#1 baffling.pdf"}, {"date": "2024-10-30", "tach": 2974.8, "logbook": "Engine", "work": "#1 and #3 cylinders replaced (kit 05K21104); plugs; mag timing checked; oil change & sample", "shop": "Coastal Valley", "file": "Cyl #1 and #3 replacement and Oil change.pdf"}, {"date": "2024-10-30", "tach": 2974.8, "logbook": "Airframe", "work": "Tail pipe hanger adjusted", "shop": "Coastal Valley", "file": "Tail pipe hanger.pdf"}, {"date": "2024-04-24", "tach": 2935.2, "logbook": "Engine", "work": "Oil & filter change; sample (entry dated 04/24/2024; ticket shows the visit was 24-Jul-2024)", "shop": "Coastal Valley", "file": "Oil Change-Apr-2024.pdf"}, {"date": "2024-03-27", "tach": 2906.2, "logbook": "Engine", "work": "Oil & filter change; sample; borescope (Savvy checklist)", "shop": "Coastal Valley", "file": "Oil change and boro inspection.pdf"}, {"date": "2024-01-09", "tach": 2836.3, "logbook": "Airframe", "work": "Annual. ELT insp; main tires & tubes; brake linings; alternator & battery blast ducts; canopy latch", "shop": "Coastal Valley", "file": "Airframe Annual - 2024.pdf"}, {"date": "2024-01-09", "tach": 2836.3, "logbook": "Engine", "work": "Annual. AD 2015-19-07; compressions 75/74/69/75; oil change; #4 induction & #1 exhaust gaskets", "shop": "Coastal Valley", "file": "Engine Annual - 2024.pdf"}, {"date": "2024-01-09", "tach": 2836.3, "logbook": "Propeller", "work": "Annual inspection", "shop": "Coastal Valley", "file": "Prop Annual - 2024.pdf"}, {"date": "2023-08-29", "tach": 2798.4, "logbook": "Engine", "work": "Borescope (no abnormality); oil change & sample", "shop": "Coastal Valley", "file": "Borescope and Oil Analysis.pdf"}, {"date": "2023-08-29", "tach": 2798.4, "logbook": "Airframe", "work": "Canopy & LH wing seals; governor cable; nose pant hardware", "shop": "Coastal Valley", "file": "Seal at canopy and LH wing strip.pdf"}, {"date": "2023-05-01", "tach": 2757.1, "logbook": "Airframe", "work": "GRS77 AHRS replaced (overhauled unit)", "shop": "Avionics & Mx West", "file": "Garmin GRS77.pdf"}, {"date": "2023-04-26", "tach": 2754.9, "logbook": "Engine", "work": "Oil & filter change; sample", "shop": "Coastal Valley", "file": "Oil and Filter.pdf"}, {"date": "2023-04-26", "tach": 2754.9, "logbook": "Airframe", "work": "Tailpipe hanger strap; lower cowl trimmed", "shop": "Coastal Valley", "file": "Tailpipe.pdf"}, {"date": "2023-02-09", "tach": null, "logbook": "Airframe/Engine", "work": "GAMI G100UL STCs SA01967WI and SE01966WI (Form 337s signed 17-Feb-2023)", "shop": "Coastal Valley", "file": "337_STC_*.pdf (Savvy ticket #142855)"}, {"date": "2022-12-20", "tach": 2716.6, "logbook": "Airframe", "work": "Altimeter/static & transponder tests; correction cards", "shop": "Avionics & Mx West", "file": "Pitot Static.pdf"}, {"date": "2022-06-03", "tach": 2607.0, "logbook": "Airframe", "work": "Starter replaced: Hartzell 149-24LS S/N H-W032931 (was SkyTec S/N F4L-241104)", "shop": "Avionics & Mx West", "file": "N211WP RTS.pdf (Legacy Combo p.59; ticket #118771)"}, {"date": "2021-03-01", "tach": 2398.8, "logbook": "Airframe", "work": "Pitch trim servo replaced (overhauled 011-00878-00 S/N 66408385); G1000 software loaded", "shop": "Avionics & Mx West", "file": "logbook_entries.pdf (Savvy ticket #82388; not in Savvy logbooks)"}, {"date": "2021-01-22", "tach": 2405.1, "logbook": "Engine/Prop", "work": "FAT supercharger STC removed; starter ring gear 72566 replaced; alternate air assy replaced; air filter FR-08504; prop dynamic balance", "shop": "Aero City Maintenance", "file": "logs.pdf (Savvy ticket #78191)"}, {"date": "2020-12-01", "tach": 2395.7, "logbook": "Airframe/Engine/Prop", "work": "Annual (WO_2433). MSI, no discrepancies. New MT prop S/N 201494; governor overhauled; ELT and ELT-switch batteries; ring gear; RH mag repaired at AEC; compressions 75/78/79/70; AD 2015-19-07; 91.411/413", "shop": "Sierra Aero", "file": "N211WP log book entries.pdf (Savvy ticket #59797; not in Savvy logbooks)"}, {"date": "2019-06-18", "tach": 2132.7, "logbook": "Engine", "work": "EIS ignition lead, bottom #2, replaced; all plugs cleaned and tested", "shop": "Above All Aviation", "file": "N211WP Logbook Entry 06-18-2019.pdf (Savvy ticket #29136; not in Savvy logbooks)"}, {"date": "2018-12-07", "tach": 1953.4, "logbook": "Engine", "work": "Right mag 100-hr inspection (8130 Aero Accessories); new Kelly leads on right mag; new Electroair harness on left; oil filter replaced", "shop": "Above All Aviation", "file": "N211WP 12-7-18 log entry.pdf (Savvy ticket #29130; not in Savvy logbooks)"}, {"date": "2017-09-26", "tach": null, "logbook": "Airframe", "work": "Form 337: Garmin GTX 345R ADS-B Out installation", "shop": "Advantage Avionics", "file": "GTX345R-Form-337.pdf (Savvy ticket #29081; not in Savvy logbooks)"}, {"date": "2017-02-21", "tach": 1304.7, "logbook": "Airframe", "work": "Voltage regulator & alternator brushes replaced", "shop": "Unknown", "file": "Voltage regulator.pdf"}], "sq": [{"date": "2026-10-09", "route": "KSBA-KSBA", "squawk": "Gas strut canopy latch", "status": "Open", "basis": "Related to the canopy/door gas-spring work under AD 2026-22-06 (Absolute Aero, 18-Nov-2026) and RSB 40-083 — see Action items."}, {"date": "2026-09-27", "route": "KSBA-KSBA", "squawk": "Egt 3 low?? And when going ROP peaks; coplot headset no right ear", "status": "Open", "basis": "EGT 3 part likely addressed: Coastal Valley 06-Nov-2026 entry on ticket 311823 replaced the #3 EGT probe (not yet filed in Savvy logbooks). Copilot headset still open."}, {"date": "2026-09-16", "route": "KSBA-KSBA", "squawk": "Airvent left", "status": "Open", "basis": "No later shop entry found that covers it."}, {"date": "2026-08-20", "route": "KSBA-KSBA", "squawk": "Ammon: seal on lens light left The lens is the left wing and I noted the sealant has degraded. And the seal that needs to be reglued is obvious", "status": "Open", "basis": "No later shop entry found that covers it."}, {"date": "2026-07-12", "route": "KSBA-KSBA", "squawk": "Alert button doesn't stop beep", "status": "Open", "basis": "No later shop entry found that covers it."}, {"date": "2026-05-13", "route": "KSBA-KSBA", "squawk": "Alternator failure; replaced Alternatot and voltage reg", "status": "Likely addressed", "basis": "Alternator and voltage regulator replaced 12-May-2026 (Coastal Valley entry from a Savvy ticket)."}, {"date": "2026-05-07", "route": "KSBA-KSBA", "squawk": "Pulled breaker ALT CONT", "status": "Likely addressed", "basis": "Alternator and voltage regulator replaced 12-May-2026 (Coastal Valley entry from a Savvy ticket)."}, {"date": "2026-04-26", "route": "KSBA-KSBA", "squawk": "On taxi out at SPdlC Alternator out; reaet ALT CONT breaker", "status": "Likely addressed", "basis": "Alternator and voltage regulator replaced 12-May-2026 (Coastal Valley entry from a Savvy ticket)."}, {"date": "2026-04-17", "route": "KSBA-KSBA", "squawk": "No Traffic or Mode C until full power cycl", "status": "Open", "basis": "No later shop entry found that covers it."}, {"date": "2026-01-22", "route": "KSBA-KSBA", "squawk": "AFCS, CB reset worked", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2025-12-21", "route": "KSBA-KSBA", "squawk": "RPM steady 2450; Borescope suite at Annual", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2025-12-11", "route": "KSBA-KSBA", "squawk": "Left wing flap strap (link removed)", "status": "Likely addressed", "basis": "Flap bonding strap replaced at the 02-Mar-2026 annual."}, {"date": "2025-12-05", "route": "KSBA-KSBA", "squawk": "Wing walks - qoute for paint/sand", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2025-11-10", "route": "KSBA-KSBA", "squawk": "RSB40-094 Rev 1 (cost)", "status": "Likely addressed", "basis": "RSB 40-094 complied at the 02-Mar-2026 annual."}, {"date": "2025-10-30", "route": "KSBA-KSBA", "squawk": "Rear footwell carpet verical piece; Scratchy COM1; consider RSB40-094 Rev. 1 to reduce wapor lock?", "status": "Before last annual", "basis": "RSB 40-094 part complied at the 02-Mar-2026 annual; carpet and COM1 not matched to an entry."}, {"date": "2025-10-22", "route": "KSBA-KSBA", "squawk": "Scratchy Com1", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2025-10-13", "route": "KSBA-KSBA", "squawk": "Rt wheel pant loose", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2025-07-31", "route": "KSBA-KSBA", "squawk": "Prop plus 700; rear headset", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2025-04-13", "route": "KSBA-KSBA", "squawk": "Cyl 4 often oil pooled or plug problem,", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2025-04-04", "route": "KSBA-KSBA", "squawk": "Oil pool 4", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2025-03-21", "route": "KSBA-KSBA", "squawk": "Oil pool \"4 leg 1", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2025-03-07", "route": "KSBA-KSBA", "squawk": "Cyl 4 oil pool", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2025-02-28", "route": "KSBA-KSBA", "squawk": "PFD sd card?", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2025-02-17", "route": "KSBA-KSBA", "squawk": "Cyl #3 has CHTs approx 25 deg cooler than other cylinders (baffles, etc?)", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2025-02-08", "route": "KSBA-KSBA", "squawk": "Safety wire on rear door hinge pull", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2024-12-13", "route": "KSBA-KSBA", "squawk": "Borescope protocol for Annual; mag exchange", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2024-11-30", "route": "KSBA-KSBA", "squawk": "TO Rpm ~2600; Battery health cranking; starter health", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2024-11-27", "route": "KSBA-KSBA", "squawk": "Lost 2.5 V in 3 cranks; Max rpm 2600", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2024-11-05", "route": "KSBA-KSBA", "squawk": "No EGT cycles", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2024-10-15", "route": "KSBA-KSBA", "squawk": "Cyl 1 + 3 very rough on takeoff KSBP", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2024-09-27", "route": "KSBA-KSBA", "squawk": "Range knob on MFD; PTCH = \"A lot of the elevator trim issues on DA40s are due to binding pitch trim damper rods (under the horizontal stabilizer). Clean yours and measure the tension as per the Maintenance Manual. It may require adjustment.\"", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2024-09-20", "route": "KSBA-KSBA", "squawk": "Both Wing Walks", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2024-09-16", "route": "KSBA-KSBA", "squawk": "Exhaust hanger", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2024-08-29", "route": "KSBA-KSBA", "squawk": "PTCH; clean Manual Trim??; plus: A lot of the elevator trim issues on DA40s are due to binding pitch trim damper rods (under the horizontal stabilizer). Clean yours and measure the tension as per the Maintenance Manual. It may require adjustment.", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2024-08-17", "route": "KSBA-KSBA", "squawk": "Exhaust strap", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2024-07-29", "route": "KSBA-KSBA", "squawk": "Exhaust bracket; order fac reman engine", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2024-06-16", "route": "KSBA-KSBA", "squawk": "nose pant fastener", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2024-05-13", "route": "KSBA-KSBA", "squawk": "PTCH; super sñow Map loading on MFD", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2024-05-06", "route": "KSBA-KSBA", "squawk": "PTCH during return taxi, no LRU errors", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2024-04-23", "route": "KSBA-KSBA", "squawk": "PTCH x 2", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2024-03-28", "route": "KSBA-KSBA", "squawk": "PTCH", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2024-03-22", "route": "KSBA-KSBA", "squawk": "PTCH northward only; cycled trim wheel several times", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2024-03-17", "route": "KSBA-KSBA", "squawk": "PTCH; TAWS occasional", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2023-11-03", "route": "KSBA-KSBA", "squawk": "Oil on nose strut; wing root seals", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2023-10-28", "route": "KSBA-KSBA", "squawk": "Some cyl3 poolong", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2023-10-22", "route": "KSBA-KSBA", "squawk": "PTCH error on PFD (maybe clean the trim actuator friction block, see #300 here (link removed) -and- (link removed)", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2023-10-16", "route": "KSBA-KSBA", "squawk": "PTCH 3x; wing root strips", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2023-10-01", "route": "KSBA-KSBA", "squawk": "Cyl3 for 15 minutes", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2023-09-29", "route": "KSBA-KSBA", "squawk": "AFCS departing KFCH", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2023-09-25", "route": "KSBA-KSBA", "squawk": "Wing root strips -both sides", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2023-09-24", "route": "KSBA-KSBA", "squawk": "PTCH 2x", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2023-09-21", "route": "KSBA-KSBA", "squawk": "PTCH error in cruise and also taxi", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2023-08-29", "route": "KSMX-KSBA", "squawk": "Reminder: tires/tubes need to be \"as currently installed\", i.e. tubes Michelin Airstop, tires upgraded ply", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2023-08-22", "route": "KSBA-KSBA", "squawk": "Left wing strip", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2023-08-12", "route": "KSBA-KSBA", "squawk": "Manual Trip sticky??", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2023-08-03", "route": "KSBA-KSBA", "squawk": "PTCH then AFDC; reset CB then ok", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2023-07-20", "route": "KSBA-KSBA", "squawk": "No EGT issues", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2023-07-18", "route": "KSBA-KSBA", "squawk": "On return: runup backfire; high egts all cyls", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2023-07-08", "route": "KSBA-KSBA", "squawk": "Cyl 1+ 3 pool", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2023-06-16", "route": "KSBA-KSBA", "squawk": "Cyl3 pooling long time", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2023-06-06", "route": "KSBA-KSBA", "squawk": "Flush cyls ?Sea Foam?", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2023-05-21", "route": "KSBA-KSBA", "squawk": "Pilot side canopy seal; canopy latch; CHT spread", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2023-05-08", "route": "KSBA-KSBA", "squawk": "Cyl 3 hot; Install orig fuel injectors?", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2023-04-12", "route": "KSBA-KSBA", "squawk": "Red X Heading 3 times", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2023-04-09", "route": "KSBA-KSBA", "squawk": "Adjust exhaust; 1 min Red X", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2023-03-09", "route": "KSBA-KSBA", "squawk": "Adjust Power Flow up", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2023-02-20", "route": "KSMX-KSBA", "squawk": "Red X HDG; oil pool cyl 3", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2023-02-04", "route": "KSBA-KSBA", "squawk": "Red X heading on return", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2023-01-24", "route": "MMLT-KSBA", "squawk": "PTCH; AHRS1", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2023-01-09", "route": "KSBA-MMLT", "squawk": "HDG red X GDL90", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2022-11-04", "route": "KSBA-KSBA", "squawk": "Stratus no wifi", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2022-10-16", "route": "KSBA-KSBA", "squawk": "Rudder rear rub?", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2022-10-04", "route": "KSBA-KSBA", "squawk": "Bond brake line clips", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2022-09-26", "route": "KEQY-KSBA", "squawk": "Mixture cable slip? Mixture variation +/- .3", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2022-09-21", "route": "KSBA-KEQY", "squawk": "Cyls 387, 360; 341: 326", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2022-08-24", "route": "KSBA-KSBA", "squawk": "Rt wing inspection plate rusted; post-flight topoff 20.6g, i.e. no leak", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2022-08-01", "route": "KSBA-KSBA", "squawk": "Have Baffling checked; #1, 2 hotter 30deg CHT", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2022-07-22", "route": "KSBA-KSBA", "squawk": "Replaced MFD SD card", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2022-07-13", "route": "KSBA-KSBA", "squawk": "Cyl1 oil pooling; lasted 5 minutes post takeoff", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2022-06-14", "route": "KSBA-KSBA", "squawk": "EGT3 oil pool", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2022-06-13", "route": "KSBA-KSBA", "squawk": "Oil pooling cyl 3; burns off w power", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2022-05-01", "route": "KSBA-KSBA", "squawk": "Starter", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2022-04-12", "route": "KSBA-KSBA", "squawk": "Left airvent", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2022-03-30", "route": "KSBA-KSBA", "squawk": "RPM 2610", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2022-03-19", "route": "KSBA-KSBA", "squawk": "Wing root strip right", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2022-03-04", "route": "KTUS-KSBA", "squawk": "Airspeed G1000 several knots lower than backup airspeed indicator", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2022-03-01", "route": "KSBA-KTUS", "squawk": "recommended that the exhaust valve “wobble test” be performed every 400 hours in accordance with Lycoming Mandatory Service Bulletin 388C", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2022-02-20", "route": "KSBA-KSBA", "squawk": "Oil control ring solvent flush procedure", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2022-02-13", "route": "KSBA-KSBA", "squawk": "HDG red X", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2022-02-03", "route": "KSBA-KSBA", "squawk": "Left fuel cap leaks", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2022-01-20", "route": "KSBA-KSBA", "squawk": "GDL 90 intermittent", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2022-01-17", "route": "KSBA-KSBA", "squawk": "RED X HDG", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2021-11-17", "route": "KSBA-KSBA", "squawk": "Raise PF Exhaust", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2021-10-06", "route": "KSBA-KSBA", "squawk": "Com1 Scratchy?", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2021-09-19", "route": "KSBA-KSBA", "squawk": "COM1 hi noise", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2021-08-27", "route": "KSBA-KSBA", "squawk": "Power Flow, tighten strap??", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2021-06-17", "route": "KSBA-KSBA", "squawk": "Ignition switch?", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2021-03-22", "route": "KSBA-KSBA", "squawk": "ROLL ap cancel?", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2021-02-22", "route": "KSBA-KSBA", "squawk": "PTCH", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2021-02-19", "route": "KSBA-KSBA", "squawk": "AFCS, PTCH flag", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2021-01-03", "route": "KSBA-KSBA", "squawk": "Fuel totalizer off?; had to reset AFCS breaker", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2020-07-29", "route": "KSBA-KSBA", "squawk": "Cyl 3 Left runup", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2020-07-13", "route": "KSBA-KSBA", "squawk": "Check prop governor 100 rpm swing climb to level", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2020-06-18", "route": "KSBA-KSBA", "squawk": "Screw off Spinner; SC belt; Tail level? Check canopy latch and seal", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2020-05-04", "route": "KSBA-KSBA", "squawk": "Com1 50%", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2020-04-27", "route": "KSBA-KSBA", "squawk": "Canopy seal; Com-1 on leg 3", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2020-04-25", "route": "KSBA-KSBA", "squawk": "Water-left tank; Com1 shows Rx but no sound... sometimes works", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2020-04-21", "route": "KSBA-KSBA", "squawk": "Com1 not receiving; the HDG X issue; Alerts blank; unable to break sauelch", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2020-04-14", "route": "KSBA-KSBA", "squawk": "Annual: check door latches", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2020-02-28", "route": "KSBA-KSBA", "squawk": "Oil front cowling; heat bubble cowling near supercharger", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2020-01-29", "route": "KFPR-KSBA", "squawk": "3.5hpg; check plugs, bracket, starter", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2020-01-25", "route": "TDCF-KFPR", "squawk": "Starter failed, damaged ring gear", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2020-01-15", "route": "KSBA-TDCF", "squawk": "Covers of Strobe right: Position white left", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2019-12-27", "route": "KSBA-KSBA", "squawk": "HDG red X 10 seconds", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2019-12-09", "route": "KSBA-KSBA", "squawk": "11-Dec: HDG and HSI red x, but only alert was Traffic Fail. Reset AHRS circuit breaker; all good", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2019-10-14", "route": "KKNB-KSBA", "squawk": "ALT did come on line until just after runup", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2019-10-13", "route": "KKNB-KKNB", "squawk": "Alt switch - watch/clean it", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2019-10-02", "route": "KSBA-KSBA", "squawk": "Rescale at Waypoint; SynVis; Wx map; hide dist traffic; rose;", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2019-09-30", "route": "KSBA-KSBA", "squawk": "Slow MFD, incl red xs on recursionary", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2019-09-29", "route": "KSBA-KSBA", "squawk": "Slow MFD", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2019-08-11", "route": "KSBA-KSBA", "squawk": "Add superchargerTraffic and Mode C worked items to Oil Service;", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2019-08-10", "route": "KSBA-KSBA", "squawk": "Traffic and Mode C worked", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2019-08-08", "route": "KTRK-KSBA", "squawk": "ATC no Mode C av master no help, full master off/on fixed; No traffic on G1000 (but Connext working to iPad),", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2019-07-21", "route": "KAPA-KSBA", "squawk": "Mag start to Start then back to Both; SC oil chek and Inspection 100 hours; adjust PowerFlow", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2019-06-21", "route": "KSBA-KAPA", "squawk": "Baffles; Cyl1 burb then enrichen; Fuel Flow variation +/- 0.2; cyl1 20 deg hotter", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2019-06-10", "route": "KSBA-KSBA", "squawk": "Ignition issue... partial power landing KSBA;COM 1 they hear me i dont hear them; left fuel cap stiffs", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2019-05-29", "route": "KSBA-KSBA", "squawk": "ELT On switch stuck; Traffic Fails, buetooth still xmittimg ( annual check tcas gtx345 antenna connections)", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2019-05-20", "route": "KKNB-KSBA", "squawk": "Cyl 1&2 taxi and runup Hi EGT; rough on EIS runup; cleared on takeoff", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2019-03-29", "route": "KSBA-KSBA", "squawk": "One EGT rise at 8500'", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2019-03-15", "route": "KSBA-KSBA", "squawk": "Runup cyl3 eus high egt; after landimgs ok", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2019-03-13", "route": "KSBA-KSBA", "squawk": "Real mag cyl 3 EGT on taxi high", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2019-02-26", "route": "KSBA-KSBA", "squawk": "Nose wheel corking?", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2019-01-18", "route": "KSBA-KSBA", "squawk": "Left tank 2 tbsp H2O; also 1 tbsp at Yuma", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2019-01-13", "route": "KSBA-KSBA", "squawk": "Water Left Tank 1shot (full tank; locked)", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2019-01-04", "route": "KSBA-KSBA", "squawk": "Nose gear cocking?", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2018-12-29", "route": "KSBA-KSBA", "squawk": "Left tank 4 tsp H2O", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2018-12-27", "route": "KPRB-KSBA", "squawk": "Left tank H2O 2 tbsp", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2018-12-18", "route": "KSBA-KSBA", "squawk": "Rt fuel cap oring; Rough cyl 2 and 4", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2018-12-11", "route": "KSBA-KSBA", "squawk": "Starter, solinoid, or battery", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2018-12-08", "route": "KSBA-KSBA", "squawk": "Still rough on Real Mag?", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2018-12-07", "route": "KSBA-KSBA", "squawk": "EIS or Plugs issues", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2018-11-27", "route": "KSBA-KSBA", "squawk": "Bad inflight mag checks", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2018-11-24", "route": "KSBA-KSBA", "squawk": "Rocketing EGTs, led by no 1; CHT1 cold ~310", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2018-11-02", "route": "KDSM-KSBA", "squawk": "Right fuel cap sealing?", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2018-10-26", "route": "KSBA-KDSM", "squawk": "Cyl 1 fouling?, also ELTs all up 150+ deg when Lean at 7000'", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2018-09-17", "route": "KSBA-KSBA", "squawk": "After hot start,Fuel pres lo warning", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2018-08-22", "route": "KSBA-KSBA", "squawk": "AFCS error 2x, cb reset fixed", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2018-08-14", "route": "KSBA-KSBA", "squawk": "Tack down rhs canopy seal", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2018-05-11", "route": "KSBA-KSBA", "squawk": "Wing root seal tack down", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2018-04-30", "route": "KSBA-KSBA", "squawk": "Rt mn flat (deflation? Camber?); MFD FMS key", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2018-04-28", "route": "KSBA-KSBA", "squawk": "Wing root adhesive, also bottom", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2018-04-15", "route": "KSBA-KSBA", "squawk": "Reminder: plug gaps for annual", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2018-04-13", "route": "KSBA-KSBA", "squawk": "Health of Aux Fuel Pump?", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2018-04-10", "route": "KSBA-KSBA", "squawk": "Dust on wheel pants", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2018-04-05", "route": "KSBA-KSBA", "squawk": "Annual: aux fuel pump; starter", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2018-04-03", "route": "KSBA-KSBA", "squawk": "Stratus cable", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2018-03-16", "route": "SKRG-KSBA", "squawk": "Check PowerFlow rattle", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2018-03-08", "route": "KSBA-SKRG", "squawk": "Music cable plug", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2018-01-31", "route": "KSBA-KSBA", "squawk": "GPS crosstalk problem, reload prev resolved", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2017-12-11", "route": "KSBA-KSBA", "squawk": "Air Filter(s)", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2017-12-03", "route": "MMES-KSBA", "squawk": "On taxi, very 2secs of yellow Oil Pressure", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2017-11-12", "route": "KSBA-KSBA", "squawk": "Flat rt main tire; fuel flow surge 8000' to 11000' 13 to 15gph", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2017-10-16", "route": "KSBA-KSBA", "squawk": "EIS #3, #4 cyls", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2017-10-07", "route": "KSBA-KSBA", "squawk": "No TFR on PFD", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2017-09-03", "route": "KTWF-KSBA", "squawk": "Burning oil?", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2017-08-31", "route": "KSAF-KDSM", "squawk": "Refill O2", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2017-08-19", "route": "KSBA-KSBA", "squawk": "Canopy seal 3x", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2017-08-09", "route": "KSBA-KSBA", "squawk": "Replaced rt main tube", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2017-07-31", "route": "KSBA-KSBA", "squawk": "~200 drop on mag (fouled? timing?)", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2017-07-28", "route": "KSBA-KSBA", "squawk": "+4kts w higher nose tension", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2017-07-22", "route": "KSBA-KSBA", "squawk": "Mag drop 160?", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2017-05-21", "route": "KSBA-KSBA", "squawk": "Wing root rubber gasket; ILS worked fine", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2017-05-20", "route": "KSBA-KSBA", "squawk": "LOC1 wobble?; PowerFlow rattles a lityle more?? Canopy seals", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2017-04-28", "route": "KSBA-KBDN", "squawk": "Rh Dome light loose; AP swerves on ils w 9kt tail", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2017-04-24", "route": "KSBA-KSBA", "squawk": "Flap up light", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2017-04-20", "route": "KSBA-KSBA", "squawk": "Canopy rattle on taxi?", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2017-04-12", "route": "KSBA-KSBA", "squawk": "next oil service try Red RTV to seal baffle to cowling", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2017-03-10", "route": "KSBA-KSBA", "squawk": "Pilot peddles; Cyl 1 baffle?", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2017-03-04", "route": "KSBA-KSBA", "squawk": "Prop nicks(3); Bose; extra oil blow by", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2017-02-27", "route": "KSBA-KSBA", "squawk": "Left tank water 3tsp", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2017-02-01", "route": "KSBA-KSBA", "squawk": "Water in left sump; Bose or Pilot com", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2017-01-27", "route": "KSBA-KSBA", "squawk": "?Need Rudder trim -- nose right", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2017-01-21", "route": "KSBA-KSBA", "squawk": "Copilot ATC too soft", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2017-01-15", "route": "KSBA-KSBA", "squawk": "Rubber strips at wing root", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2016-12-27", "route": "KSBA-KSBA", "squawk": "Battery sluggish on very cold start", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2016-12-12", "route": "KSBA-KSBA", "squawk": "Rudder trim tab?", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2016-11-30", "route": "KSBA-KSBA", "squawk": "Oil pres 60 psi; added 2 qts and mid green; burning oil", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2016-11-17", "route": "KSBA-KSBA", "squawk": "Check Oil Dip Stick SB", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2016-11-04", "route": "KSBA-KSBA", "squawk": "Set nosewheel cork to 18 lbs???", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2016-10-29", "route": "KSBA-KSBA", "squawk": "Rt Main tube flat; replaced with new but aged tube", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2016-10-21", "route": "KSBA-KSBA", "squawk": "Nosepant bolt; left wing root \"tape\"", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2016-09-17", "route": "6S2-KTRK", "squawk": "Backup Altimeter high by 30'", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2016-09-15", "route": "KBLI-KMYL", "squawk": "Backup Attitude Indicator off high", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2016-08-30", "route": "KTRK-KSBP", "squawk": "Rt wheel pant a little loose", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2016-07-07", "route": "KPOC-KTRK", "squawk": "Standby Attitude Indicator vertical is iffy", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2016-07-06", "route": "KTRK-KSBP", "squawk": "1/2 Tsp water left sump", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2016-06-29", "route": "KTRK-KTRK", "squawk": "Oil door latch rotates", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2016-06-21", "route": "KTRK-KTRK", "squawk": "Sump 1/2 tsp water left", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2016-06-08", "route": "KTRK-KHAF", "squawk": "Right rear seat lock", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2016-05-23", "route": "KTRK-KTRK", "squawk": "Rattle on final taxi?", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2016-05-03", "route": "KTRK-KTRK", "squawk": "Blue tint back of NG pant", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2016-04-11", "route": "MMPS-MMEP", "squawk": "R strobe lens loose", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2016-03-26", "route": "KTRK-KTRK", "squawk": "Flap Lights", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2016-03-16", "route": "KTRK-KTRK", "squawk": "some roughness with low MP on descent", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2016-03-02", "route": "KTRK-KTRK", "squawk": "Hard to start; used Floaded", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2016-02-17", "route": "KSBA-KSBA", "squawk": "Started, but slow to ramp up", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2016-02-12", "route": "KSBA-KSBA", "squawk": "Left Main sump drips", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}, {"date": "2016-01-08", "route": "KTRK-KTRK", "squawk": "PFD hdg alt not active; reset fixed", "status": "Before last annual", "basis": "Logged before the 02-Mar-2026 annual; not matched to a shop entry."}]};
+const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const ud = (s) => new Date(s + 'T00:00:00Z');
+const fd = (s) => { if (!s) return ''; if (!/^\d{4}-\d{2}-\d{2}$/.test(s)) return s; const d = ud(s); return String(d.getUTCDate()).padStart(2,'0') + '-' + MON[d.getUTCMonth()] + '-' + d.getUTCFullYear(); };
+const r1 = (x) => Math.round(x * 10) / 10;
+const f1 = (x) => x == null ? '' : Number(x).toFixed(1);
+const f1c = (x) => x == null ? '' : Number(x).toLocaleString('en-US', {minimumFractionDigits:1, maximumFractionDigits:1});
+const now = Date.now();
+const td = new Date(); document.getElementById('today').textContent = String(td.getDate()).padStart(2,'0') + '-' + MON[td.getMonth()] + '-' + td.getFullYear();
+const $ = (id) => document.getElementById(id);
+const esc = (t) => String(t ?? '').replace(/[&<>"]/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+// estimated tach
+const pairs = DATA.tach_hobbs.slice().sort((a, b) => a.date.localeCompare(b.date));
+const p = pairs[0], q = pairs[pairs.length - 1];
+const ratio = (q.tach - p.tach) / (q.hobbs - p.hobbs);
+const A = DATA.oil;
+const useQ = q.date >= A.date;
+const baseTach = useQ ? q.tach : A.tach, baseDate = useQ ? q.date : A.date;
+const after = DATA.flights.filter((f) => f.date > baseDate);
+const hrs = after.reduce((s, f) => s + f.minutes, 0) / 60;
+const est = r1(baseTach + hrs * ratio);
+
+// due status
+const dueStatus = (d) => {
+  const days = d.next_due_date ? Math.ceil((ud(d.next_due_date) - now) / 864e5) : null;
+  const tl = d.next_due_tach != null ? r1(d.next_due_tach - est) : null;
+  let s = 'OK';
+  if (d.category === 'Info') s = 'Info';
+  else if (d.category === 'Tabled') s = 'Low: Tabled';
+  else if (d.category === 'Unknown' || (!d.last_done && !d.next_due_date && d.next_due_tach == null)) s = 'Unknown';
+  else if (!d.next_due_date && d.next_due_tach == null) s = 'Complied';
+  else if ((days != null && days < 0) || (tl != null && tl < -10)) s = 'Overdue?';
+  else if ((days != null && days <= 30) || (tl != null && tl <= 10)) s = 'Due now';
+  else if ((days != null && days <= 90) || (tl != null && tl <= 25)) s = 'Due soon';
+  return { status: s, days, tl };
+};
+const DS = new Map(DATA.due.map((d) => [d.id, dueStatus(d)]));
+
+// horizon
+const ann = DATA.due.find((d) => d.id === 'annual');
+const perDay = (q.tach - p.tach) / ((ud(q.date) - ud(p.date)) / 864e5);
+const daysTo = Math.max(0, (ud(ann.next_due_date) - now) / 864e5);
+const H = { date: ann.next_due_date, last: ann.last_done, rate: r1(perDay * 30.44), proj: r1(est + perDay * daysTo) };
+$('hzDate').textContent = fd(H.date); $('hzLast').textContent = fd(H.last); $('hzTach').textContent = f1c(H.proj); $('hzRate').textContent = f1(H.rate);
+
+// tiles + method
+$('t-est').textContent = f1(est); $('t-ad').textContent = f1(r1(A.limit_tach - est)); $('t-adlim').textContent = f1(A.limit_tach);
+$('t-admax').textContent = f1(r1(A.max_tach - est)); $('t-ann').textContent = fd(ann.next_due_date); $('t-anndays').textContent = DS.get('annual').days;
+const oilRow = DATA.due.find((d) => d.id === 'oil'); $('t-oil').textContent = f1c(oilRow.next_due_tach);
+$('t-since').textContent = f1(r1(est - A.tach)); $('t-left').textContent = f1(r1(A.target_hrs - (est - A.tach)));
+$('method').innerHTML = [['Latest tach reading', f1(baseTach)], ['ForeFlight flights since', after.length], ['Flight time logged (hr)', f1(r1(hrs))],
+  ['Tach/Hobbs ratio', Math.round(ratio * 1000) / 1000], ['Estimated tach', f1(est)], ['Upper bound (ratio 1.0)', f1(r1(baseTach + hrs))]]
+  .map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('');
+
+const cls = { 'Overdue?':'s-bad','Due now':'s-bad','Due soon':'s-warn','OK':'s-ok','Complied':'s-ok','Open':'s-warn','Unknown':'s-muted','Info':'s-muted','Low: Tabled':'s-muted',
+  'High':'s-bad','Medium':'s-warn','Low':'s-muted','Watch':'s-muted','Scheduled':'s-ok','Likely addressed':'s-ok','Closed':'s-ok','Resolved/NA':'s-ok','Before last annual':'s-muted' };
+const adCls = { 'Open':'s-bad','Needs determination':'s-bad','Recurring':'s-warn','Watch':'s-warn','Conditional':'s-muted','Complied':'s-ok','Terminated':'s-ok','N/A':'s-muted','Superseded':'s-muted' };
+const pill = (t, m = cls) => `<span class="pill ${m[t] || 's-muted'}">${esc(t)}</span>`;
+const td_ = (v, c = '') => `<td${c ? ` class="${c}"` : ''}>${v}</td>`;
+const sqStatus = (r) => DATA.sq_overrides.includes(r.date) ? 'Resolved/NA' : r.status;
+$('sqOpen').textContent = DATA.sq.filter((r) => sqStatus(r) === 'Open').length;
+
+let MID = false, sqQ = '', hQ = '';
+const rank = { 'Overdue?':0,'Due now':1,'Open':2,'Due soon':3,'Unknown':4,'OK':5,'Complied':6,'Low: Tabled':7,'Info':8 };
+const adRank = { 'Open':-1,'Needs determination':0,'Recurring':1,'Watch':2,'Conditional':3,'Complied':4,'Terminated':5,'N/A':6,'Superseded':7 };
+const top3 = (rows, k) => rows.slice().sort((a, b) => b[k].localeCompare(a[k])).slice(0, 3);
+const keep = {
+  flags: (r) => r.filter((x) => x.priority !== 'Low' && x.priority !== 'Watch'),
+  sq: (r) => r.filter((x) => { const s = sqStatus(x); return s !== 'Resolved/NA' && s !== 'Closed' && (x.date >= H.last || s === 'Open'); }),
+  due: (r) => r.filter((x) => { const s = DS.get(x.id).status;
+    if (['Info','Low: Tabled','Complied'].includes(s)) return false;
+    if (['Overdue?','Due now','Due soon','Open','Unknown'].includes(s)) return true;
+    if (x.next_due_date && x.next_due_date <= H.date) return true;
+    if (x.next_due_tach != null && x.next_due_tach <= H.proj) return true;
+    return false; }),
+  ads: (r) => r.filter((x) => ['Open','Needs determination','Recurring'].includes(x.status)),
+  oc: (r) => r.filter((x) => !x.last_checked || x.last_checked < H.last),
+  comp: (r) => top3(r, 'date'), bs: (r) => top3(r, 'sample_date'),
+  hist: (r) => r.filter((x) => x.date >= H.last),
+};
+const rows = (k, all) => MID ? keep[k](all) : all;
+const count = (id, shown, total) => { $(id).textContent = `Showing ${shown} of ${total}.`; };
+
+function render() {
+  let r = rows('flags', DATA.flags); count('c-flags', r.length, DATA.flags.length);
+  $('b-flags').innerHTML = r.map((x) => `<tr>${td_(pill(x.priority),'nw')}${td_(esc(x.issue))}${td_(esc(x.detail),'hn')}${td_(esc(x.action))}</tr>`).join('');
+
+  r = rows('sq', DATA.sq).filter((x) => !sqQ || [x.squawk, sqStatus(x), x.basis, x.route, x.date].join(' ').toLowerCase().includes(sqQ)).sort((a, b) => b.date.localeCompare(a.date));
+  count('c-sq', r.length, DATA.sq.length);
+  $('b-sq').innerHTML = r.map((x) => `<tr>${td_(fd(x.date),'nw')}${td_(esc(x.squawk))}${td_(pill(sqStatus(x)),'nw')}${td_(esc(x.basis),'hn')}${td_(esc(x.route),'hn nw')}</tr>`).join('');
+
+  r = rows('due', DATA.due).slice().sort((a, b) => (rank[DS.get(a.id).status] - rank[DS.get(b.id).status]) || ((DS.get(a.id).days ?? 1e9) - (DS.get(b.id).days ?? 1e9)));
+  count('c-due', r.length, DATA.due.length);
+  $('b-due').innerHTML = r.map((x) => { const s = DS.get(x.id); return `<tr>${td_(pill(s.status),'nw')}${td_(esc(x.item))}${td_(fd(x.last_done),'nw')}${td_(fd(x.next_due_date),'nw')}${td_(s.days ?? '','nw')}${td_(f1(x.next_due_tach),'nw')}${td_(esc(x.basis),'hn')}${td_(esc(x.note),'hn')}</tr>`; }).join('');
+
+  r = rows('ads', DATA.ads).slice().sort((a, b) => (adRank[a.status] ?? 9) - (adRank[b.status] ?? 9));
+  count('c-ads', r.length, DATA.ads.length);
+  $('b-ads').innerHTML = r.map((x) => `<tr>${td_(pill(x.status, adCls),'nw')}${td_(esc(x.ad),'nw')}${td_(esc(x.category))}${td_(esc(x.subject))}${td_(esc(x.detail),'hn')}${td_(esc(x.source),'hn')}</tr>`).join('');
+
+  r = rows('oc', DATA.oncond); count('c-oc', r.length, DATA.oncond.length);
+  $('b-oc').innerHTML = r.map((x) => `<tr>${td_(esc(x.item))}${td_(x.in_service == null ? 'Unknown' : esc(fd(x.in_service)),'nw')}${td_(f1(x.tach_at_install),'nw')}${td_(x.tach_at_install == null ? '' : f1(r1(est - x.tach_at_install)),'nw')}${td_(fd(x.last_checked),'nw')}${td_(esc(x.watch),'hn')}${td_(esc(x.record),'hn')}${td_(esc(x.note),'hn')}</tr>`).join('');
+
+  const last = DATA.comp.slice().sort((a, b) => b.date.localeCompare(a.date))[0];
+  const key = { '#1':'c1','#2':'c2','#3':'c3','#4':'c4' };
+  $('b-cyl').innerHTML = DATA.cyl.map((x) => `<tr>${td_(x.cyl)}${td_(fd(x.installed),'nw')}${td_(esc(x.shop))}${td_(f1(x.tach_at_install),'nw')}${td_(f1c(r1(est - x.tach_at_install)),'nw')}${td_(last[key[x.cyl]] + '/80','nw')}${td_(esc(x.source),'hn')}</tr>`).join('');
+
+  r = rows('comp', DATA.comp).slice().sort((a, b) => b.date.localeCompare(a.date)); count('c-comp', r.length, DATA.comp.length);
+  $('b-comp').innerHTML = r.map((x) => `<tr>${td_(fd(x.date),'nw')}${td_(f1(x.tach),'nw')}${td_(x.c1)}${td_(x.c2)}${td_(x.c3)}${td_(x.c4)}${td_(esc(x.shop),'hn')}${td_(esc(x.note),'hn')}${td_(esc(x.source),'hn')}</tr>`).join('');
+
+  r = rows('bs', DATA.blackstone).slice().sort((a, b) => b.sample_date.localeCompare(a.sample_date)); count('c-bs', r.length, DATA.blackstone.length);
+  $('b-bs').innerHTML = r.map((x) => `<tr>${td_(fd(x.sample_date),'nw')}${td_(x.unit_hrs.toLocaleString('en-US'),'nw')}${td_(x.oil_hrs,'nw')}${td_(esc(x.makeup),'nw')}${td_(esc(x.lab_says))}${td_(esc(x.source),'hn')}</tr>`).join('');
+
+  r = rows('hist', DATA.hist).filter((x) => !hQ || [x.work, x.logbook, x.shop, x.file, x.date].join(' ').toLowerCase().includes(hQ)).sort((a, b) => b.date.localeCompare(a.date));
+  count('c-hist', r.length, DATA.hist.length);
+  $('b-hist').innerHTML = r.map((x) => `<tr>${td_(fd(x.date),'nw')}${td_(f1(x.tach),'nw')}${td_(esc(x.logbook))}${td_(esc(x.work))}${td_(esc(x.shop),'hn')}${td_(esc(x.file),'hn')}</tr>`).join('');
+}
+const setMid = (v) => { MID = v; $('v-mid').setAttribute('aria-pressed', String(v)); $('v-all').setAttribute('aria-pressed', String(!v)); render(); };
+$('v-mid').onclick = () => setMid(true); $('v-all').onclick = () => setMid(false);
+$('sqsearch').oninput = (e) => { sqQ = e.target.value.toLowerCase(); render(); };
+$('hsearch').oninput = (e) => { hQ = e.target.value.toLowerCase(); render(); };
+render();
+</script>
+</body>
+</html>

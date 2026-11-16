@@ -1,0 +1,86 @@
+[
+ {
+  "id": "f24",
+  "priority": "Medium",
+  "issue": "New AD 2026-22-06 (passenger door) — due by 17-Mar-2027",
+  "detail": "Final rule published 02-Nov-2026, effective 07-Dec-2026, all DA 40s. AFM temporary revision plus initial door/safety-hook inspection, handle-force measurement and placards per MSB 40-103 Rev 2; possible gas-spring replacement. 100 hr TIS or 100 days after effective date, whichever first. The 22-Mar-2027 annual is too late. Estimate (FAA tables + MSB II.3): 3 hr and ~$76 parts if it passes; up to 12 hr and ~$1,436 parts if gas spring, hook, retaining block, guide blocks and sealant are all replaced. WI step 20(g) cites 'RSB 40-093' — a typo for RSB 40-083 / D4-105 / 40NG-053 (companion numbers match; SB 40-093 is baggage nets). RSB 40-083 (Recommended, 2017) replaces the steel pin of the canopy and passenger door handle gas-spring mechanisms: 2 hr per door, applies to S/N 40.561–40.1206 (includes 40.922); no compliance record found.",
+  "action": "Wayne looking at Absolute Aero (Hayward, Diamond Service Center). MSB allows any certified mechanic; a DSC is needed only for warranty credit, but helps if a 'contact Diamond' finding comes up. Ask the shop: which latch version 40.922 has (MÄM 40-139 or older), whether RSB 40-083 was ever done, and a quote to do it concurrently (~4 hr, both doors). Work to MSB Rev 2 before 07-Dec counts. Insert the AFM TR and log it."
+ },
+ {
+  "id": "f2",
+  "priority": "Medium",
+  "issue": "2026 engine annual 'Next Due' looks wrong",
+  "detail": "Parsed text says 'Next Due: 3140.3 Tach' — same as the inspection tach. 2024/2025 entries show +100 hr. Could be a shop slip or a transcription error.",
+  "action": "Check the PDF; if the entry itself says 3140.3, ask Rick to correct it."
+ },
+ {
+  "id": "f5",
+  "priority": "Low",
+  "issue": "Legacy records read (partly)",
+  "detail": "Read 28-Oct-2026 (OCR, 211 pages): found #2 cylinder install, compressions back to 2014, Blackstone reports 2019–2023. Pre-2014 pages are poor scans.",
+  "action": "Ask if you want the rest mined (AD record, prop overhaul history)."
+ },
+ {
+  "id": "f6",
+  "priority": "Watch",
+  "issue": "Compression and oil trends",
+  "detail": "Compressions fell from 77/76/78/78 (Feb-2025) to 74/67/73/65 (Mar-2026) — likely a cold check (inferred from Savvy run times and the oil sample date). Blackstone (Feb & Jul 2026): wear metals above typical for IO-360-M1A, improving.",
+  "action": "Watch the Blackstone report from the 06-Nov sample; get a warm compression check (with master-orifice reading logged) at the Mar-2027 annual."
+ },
+ {
+  "id": "f9",
+  "priority": "Medium",
+  "issue": "AD 2026-06-03 (fuel tank hose): no determination logged",
+  "detail": "Effective 30-Apr-2026; for affected aircraft compliance was due within 100 hr / 2 months. Applies to a DA 40 only if a replacement hose of the listed type went in after 13-Jul-2017. No entry either way.",
+  "action": "Not addressed in the 06-Nov-2026 entry. Ask Coastal Valley to determine and log compliance or N/A."
+ },
+ {
+  "id": "f10",
+  "priority": "Medium",
+  "issue": "AD 2026-04-11 (conn rod bushings): no determination logged",
+  "detail": "Effective 08-Apr-2026; affected parts shipped 30-Jan-2009 to 09-Sep-2021. Engine is from 2008, so probably N/A, but nothing is recorded.",
+  "action": "Not addressed in the 06-Nov-2026 entry. Ask Coastal Valley to log N/A (or do the oil-filter/screen check)."
+ },
+ {
+  "id": "f13",
+  "priority": "Low",
+  "issue": "Last full AD compliance report is from Jul-2018",
+  "detail": "Sierra Aero's AD report (Jul-2018) is the latest comprehensive one; since then only individual ADs are logged. The AD table here is from records plus a targeted search, not a full AD search.",
+  "action": "Ask for a current full AD search (airframe, engine, prop, appliances) at the 2027 annual."
+ },
+ {
+  "id": "f16",
+  "priority": "Medium",
+  "issue": "Ch 04 1000-hr checks not in the logs",
+  "detail": "Essential bus check and bonding/static-discharge resistance check: Airworthiness Limitations every 1000 hr for NVFR/IFR, normally done as a 1000-hr check (AMM 05-20). TT passed 1000, 2000 and 3000 hr. The 03-Feb-2025 annual (@3017.3) fell inside the 3000-hr window, but it is logged only as an annual.",
+  "action": "Ask Coastal Valley whether the Feb-2025 annual was done as a 1000-hr check; if not, include it at the 2027 annual."
+ },
+ {
+  "id": "f17",
+  "priority": "Medium",
+  "issue": "ELT remote switch battery likely overdue",
+  "detail": "AMM 05-10: replace the ME 406 remote switch battery every 5 yr. Last replaced 01-Dec-2020 (Sierra Aero WO_2433, found on Savvy ticket #59797) → due Dec-2025.",
+  "action": "Have it replaced and logged (with the main ELT battery check)."
+ },
+ {
+  "id": "f21",
+  "priority": "Medium",
+  "issue": "Shop log entries on Savvy tickets that aren't in the Savvy logbooks or Legacy Combo",
+  "detail": "Full ticket scan 29-Oct-2026 (May-2015 to date) against the 36 logbook entries and the OCR'd Legacy Combo (07-May-2026). Missing: (1) Advantage Avionics Form 337, 26-Sep-2017 — GTX 345R ADS-B Out (#29081); (2) Above All, 07-Dec-2018 @ 1953.4 — right mag 100-hr, new leads, Electroair harness (#29130); (3) Above All, 18-Jun-2019 @ 2132.7 — EIS lead #2 bottom (#29136); (4) Sierra Aero WO_2433, 01-Dec-2020 @ 2395.7 — annual, MSI, new prop, governor overhaul, ELT batteries (#59797); (5) Avionics & Mx West 21-2891, 01-Mar-2021 — pitch servo (#82388); (6) Coastal Valley, 22-Oct-2025 @ 3115.6 — oil change (#249708); (7) Coastal Valley, 12-May-2026 @ 3179.8 — alternator and voltage regulator (#287380). Also (8) Coastal Valley engine entry 06-Nov-2026 (AD 2015-19-07, oil change, #3 EGT probe) on ticket 311823 — counted as complete in the tracker; Savvy hasn’t filed it yet.",
+  "action": "Full report sent to Savvy; ask them to file all seven."
+ },
+ {
+  "id": "f22",
+  "priority": "Low",
+  "issue": "Oil change entry dated 24-Apr-2024 is probably 24-Jul-2024",
+  "detail": "The Coastal Valley entry (2935.2 tach) reads 04/24/2024, and Savvy filed it as Apr-2024. Ticket #190575 shows the visit was 24-Jul-2024 (invoice stamped paid 07/24/2024, Blackstone sample 072424). No other entry exists for July. Inferred from the ticket posts.",
+  "action": "Ask Coastal Valley to confirm the date and correct the entry if needed."
+ },
+ {
+  "id": "f23",
+  "priority": "Low",
+  "issue": "GAMI G100UL STC installed 09-Feb-2023",
+  "detail": "Form 337s for STC SA01967WI (airframe) and SE01966WI (engine), signed by R. Holder IA 17-Feb-2023 (ticket #142855). The Swift 100R STC was tabled by Wayne on 09-Nov-2026 (not installed).",
+  "action": "None needed; listed so both fuel STCs are on record. Confirm the AFM supplement and placards are in the airplane."
+ }
+]

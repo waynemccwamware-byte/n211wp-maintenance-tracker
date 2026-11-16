@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>N211WP Maintenance Tracker</title>
+<style>
+:root { --fg:#1f1e1d; --muted:#6b6a66; --line:#e2e0d9; --panel:#f7f6f2; --bg:#fff; --bad:#b42318; --warn:#a15c07; --ok:#2e7d32;
+  --serif: Georgia, "Times New Roman", serif; --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+@media (prefers-color-scheme: dark) { :root { --fg:#ecebe6; --muted:#a3a19b; --line:#3a3936; --panel:#232220; --bg:#181716; --bad:#f07167; --warn:#e3a33b; --ok:#6cc070; }
+  .chart svg { filter: invert(0.88) hue-rotate(180deg); } }
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--fg); font-family:var(--sans); font-size:15px; line-height:1.45; }
+main { max-width: 1280px; margin: 0 auto; padding: 24px 20px 48px; display:flex; flex-direction:column; gap:20px; }
+h1 { font-family:var(--serif); font-weight:400; font-size:2.1rem; margin:0; }
+h2 { font-size:1.1rem; font-weight:600; margin:0; }
+.ver, .note { font-size:.8rem; color:var(--muted); }
+.ver { margin:4px 0 0; }
+.lede { max-width:62rem; margin:8px 0 0; }
+.card { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:16px; min-width:0; }
+.tiles { display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); gap:12px; }
+.tile .lbl { font-size:.8rem; color:var(--muted); }
+.tile .big { font-family:var(--serif); font-size:2rem; font-variant-numeric:tabular-nums; margin:4px 0; }
+.tile .note { margin:0; }
+.sec-head { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline; gap:6px 12px; margin-bottom:4px; }
+.note { margin:0 0 8px; }
+.scroll { overflow:auto; max-height:36rem; border-top:1px solid var(--line); }
+table { width:100%; border-collapse:collapse; font-size:.8rem; font-variant-numeric:tabular-nums; }
+th { text-align:left; font-weight:600; color:var(--muted); position:sticky; top:0; background:var(--panel); padding:6px 8px; border-bottom:1px solid var(--line); }
+td { padding:6px 8px; border-bottom:1px solid var(--line); vertical-align:top; }
+.nw { white-space:nowrap; }
+@media (max-width: 720px) { .hn { display:none; } }
+.pill { display:inline-block; padding:0 8px; border-radius:999px; border:1px solid currentColor; white-space:nowrap; font-size:.75rem; }
+.s-bad { color:var(--bad); } .s-warn { color:var(--warn); } .s-ok { color:var(--ok); } .s-muted { color:var(--muted); }
+.switch { display:inline-flex; border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+.switch button { font:inherit; font-size:.8rem; padding:6px 12px; border:0; background:var(--bg); color:var(--muted); cursor:pointer; }
+.switch button + button { border-left:1px solid var(--line); }
+.switch button[aria-pressed="true"] { background:var(--panel); color:var(--fg); font-weight:600; }
+.viewbar { display:flex; flex-wrap:wrap; gap:8px 16px; align-items:center; }
+.viewbar .note { margin:0; flex:1 1 24rem; }
+.count { font-size:.8rem; color:var(--muted); margin:0 0 6px; }
+input[type=search] { width:min(100%, 20rem); padding:6px 8px; border:1px solid var(--line); border-radius:8px; background:var(--bg); color:var(--fg); font:inherit; font-size:.85rem; margin-bottom:8px; }
+.chart svg { width:100%; height:auto; display:block; }
+dl { display:grid; grid-template-columns:auto 1fr; gap:4px 16px; margin:0; font-size:.85rem; }
+dt { color:var(--muted); } dd { margin:0; }
+.grid2 { display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap:12px; }
+footer { font-size:.75rem; color:var(--muted); border-top:1px solid var(--line); padding-top:12px; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <h1>N211WP maintenance</h1>
+  <p class="ver">Read-only snapshot of tracker version {{VERSION}} · snapshot published {{PUBLISHED}} from data last refreshed {{REFRESHED}} · days-left and due statuses are computed for today, <b id="today"></b></p>
+  <p class="lede">{{LEDE}}</p>
+</header>
+
+<section class="card viewbar" aria-label="View">
+  <div class="switch" role="group" aria-label="View">
+    <button type="button" id="v-all" aria-pressed="true">Show everything</button>
+    <button type="button" id="v-mid" aria-pressed="false">Mid-term only</button>
+  </div>
+  <p class="note">Mid-term = through the next annual, due <b id="hzDate"></b>. Tach-based items count if due by about <b id="hzTach"></b> tach: the estimated tach plus the average of <b id="hzRate"></b> tach hr/month to that date. Look-backs (squawks, history, on-condition checks) start at the last annual, <b id="hzLast"></b>.</p>
+</section>
+
+<section class="tiles" aria-label="Headline figures">
+  <div class="card tile"><div class="lbl">Estimated tach (as of data date)</div><div class="big" id="t-est"></div><p class="note">Latest real tach reading (shop entry or ForeFlight Tach End) + ForeFlight flight time since, scaled by tach/Hobbs ratio.</p></div>
+  <div class="card tile"><div class="lbl">Tach hours to AD 2015-19-07 (100 hr)</div><div class="big" id="t-ad"></div><p class="note">Due at <b id="t-adlim"></b> tach. The AD allows up to 110 hr: <b id="t-admax"></b> hr to that limit.</p></div>
+  <div class="card tile"><div class="lbl">Annual due by</div><div class="big" id="t-ann"></div><p class="note"><b id="t-anndays"></b> days left. ELT inspection on the same date.</p></div>
+  <div class="card tile"><div class="lbl">Next oil change at (tach)</div><div class="big" id="t-oil"></div><p class="note">50 hr after the 06-Nov-2026 oil change at Coastal Valley. Next shop visit: Absolute Aero, 18-Nov-2026, for AD 2026-22-06.</p></div>
+  <div class="card tile"><div class="lbl">Tach hrs since oil change (target 50)</div><div class="big" id="t-since"></div><p class="note"><b id="t-left"></b> hr to the 50-hr target. Calculated from the estimated tach.</p></div>
+</section>
+
+<section class="card">
+  <div class="sec-head"><h2>Action items and record gaps</h2></div>
+  <p class="note">Issues found reviewing the records that need a decision or a fix — Claude's review; check against the source PDFs in Savvy. Mid-term hides Low and Watch items.</p>
+  <p class="count" id="c-flags"></p>
+  <div class="scroll"><table><thead><tr><th class="nw">Priority</th><th>Issue</th><th class="hn">Detail</th><th>Action</th></tr></thead><tbody id="b-flags"></tbody></table></div>
+</section>
+
+<section class="card">
+  <div class="sec-head"><h2>Squawks from the ForeFlight logbook</h2></div>
+  <p class="note">The Squawks field on N211WP ForeFlight logbook entries (photo links removed). Status is Claude's match against later shop entries; "Resolved/NA" marks were set by Wayne. <b id="sqOpen"></b> open since the 02-Mar-2026 annual. Mid-term shows squawks since the last annual plus any older one still open, and hides any marked Resolved/NA or Closed.</p>
+  <p class="count" id="c-sq"></p>
+  <input type="search" id="sqsearch" placeholder="Search squawks…" aria-label="Search squawks">
+  <div class="scroll"><table><thead><tr><th class="nw">Date</th><th>Squawk (as logged)</th><th class="nw">Status</th><th class="hn">Basis</th><th class="hn nw">Flight</th></tr></thead><tbody id="b-sq"></tbody></table></div>
+</section>
+
+<section class="card">
+  <div class="sec-head"><h2>Recurring items and what's next</h2></div>
+  <p class="note">Status is computed against today's date and the estimated tach. "Basis" says where each interval comes from. Mid-term shows anything Overdue?, Due now, Due soon, Open or Unknown, plus anything due by the next annual (date or projected tach).</p>
+  <p class="count" id="c-due"></p>
+  <div class="scroll"><table><thead><tr><th class="nw">Status</th><th>Item</th><th class="nw">Last done</th><th class="nw">Next due</th><th class="nw">Days left</th><th class="nw">Due at tach</th><th class="hn">Basis</th><th class="hn">Note</th></tr></thead><tbody id="b-due"></tbody></table></div>
+</section>
+
+<section class="card">
+  <div class="sec-head"><h2>Airworthiness directives</h2></div>
+  <p class="note">ADs found in the records (Sierra Aero AD reports of Jun-2015 and Jul-2018, later logbook entries) plus a targeted search of Federal Register ADs since 2018. Not a complete AD search — see the action items. Mid-term shows Open, Needs determination and Recurring ADs.</p>
+  <p class="count" id="c-ads"></p>
+  <div class="scroll"><table><thead><tr><th class="nw">Status</th><th class="nw">AD</th><th>Applies to</th><th>Subject</th><th class="hn">Detail</th><th class="hn">Record</th></tr></thead><tbody id="b-ads"></tbody></table></div>
+</section>
+
+<section class="card">
+  <div class="sec-head"><h2>TBO-related items (monitored on condition)</h2></div>
+  <p class="note">No TBO is tracked for these: each is overhauled or replaced on condition. Tach hours are calculated against the estimated tach. "Watch for" lists typical condition indicators (Claude's suggestions, not from the records). Mid-term shows items with no check logged at or since the last annual.</p>
+  <p class="count" id="c-oc"></p>
+  <div class="scroll"><table><thead><tr><th>Item</th><th class="nw">In service since</th><th class="nw">Tach at install</th><th class="nw">Tach hrs on it (est.)</th><th class="nw">Last checked</th><th class="hn">Watch for</th><th class="hn">Record</th><th class="hn">Note</th></tr></thead><tbody id="b-oc"></tbody></table></div>
+</section>
+
+<section class="card">
+  <div class="sec-head"><h2>Cylinders</h2></div>
+  <p class="note">Install dates from the logbook entries. Hours since install are calculated against the estimated tach.</p>
+  <div class="scroll"><table><thead><tr><th>Cyl</th><th class="nw">Installed</th><th>Shop</th><th class="nw">Tach at install</th><th class="nw">Tach hrs since (est.)</th><th class="nw">Latest compression</th><th class="hn">Record</th></tr></thead><tbody id="b-cyl"></tbody></table></div>
+</section>
+
+<section class="card">
+  <div class="sec-head"><h2>Compression history</h2></div>
+  <p class="note">Each annual's differential compression, out of 80 psi. Dotted lines mark cylinder replacements; the previous cylinder is dashed and faded, the current one solid. The 2018 zero on #2 (the reading that led to its replacement) is left off the chart. The Mar-2026 readings were likely a cold check (inferred from Savvy run times and the oil sample date). The chart always shows the full history; mid-term limits the table to the last three checks.</p>
+  <div class="chart"><!--CHART--></div>
+  <p class="count" id="c-comp"></p>
+  <div class="scroll"><table><thead><tr><th class="nw">Date</th><th class="nw">Tach</th><th>#1</th><th>#2</th><th>#3</th><th>#4</th><th class="hn">Shop</th><th class="hn">Note</th><th class="hn">Record</th></tr></thead><tbody id="b-comp"></tbody></table></div>
+</section>
+
+<section class="card">
+  <div class="sec-head"><h2>Blackstone oil analysis</h2></div>
+  <p class="note">One row per report found in Savvy or the legacy records. "Lab says" is Claude's paraphrase of Blackstone's comments. * Make-up oil not reported; estimated at 5 hours per quart of hours on oil. † Sum of ForeFlight "Oil Added (qt)" entries from the oil change to the sample — only logged adds are counted. Mid-term shows the last three reports.</p>
+  <p class="count" id="c-bs"></p>
+  <div class="scroll"><table><thead><tr><th class="nw">Sample date</th><th class="nw">Engine hrs</th><th class="nw">Hrs on oil</th><th class="nw">Make-up oil</th><th>Lab says</th><th class="hn">Record</th></tr></thead><tbody id="b-bs"></tbody></table></div>
+</section>
+
+<section class="card">
+  <div class="sec-head"><h2>Maintenance history</h2></div>
+  <p class="note">Every parsed logbook entry in Savvy, newest first. Oil analysis reports and parts tags are left out. Mid-term shows entries since the last annual.</p>
+  <p class="count" id="c-hist"></p>
+  <input type="search" id="hsearch" placeholder="Search work, logbook, shop…" aria-label="Search history">
+  <div class="scroll"><table><thead><tr><th class="nw">Date</th><th class="nw">Tach</th><th>Logbook</th><th>Work performed</th><th class="hn">Shop</th><th class="hn">Savvy file</th></tr></thead><tbody id="b-hist"></tbody></table></div>
+</section>
+
+<section class="grid2">
+  <div class="card">
+    <h2>How the tach estimate is made</h2>
+    <p class="note" style="margin-top:4px">Starts from the newest real tach reading — a shop entry, or the Tach End entered in ForeFlight — and adds ForeFlight flight time logged since. Read the tach before relying on it. Flights logged after the last data refresh ({{REFRESHED}}) are not included.</p>
+    <dl id="method"></dl>
+  </div>
+  <div class="card">
+    <h2>What isn't covered yet</h2>
+    <p class="note" style="margin-top:4px">Pre-2023 history comes from the OCR'd legacy records PDF and the shop entries attached to Savvy tickets; poor pre-2014 scans may hide items. ADs shown are those named in the records plus a targeted search, not a full AD search for the airframe, engine and prop.</p>
+  </div>
+</section>
+
+<footer>N211WP maintenance tracker — read-only snapshot. Compiled with Claude from SavvyMx records and the owner's ForeFlight logbook; not an official maintenance record. Verify against the aircraft logbooks before relying on any item.</footer>
+</main>
+
+<script>
+const DATA = /*DATA*/;
+const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const ud = (s) => new Date(s + 'T00:00:00Z');
+const fd = (s) => { if (!s) return ''; if (!/^\d{4}-\d{2}-\d{2}$/.test(s)) return s; const d = ud(s); return String(d.getUTCDate()).padStart(2,'0') + '-' + MON[d.getUTCMonth()] + '-' + d.getUTCFullYear(); };
+const r1 = (x) => Math.round(x * 10) / 10;
+const f1 = (x) => x == null ? '' : Number(x).toFixed(1);
+const f1c = (x) => x == null ? '' : Number(x).toLocaleString('en-US', {minimumFractionDigits:1, maximumFractionDigits:1});
+const now = Date.now();
+const td = new Date(); document.getElementById('today').textContent = String(td.getDate()).padStart(2,'0') + '-' + MON[td.getMonth()] + '-' + td.getFullYear();
+const $ = (id) => document.getElementById(id);
+const esc = (t) => String(t ?? '').replace(/[&<>"]/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+// estimated tach
+const pairs = DATA.tach_hobbs.slice().sort((a, b) => a.date.localeCompare(b.date));
+const p = pairs[0], q = pairs[pairs.length - 1];
+const ratio = (q.tach - p.tach) / (q.hobbs - p.hobbs);
+const A = DATA.oil;
+const useQ = q.date >= A.date;
+const baseTach = useQ ? q.tach : A.tach, baseDate = useQ ? q.date : A.date;
+const after = DATA.flights.filter((f) => f.date > baseDate);
+const hrs = after.reduce((s, f) => s + f.minutes, 0) / 60;
+const est = r1(baseTach + hrs * ratio);
+
+// due status
+const dueStatus = (d) => {
+  const days = d.next_due_date ? Math.ceil((ud(d.next_due_date) - now) / 864e5) : null;
+  const tl = d.next_due_tach != null ? r1(d.next_due_tach - est) : null;
+  let s = 'OK';
+  if (d.category === 'Info') s = 'Info';
+  else if (d.category === 'Tabled') s = 'Low: Tabled';
+  else if (d.category === 'Unknown' || (!d.last_done && !d.next_due_date && d.next_due_tach == null)) s = 'Unknown';
+  else if (!d.next_due_date && d.next_due_tach == null) s = 'Complied';
+  else if ((days != null && days < 0) || (tl != null && tl < -10)) s = 'Overdue?';
+  else if ((days != null && days <= 30) || (tl != null && tl <= 10)) s = 'Due now';
+  else if ((days != null && days <= 90) || (tl != null && tl <= 25)) s = 'Due soon';
+  return { status: s, days, tl };
+};
+const DS = new Map(DATA.due.map((d) => [d.id, dueStatus(d)]));
+
+// horizon
+const ann = DATA.due.find((d) => d.id === 'annual');
+const perDay = (q.tach - p.tach) / ((ud(q.date) - ud(p.date)) / 864e5);
+const daysTo = Math.max(0, (ud(ann.next_due_date) - now) / 864e5);
+const H = { date: ann.next_due_date, last: ann.last_done, rate: r1(perDay * 30.44), proj: r1(est + perDay * daysTo) };
+$('hzDate').textContent = fd(H.date); $('hzLast').textContent = fd(H.last); $('hzTach').textContent = f1c(H.proj); $('hzRate').textContent = f1(H.rate);
+
+// tiles + method
+$('t-est').textContent = f1(est); $('t-ad').textContent = f1(r1(A.limit_tach - est)); $('t-adlim').textContent = f1(A.limit_tach);
+$('t-admax').textContent = f1(r1(A.max_tach - est)); $('t-ann').textContent = fd(ann.next_due_date); $('t-anndays').textContent = DS.get('annual').days;
+const oilRow = DATA.due.find((d) => d.id === 'oil'); $('t-oil').textContent = f1c(oilRow.next_due_tach);
+$('t-since').textContent = f1(r1(est - A.tach)); $('t-left').textContent = f1(r1(A.target_hrs - (est - A.tach)));
+$('method').innerHTML = [['Latest tach reading', f1(baseTach)], ['ForeFlight flights since', after.length], ['Flight time logged (hr)', f1(r1(hrs))],
+  ['Tach/Hobbs ratio', Math.round(ratio * 1000) / 1000], ['Estimated tach', f1(est)], ['Upper bound (ratio 1.0)', f1(r1(baseTach + hrs))]]
+  .map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('');
+
+const cls = { 'Overdue?':'s-bad','Due now':'s-bad','Due soon':'s-warn','OK':'s-ok','Complied':'s-ok','Open':'s-warn','Unknown':'s-muted','Info':'s-muted','Low: Tabled':'s-muted',
+  'High':'s-bad','Medium':'s-warn','Low':'s-muted','Watch':'s-muted','Scheduled':'s-ok','Likely addressed':'s-ok','Closed':'s-ok','Resolved/NA':'s-ok','Before last annual':'s-muted' };
+const adCls = { 'Open':'s-bad','Needs determination':'s-bad','Recurring':'s-warn','Watch':'s-warn','Conditional':'s-muted','Complied':'s-ok','Terminated':'s-ok','N/A':'s-muted','Superseded':'s-muted' };
+const pill = (t, m = cls) => `<span class="pill ${m[t] || 's-muted'}">${esc(t)}</span>`;
+const td_ = (v, c = '') => `<td${c ? ` class="${c}"` : ''}>${v}</td>`;
+const sqStatus = (r) => DATA.sq_overrides.includes(r.date) ? 'Resolved/NA' : r.status;
+$('sqOpen').textContent = DATA.sq.filter((r) => sqStatus(r) === 'Open').length;
+
+let MID = false, sqQ = '', hQ = '';
+const rank = { 'Overdue?':0,'Due now':1,'Open':2,'Due soon':3,'Unknown':4,'OK':5,'Complied':6,'Low: Tabled':7,'Info':8 };
+const adRank = { 'Open':-1,'Needs determination':0,'Recurring':1,'Watch':2,'Conditional':3,'Complied':4,'Terminated':5,'N/A':6,'Superseded':7 };
+const top3 = (rows, k) => rows.slice().sort((a, b) => b[k].localeCompare(a[k])).slice(0, 3);
+const keep = {
+  flags: (r) => r.filter((x) => x.priority !== 'Low' && x.priority !== 'Watch'),
+  sq: (r) => r.filter((x) => { const s = sqStatus(x); return s !== 'Resolved/NA' && s !== 'Closed' && (x.date >= H.last || s === 'Open'); }),
+  due: (r) => r.filter((x) => { const s = DS.get(x.id).status;
+    if (['Info','Low: Tabled','Complied'].includes(s)) return false;
+    if (['Overdue?','Due now','Due soon','Open','Unknown'].includes(s)) return true;
+    if (x.next_due_date && x.next_due_date <= H.date) return true;
+    if (x.next_due_tach != null && x.next_due_tach <= H.proj) return true;
+    return false; }),
+  ads: (r) => r.filter((x) => ['Open','Needs determination','Recurring'].includes(x.status)),
+  oc: (r) => r.filter((x) => !x.last_checked || x.last_checked < H.last),
+  comp: (r) => top3(r, 'date'), bs: (r) => top3(r, 'sample_date'),
+  hist: (r) => r.filter((x) => x.date >= H.last),
+};
+const rows = (k, all) => MID ? keep[k](all) : all;
+const count = (id, shown, total) => { $(id).textContent = `Showing ${shown} of ${total}.`; };
+
+function render() {
+  let r = rows('flags', DATA.flags); count('c-flags', r.length, DATA.flags.length);
+  $('b-flags').innerHTML = r.map((x) => `<tr>${td_(pill(x.priority),'nw')}${td_(esc(x.issue))}${td_(esc(x.detail),'hn')}${td_(esc(x.action))}</tr>`).join('');
+
+  r = rows('sq', DATA.sq).filter((x) => !sqQ || [x.squawk, sqStatus(x), x.basis, x.route, x.date].join(' ').toLowerCase().includes(sqQ)).sort((a, b) => b.date.localeCompare(a.date));
+  count('c-sq', r.length, DATA.sq.length);
+  $('b-sq').innerHTML = r.map((x) => `<tr>${td_(fd(x.date),'nw')}${td_(esc(x.squawk))}${td_(pill(sqStatus(x)),'nw')}${td_(esc(x.basis),'hn')}${td_(esc(x.route),'hn nw')}</tr>`).join('');
+
+  r = rows('due', DATA.due).slice().sort((a, b) => (rank[DS.get(a.id).status] - rank[DS.get(b.id).status]) || ((DS.get(a.id).days ?? 1e9) - (DS.get(b.id).days ?? 1e9)));
+  count('c-due', r.length, DATA.due.length);
+  $('b-due').innerHTML = r.map((x) => { const s = DS.get(x.id); return `<tr>${td_(pill(s.status),'nw')}${td_(esc(x.item))}${td_(fd(x.last_done),'nw')}${td_(fd(x.next_due_date),'nw')}${td_(s.days ?? '','nw')}${td_(f1(x.next_due_tach),'nw')}${td_(esc(x.basis),'hn')}${td_(esc(x.note),'hn')}</tr>`; }).join('');
+
+  r = rows('ads', DATA.ads).slice().sort((a, b) => (adRank[a.status] ?? 9) - (adRank[b.status] ?? 9));
+  count('c-ads', r.length, DATA.ads.length);
+  $('b-ads').innerHTML = r.map((x) => `<tr>${td_(pill(x.status, adCls),'nw')}${td_(esc(x.ad),'nw')}${td_(esc(x.category))}${td_(esc(x.subject))}${td_(esc(x.detail),'hn')}${td_(esc(x.source),'hn')}</tr>`).join('');
+
+  r = rows('oc', DATA.oncond); count('c-oc', r.length, DATA.oncond.length);
+  $('b-oc').innerHTML = r.map((x) => `<tr>${td_(esc(x.item))}${td_(x.in_service == null ? 'Unknown' : esc(fd(x.in_service)),'nw')}${td_(f1(x.tach_at_install),'nw')}${td_(x.tach_at_install == null ? '' : f1(r1(est - x.tach_at_install)),'nw')}${td_(fd(x.last_checked),'nw')}${td_(esc(x.watch),'hn')}${td_(esc(x.record),'hn')}${td_(esc(x.note),'hn')}</tr>`).join('');
+
+  const last = DATA.comp.slice().sort((a, b) => b.date.localeCompare(a.date))[0];
+  const key = { '#1':'c1','#2':'c2','#3':'c3','#4':'c4' };
+  $('b-cyl').innerHTML = DATA.cyl.map((x) => `<tr>${td_(x.cyl)}${td_(fd(x.installed),'nw')}${td_(esc(x.shop))}${td_(f1(x.tach_at_install),'nw')}${td_(f1c(r1(est - x.tach_at_install)),'nw')}${td_(last[key[x.cyl]] + '/80','nw')}${td_(esc(x.source),'hn')}</tr>`).join('');
+
+  r = rows('comp', DATA.comp).slice().sort((a, b) => b.date.localeCompare(a.date)); count('c-comp', r.length, DATA.comp.length);
+  $('b-comp').innerHTML = r.map((x) => `<tr>${td_(fd(x.date),'nw')}${td_(f1(x.tach),'nw')}${td_(x.c1)}${td_(x.c2)}${td_(x.c3)}${td_(x.c4)}${td_(esc(x.shop),'hn')}${td_(esc(x.note),'hn')}${td_(esc(x.source),'hn')}</tr>`).join('');
+
+  r = rows('bs', DATA.blackstone).slice().sort((a, b) => b.sample_date.localeCompare(a.sample_date)); count('c-bs', r.length, DATA.blackstone.length);
+  $('b-bs').innerHTML = r.map((x) => `<tr>${td_(fd(x.sample_date),'nw')}${td_(x.unit_hrs.toLocaleString('en-US'),'nw')}${td_(x.oil_hrs,'nw')}${td_(esc(x.makeup),'nw')}${td_(esc(x.lab_says))}${td_(esc(x.source),'hn')}</tr>`).join('');
+
+  r = rows('hist', DATA.hist).filter((x) => !hQ || [x.work, x.logbook, x.shop, x.file, x.date].join(' ').toLowerCase().includes(hQ)).sort((a, b) => b.date.localeCompare(a.date));
+  count('c-hist', r.length, DATA.hist.length);
+  $('b-hist').innerHTML = r.map((x) => `<tr>${td_(fd(x.date),'nw')}${td_(f1(x.tach),'nw')}${td_(esc(x.logbook))}${td_(esc(x.work))}${td_(esc(x.shop),'hn')}${td_(esc(x.file),'hn')}</tr>`).join('');
+}
+const setMid = (v) => { MID = v; $('v-mid').setAttribute('aria-pressed', String(v)); $('v-all').setAttribute('aria-pressed', String(!v)); render(); };
+$('v-mid').onclick = () => setMid(true); $('v-all').onclick = () => setMid(false);
+$('sqsearch').oninput = (e) => { sqQ = e.target.value.toLowerCase(); render(); };
+$('hsearch').oninput = (e) => { hQ = e.target.value.toLowerCase(); render(); };
+render();
+</script>
+</body>
+</html>

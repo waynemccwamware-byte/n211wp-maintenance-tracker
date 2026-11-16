@@ -1,0 +1,102 @@
+[
+ {
+  "id": "engine",
+  "item": "Engine — Lycoming IO-360-M1A (original)",
+  "in_service": "2008",
+  "tach_at_install": 0.0,
+  "last_checked": "2026-03-02",
+  "watch": "Compressions, Blackstone wear metals, oil consumption, borescope findings, CHT/EGT trends",
+  "record": "Legacy PDF p.104, p.115 (TSN = tach in every engine entry); Engine Annual - 2026.pdf (borescope, compressions)",
+  "note": "No overhaul entry found. Hours = time since new. FAT supercharger STC installed Jul-2019, removed 22-Jan-2021 @ 2405.1 (Aero City WO 3902), with new starter ring gear P/N 72566. Cylinders replaced separately (see Cylinders)."
+ },
+ {
+  "id": "cylinders",
+  "item": "Cylinders",
+  "in_service": "#2 06-Jul-2018 · #1/#3 30-Oct-2024 · #4 12-May-2025",
+  "tach_at_install": null,
+  "last_checked": "2026-03-02",
+  "watch": "Compressions, borescope, CHT/EGT per cylinder",
+  "record": "See the Cylinders section",
+  "note": "Per-cylinder hours are in the Cylinders section."
+ },
+ {
+  "id": "prop",
+  "item": "Propeller — MT MTV-12-B/183-59B, S/N 201494",
+  "in_service": "2020-12-01",
+  "tach_at_install": 2395.7,
+  "last_checked": "2026-03-02",
+  "watch": "Blade leading-edge erosion and nicks, cracks or delamination, grease leaks, spinner and bulkhead cracks",
+  "record": "Sierra Aero prop entry 01-Dec-2020 @ 2395.7, WO_2433 (Savvy ticket #59797): new MT prop installed, balanced; replaced MTV-12-B S/N 080010. Re-balanced by Aero City 22-Jan-2021.",
+  "note": "Installed new (TSN 0.0)."
+ },
+ {
+  "id": "governor",
+  "item": "Prop governor — P/N P-860-230, S/N 07G765F",
+  "in_service": "2020-12-01",
+  "tach_at_install": 2395.7,
+  "last_checked": "2025-02-03",
+  "watch": "RPM overspeed or hunting, slow response, oil leaks at the base",
+  "record": "Sierra Aero airframe entry 01-Dec-2020, WO_2433 (ticket #59797): removed, overhauled by American Propeller, reinstalled. Adjusted to 2650 rpm 03-Feb-2025; cable 29-Aug-2023.",
+  "note": "Hours are since that overhaul."
+ },
+ {
+  "id": "alternator",
+  "item": "Alternator — Hartzell ALU-8521LS, S/N HA041237 (with new VR2000-28-2 voltage regulator, S/N 81259215)",
+  "in_service": "2026-05-12",
+  "tach_at_install": 3179.8,
+  "last_checked": "2026-05-12",
+  "watch": "Bus voltage and ammeter under load, belt condition, brush wear",
+  "record": "Coastal Valley airframe entry 12-May-2026 @ 3179.8 (R. Holder A&P), from Savvy ticket \"alternator question\". Earlier: voltage regulator and brushes 21-Feb-2017 @ 1304.7.",
+  "note": "Installed new; charging system op-checked good. Entry not yet in the Savvy logbooks."
+ },
+ {
+  "id": "plugs",
+  "item": "Spark plugs",
+  "in_service": null,
+  "tach_at_install": null,
+  "last_checked": "2026-03-02",
+  "watch": "Lead fouling, electrode wear, gap, rpm drop on run-up",
+  "record": "Engine Annual - 2026.pdf (rotated); 14-Apr-2025 bottom #4 cleaned/gapped; plugs serviced 30-Oct-2024 and 03-Feb-2025",
+  "note": "No set-replacement entry found in Savvy."
+ },
+ {
+  "id": "rh_mag",
+  "item": "RH magneto — Slick 4371, S/N 24095442",
+  "in_service": "2025-02-03",
+  "tach_at_install": 3017.3,
+  "last_checked": "2026-03-02",
+  "watch": "Mag drop on run-up, timing; 500-hr inspection (see Recurring items)",
+  "record": "Engine Annual - 2025.pdf; Engine Annual - 2026.pdf (timed)",
+  "note": "Installed new."
+ },
+ {
+  "id": "lh_eis",
+  "item": "LH ignition — Electroair EIS (EA-1000)",
+  "in_service": "2019-08-07",
+  "tach_at_install": 2152.5,
+  "last_checked": null,
+  "watch": "Run-up drop, plug and coil condition, timing indications",
+  "record": "Legacy PDF p.114 (Sierra Aero). Electroair harness replaced 07-Dec-2018 (Above All); EIS lead #2 bottom replaced 18-Jun-2019 (Above All) — both entries found only on Savvy tickets.",
+  "note": "Still installed and working well (Wayne)."
+ },
+ {
+  "id": "starter",
+  "item": "Starter — Hartzell 149-24LS, S/N H-W032931",
+  "in_service": "2022-06-03",
+  "tach_at_install": 2607.0,
+  "last_checked": null,
+  "watch": "Slow or rough cranking, starter adapter leaks",
+  "record": "Avionics & Maintenance West entry 03-Jun-2022, WO 22-3714 (Legacy Combo p.59; also on ticket #118771): replaced failing SkyTec 149-24LS (S/N F4L-241104) with a new-condition serviceable unit. Starter relay replaced 16-May-2022 (Coastal Valley).",
+  "note": "Ring gear replaced Dec-2020 / Jan-2021 (see Engine)."
+ },
+ {
+  "id": "exhaust",
+  "item": "Exhaust system — Power Flow PFS-33003, new risers #1–4",
+  "in_service": "2026-03-02",
+  "tach_at_install": 3140.3,
+  "last_checked": "2026-03-02",
+  "watch": "Cracks at risers and muffler, slip-joint wear, hanger and tailpipe security",
+  "record": "Airframe Annual - 2026.pdf",
+  "note": "Slip joints cleaned and lubed every 500 hr or annually (Power Flow)."
+ }
+]
