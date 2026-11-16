@@ -13,10 +13,11 @@ Usage:
             third person for the public page).
 Writes site/index.html and site/robots.txt. Needs matplotlib.
 """
-import argparse, datetime as dt, html, json, os
+import argparse, datetime as dt, html, json, os, re
 
 import matplotlib
 matplotlib.use('Agg')
+matplotlib.rcParams['svg.fonttype'] = 'none'  # real <text>, so the page font (IBM Plex Mono) applies
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from matplotlib.lines import Line2D
@@ -32,7 +33,8 @@ def D(s):
 
 
 def chart_svg(comp, cyl, path):
-    cols = ['#2c6fbb', '#d9822b', '#3a9d5d', '#9b4dca']
+    # Sentinel colors, swapped below for GGP CSS variables so the chart follows the page theme (dark on screen, light in print).
+    cols = ['#0a0a01', '#0a0a02', '#0a0a03', '#0a0a04']
     fig, ax = plt.subplots(figsize=(10, 3.0))
     rows = sorted(comp, key=lambda r: r['date'])
     breaks = {'c' + c['cyl'].lstrip('#'): c['installed'] for c in cyl}
@@ -70,11 +72,18 @@ def chart_svg(comp, cyl, path):
     ax.spines['bottom'].set_color('#bbb'); ax.tick_params(labelsize=7, colors='#555', length=0)
     ax.xaxis.set_major_locator(mdates.YearLocator()); ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
     ax.legend([Line2D([0], [0], color=c, lw=2) for c in cols], ['#1', '#2', '#3', '#4'], fontsize=7, frameon=False,
-              ncol=4, loc='lower left', bbox_to_anchor=(0, -0.28))
+              ncol=4, loc='lower left', bbox_to_anchor=(0, -0.28), labelcolor='#555')
     ax.set_ylabel('psi / 80', fontsize=7, color='#555')
-    fig.tight_layout(); fig.savefig(path, format='svg'); plt.close(fig)
+    fig.tight_layout(); fig.savefig(path, format='svg', transparent=True); plt.close(fig)
     s = open(path).read()
-    return s[s.index('<svg'):]
+    s = s[s.index('<svg'):]
+    swap = {'#0a0a01': 'var(--c1)', '#0a0a02': 'var(--c2)', '#0a0a03': 'var(--c3)', '#0a0a04': 'var(--c4)',
+            '#e5e5e5': 'var(--bezel)', '#999999': 'var(--bezel-hi)', '#bbbbbb': 'var(--bezel-hi)',
+            '#555555': 'var(--text-muted)', '#666666': 'var(--text-muted)', '#888888': 'var(--text-muted)'}
+    for k, v in swap.items():
+        s = s.replace(k, v)
+    s = re.sub(r'font-family:[^;"]*', "font-family: 'IBM Plex Mono', monospace", s)
+    return s
 
 
 def main():
