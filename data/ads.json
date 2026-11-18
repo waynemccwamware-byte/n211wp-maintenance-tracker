@@ -11,7 +11,7 @@
   "ad": "2026-06-03",
   "category": "Airframe",
   "subject": "Fuel tank connection hose (supersedes 2020-14-06)",
-  "status": "Needs determination",
+  "status": "Needs inspection/N/A entry",
   "detail": "Eff 30-Apr-2026. Applies if a replacement hose P/N D4D-2817-10-70 or BENOLPRESS was installed since 13-Jul-2017. No compliance or N/A entry found.",
   "source": "Federal Register 2026-05883"
  },
@@ -107,7 +107,7 @@
   "ad": "2026-04-11",
   "category": "Engine",
   "subject": "Connecting rod bushings (supersedes 2024-21-02)",
-  "status": "Needs determination",
+  "status": "Needs inspection/N/A entry",
   "detail": "Eff 08-Apr-2026. Parts shipped 30-Jan-2009 to 09-Sep-2021. Engine new 2008, so likely N/A unless rods/bushings were replaced; no determination found. If applicable: oil filter/screen check at each oil change.",
   "source": "Federal Register 2026-04281"
  },
@@ -187,7 +187,7 @@
   "ad": "2017-04-06",
   "category": "Appliance",
   "subject": "United Instruments 5934-series altimeter diaphragm",
-  "status": "Needs determination",
+  "status": "Needs inspection/N/A entry",
   "detail": "Affects certain 5934-series altimeters (United SB 13: made Jan-2015 to Feb-2016). N211WP standby altimeter is a United 5934PD-3 S/N 463764 — likely original 2008 unit, so probably N/A; no entry found.",
   "source": "Diamond SI40-158 / SI40-154 (portal list)"
  }

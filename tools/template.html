@@ -125,7 +125,7 @@ footer { font-size:11.5px; color:var(--text-muted); border-top:1px solid var(--b
 
 <section class="card">
   <div class="sec-head"><h2>Airworthiness directives</h2></div>
-  <p class="note">ADs found in the records (Sierra Aero AD reports of Jun-2015 and Jul-2018, later logbook entries) plus a targeted search of Federal Register ADs since 2018. Not a complete AD search — see the action items. Mid-term shows Open, Needs determination and Recurring ADs.</p>
+  <p class="note">ADs found in the records (Sierra Aero AD reports of Jun-2015 and Jul-2018, later logbook entries) plus a targeted search of Federal Register ADs since 2018. Not a complete AD search — see the action items. Mid-term shows Open, Needs inspection/N/A entry and Recurring ADs.</p>
   <p class="count" id="c-ads"></p>
   <div class="scroll"><table><thead><tr><th class="nw">Status</th><th class="nw">AD</th><th>Applies to</th><th>Subject</th><th class="hn">Detail</th><th class="hn">Record</th></tr></thead><tbody id="b-ads"></tbody></table></div>
 </section>
@@ -239,7 +239,7 @@ $('method').innerHTML = [['Latest tach reading', f1(baseTach)], ['ForeFlight fli
 
 const cls = { 'Overdue?':'s-bad','Due now':'s-bad','Due soon':'s-warn','OK':'s-ok','Complied':'s-ok','Open':'s-warn','Unknown':'s-muted','Info':'s-muted','Low: Tabled':'s-muted',
   'High':'s-bad','Medium':'s-warn','Low':'s-muted','Watch':'s-muted','Scheduled':'s-ok','Likely addressed':'s-ok','Closed':'s-ok','Resolved/NA':'s-ok','Before last annual':'s-muted' };
-const adCls = { 'Open':'s-bad','Needs determination':'s-bad','Recurring':'s-warn','Watch':'s-warn','Conditional':'s-muted','Complied':'s-ok','Terminated':'s-ok','N/A':'s-muted','Superseded':'s-muted' };
+const adCls = { 'Open':'s-bad','Needs inspection/N/A entry':'s-bad','Recurring':'s-warn','Watch':'s-warn','Conditional':'s-muted','Complied':'s-ok','Terminated':'s-ok','N/A':'s-muted','Superseded':'s-muted' };
 const pill = (t, m = cls) => `<span class="pill ${m[t] || 's-muted'}">${esc(t)}</span>`;
 const td_ = (v, c = '') => `<td${c ? ` class="${c}"` : ''}>${v}</td>`;
 const sqStatus = (r) => DATA.sq_overrides.includes(r.date) ? 'Resolved/NA' : r.status;
@@ -247,7 +247,7 @@ $('sqOpen').textContent = DATA.sq.filter((r) => sqStatus(r) === 'Open').length;
 
 let MID = false, sqQ = '', hQ = '';
 const rank = { 'Overdue?':0,'Due now':1,'Open':2,'Due soon':3,'Unknown':4,'OK':5,'Complied':6,'Low: Tabled':7,'Info':8 };
-const adRank = { 'Open':-1,'Needs determination':0,'Recurring':1,'Watch':2,'Conditional':3,'Complied':4,'Terminated':5,'N/A':6,'Superseded':7 };
+const adRank = { 'Open':-1,'Needs inspection/N/A entry':0,'Recurring':1,'Watch':2,'Conditional':3,'Complied':4,'Terminated':5,'N/A':6,'Superseded':7 };
 const top3 = (rows, k) => rows.slice().sort((a, b) => b[k].localeCompare(a[k])).slice(0, 3);
 const keep = {
   flags: (r) => r.filter((x) => x.priority !== 'Low' && x.priority !== 'Watch'),
@@ -258,7 +258,7 @@ const keep = {
     if (x.next_due_date && x.next_due_date <= H.date) return true;
     if (x.next_due_tach != null && x.next_due_tach <= H.proj) return true;
     return false; }),
-  ads: (r) => r.filter((x) => ['Open','Needs determination','Recurring'].includes(x.status)),
+  ads: (r) => r.filter((x) => ['Open','Needs inspection/N/A entry','Recurring'].includes(x.status)),
   oc: (r) => r.filter((x) => !x.last_checked || x.last_checked < H.last),
   comp: (r) => top3(r, 'date'), bs: (r) => top3(r, 'sample_date'),
   hist: (r) => r.filter((x) => x.date >= H.last),
